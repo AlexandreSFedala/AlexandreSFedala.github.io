@@ -44,7 +44,7 @@ header p { font-size:2.5rem; position:relative; z-index:2; }
 .subpage:hover { transform:scale(1.05); }
 .subpage-title { background:#5a5a5a; padding:10px; text-align:center; font-weight:bold; }
 .subpage img { 
-  max-width: 400px;
+  max-width: 100%;
   height: auto;      
   display: block; 
 }
