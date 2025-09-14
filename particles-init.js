@@ -23,7 +23,7 @@ particlesJS('particles-js', {
       resize: true
     },
     modes: {
-      grab: { distance: 200, line_linked: { opacity: 0.8 } },
+      grab: { distance: 300, line_linked: { opacity: 0.8 } },
       push: { particles_nb: 4 }
     }
   },
