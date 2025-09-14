@@ -1,53 +1,75 @@
-/* Basic Reset & Layout */
-* { margin:0; padding:0; box-sizing:border-box; }
-body { font-family: Arial; background:#2a2a2a; color:white; scroll-behavior:smooth; scroll-padding-top:100px; }
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: Arial, sans-serif;
+  background: #222 url('honeycomb.png') repeat;
+  color: white;
+}
 
-/* Navbar */
-nav { background:#2c3e50; display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; position:fixed; top:0; width:100%; z-index:100; transition:all 0.3s ease; }
-nav .logo { color:white; font-weight:bold; font-size:1.5rem; text-decoration:none; }
-nav ul { list-style:none; display:flex; gap:1rem; }
-nav ul li { position:relative; }
-nav ul li a { color:white; padding:0.5rem 1rem; display:block; border-radius:4px; transition:0.3s; }
-nav ul li a:hover { background:rgba(255,255,255,0.4); }
-
-/* Dropdown */
-nav ul li ul { display:none; position:absolute; top:100%; left:-20px; background:#2c3e50; min-width:200px; border-radius:4px; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:10; }
-nav ul li:hover ul { display:block; }
-nav ul li ul li a { color:white; border-bottom:1px solid #3f5870; }
-nav ul li ul li a:hover { background:rgba(255,255,255,0.2); }
+/* Navigation Bar */
+nav { ... } /* Keep previous navbar styles, include dropdown-left styles */
+.dropdown-left {
+  left: -10px; /* adjust to move dropdown slightly to the left */
+  right: auto;
+  background: #2c3e50;
+  border-radius: 0;
+  border-top: none;
+}
+.dropdown-left li { border-bottom: 1px solid #3d4b5c; }
+.dropdown-left li a { color: white; }
 
 /* Header */
-header { position:relative; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:2rem; background-image:url('images/portico_welcome_sized.jpg'); background-size:cover; background-position:center; }
-header::before { content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(22,36,59,0.75); z-index:1; }
-header h1 { font-size:5rem; position:relative; z-index:2; margin-bottom:1rem; }
-header p { font-size:2.5rem; position:relative; z-index:2; }
+header {
+  position: relative;
+  height: 100vh;
+  text-align: center;
+  background: url('images/portico_welcome_sized.jpg') center/cover no-repeat;
+}
+header::before {
+  content:"";
+  position:absolute;
+  top:0; left:0; width:100%; height:100%;
+  background-color: rgba(22,36,59,0.75);
+  z-index: 1;
+}
+header h1 { font-size: 5rem; position: relative; z-index: 2; }
+header p { font-size: 2.5rem; position: relative; z-index: 2; }
 
-/* Bubbles */
-.bubble-container { position:absolute; width:100%; height:100%; z-index:1; pointer-events:none; }
-.bubble { position:absolute; border-radius:50%; width:90px; height:90px; background:rgba(255,255,255,0.9); cursor:grab; pointer-events:auto; transition:transform 0.2s; }
-.bubble:active { transform:scale(1.3); }
+/* Bubble container */
+#bubbleContainer { position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; overflow:hidden; }
 
-/* Container Sections */
-.container { max-width:1100px; margin:2rem auto; background:#3a3a3a; padding:2rem; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.4); }
+/* Container and subpages */
+.container { max-width:1000px; margin:2rem auto; background: #444; padding:3rem; border-radius:10px; }
+.subpage { margin-bottom:2rem; }
+.subpage-box { background:#666; border-radius:12px; padding:1rem; }
+.subpage-title { font-size:1.5rem; font-weight:bold; margin-bottom:0.5rem; }
+.subpage-box img { width:100%; height:auto; border-radius:8px; margin-bottom:1rem; }
 
-/* Subpages */
-.subpages { display:flex; flex-wrap:wrap; gap:2rem; margin-bottom:2rem; }
-.subpage { background:#4a4a4a; width:calc(33% - 1rem); min-width:220px; border-radius:10px; cursor:pointer; transition:transform 0.2s; }
-.subpage:hover { transform:scale(1.05); }
-.subpage-title { background:#5a5a5a; padding:10px; text-align:center; font-weight:bold; }
-.subpage img { width:100%; display:block; }
-
-/* Skills */
-.skills-section { display:flex; gap:2rem; flex-wrap:wrap; margin-bottom:2rem; }
+/* Skills Section */
+.skills-section { display:flex; gap:2rem; margin-bottom:2rem; flex-wrap:wrap; }
 .skills-info { flex:65%; }
 .skills-bars { flex:35%; }
 .skill { margin-bottom:1rem; }
 .skill-name { margin-bottom:0.3rem; font-weight:bold; }
-.skill-bar { width:100%; height:20px; background:#555; border-radius:10px; overflow:hidden; }
-.skill-bar-fill { height:100%; background:#2c3e50; width:70%; }
+.skill-bar { width:100%; height:20px; background:#888; border-radius:10px; overflow:hidden; }
+.skill-bar-fill { height:100%; background:#2c3e50; }
 
-/* PDF Iframe */
+/* Project Layout */
+.item { display:flex; gap:20px; margin-bottom:2rem; flex-wrap:wrap; align-items:flex-start; }
+.item div:first-child { flex:2; }
+.item .text { flex:3; }
+.item img { width:100%; border-radius:8px; margin-top:1.5rem; }
+.caption { text-align:center; font-size:0.9rem; color:#ccc; margin-top:0.5rem; }
 iframe { width:100%; height:900px; border:none; margin-bottom:1.5rem; }
 
 /* Responsive */
-@media(max-width:768px){.subpage{width:48%;}.skills-section{flex-direction:column;}.skills-info,.skills-bars{flex:100%;}}
+@media(max-width:768px){
+  .item div:first-child,.item .text { flex:100%; width:100%; }
+  .skills-section { flex-direction:column; }
+  .skills-bars,.skills-info{ flex:100%; }
+}
