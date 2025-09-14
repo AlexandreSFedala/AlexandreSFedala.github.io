@@ -18,25 +18,6 @@ img {
   object-fit: contain;
 }
 
-/* Navbar */
-nav { 
-  background:#2c3e50; 
-  display:flex; 
-  justify-content:space-between; 
-  align-items:center; 
-  padding:1rem 2rem; 
-  position:fixed; 
-  top:0; 
-  width:100%; 
-  z-index:100; 
-  transition:all 0.3s ease; 
-}
-nav .logo { color:white; font-weight:bold; font-size:1.5rem; text-decoration:none; }
-nav ul { list-style:none; display:flex; gap:1rem; }
-nav ul li { position:relative; }
-nav ul li a { color:white; padding:0.5rem 1rem; display:block; border-radius:4px; transition:0.3s; }
-nav ul li a:hover { background:rgba(255,255,255,0.4); }
-
 /* Button-style links for downloads only */
 a.download-button {
   display: block;              /* block-level so margin: auto works */
@@ -56,6 +37,27 @@ a.download-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
+
+/* Navbar */
+nav { 
+  background:#2c3e50; 
+  display:flex; 
+  justify-content:space-between; 
+  align-items:center; 
+  padding:1rem 2rem; 
+  position:fixed; 
+  top:0; 
+  width:100%; 
+  z-index:100; 
+  transition:all 0.3s ease; 
+}
+nav .logo { color:white; font-weight:bold; font-size:1.5rem; text-decoration:none; }
+nav ul { list-style:none; display:flex; gap:1rem; }
+nav ul li { position:relative; }
+nav ul li a { color:white; padding:0.5rem 1rem; display:block; border-radius:4px; transition:0.3s; }
+nav ul li a:hover { background:rgba(255,255,255,0.4); }
+
+
 /* Dropdown */
 nav ul li ul { 
   display:none; 
