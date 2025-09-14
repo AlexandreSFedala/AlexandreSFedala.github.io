@@ -4,228 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AF - Portfolio</title>
-<style>
-/* Basic Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-html {
-  scroll-behavior: smooth;
-  scroll-padding-top: 80px;
-}
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  color: #333;
-}
-
-/* Navigation Bar */
-nav {
-  background: #2c3e50;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 100;
-  transition: all 0.3s ease;
-}
-nav.shrink {
-  padding: 0.5rem 2rem;
-  background: #1c2a36;
-}
-nav .logo {
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-decoration: none;
-}
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-}
-nav ul li {
-  position: relative;
-}
-nav ul li a {
-  color: white;
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  display: block;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-}
-nav ul li a:hover {
-  background: rgba(255,255,255,0.4); /* 40% white overlay */
-}
-
-/* Dropdown menu */
-nav ul li ul {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  max-height: 200px;
-  overflow-y: auto;
-  background: #fff;
-  border-radius: 6px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  min-width: 180px;
-  z-index: 10;
-}
-nav ul li:hover ul {
-  display: block;
-}
-nav ul li ul li a {
-  color: #333;
-}
-nav ul li ul li a:hover {
-  background: #f0f0f0;
-}
-
-/* Fullscreen Header */
-header {
-  position: relative;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 2rem;
-  color: white;
-  background-image: url('portico_welcome_sized.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  overflow: hidden;
-}
-
-/* Blue overlay */
-header::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: rgba(22,36,59,0.75);
-  z-index: 1;
-}
-
-/* Header text */
-header h1 {
-  font-size: 4rem;
-  margin-bottom: 1rem;
-  position: relative;
-  z-index: 2;
-}
-header p {
-  font-size: 2rem;
-  position: relative;
-  z-index: 2;
-}
-
-/* Container */
-.container {
-  max-width: 1000px;
-  margin: 2rem auto;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-/* Project Layout */
-.item {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-.item div:first-child {
-  flex: 2;
-}
-.item .text {
-  flex: 3;
-}
-.item img {
-  width: 100%;
-  border-radius: 8px;
-  margin-top: 1.5rem;
-}
-.caption {
-  text-align: center;
-  font-size: 0.9rem;
-  color: #666;
-  margin-top: 0.5rem;
-}
-.text h2 {
-  margin-top: 0;
-}
-.text p {
-  margin-bottom: 1rem;
-}
-iframe {
-  width: 100%;
-  height: 900px;
-  border: none;
-  margin-bottom: 1.5rem;
-}
-
-/* Skills Section */
-.skills-section {
-  display: flex;
-  gap: 2rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-}
-.skills-info {
-  flex: 65%;
-}
-.skills-bars {
-  flex: 35%;
-}
-.skill {
-  margin-bottom: 1rem;
-}
-.skill-name {
-  margin-bottom: 0.3rem;
-  font-weight: bold;
-}
-.skill-bar {
-  width: 100%;
-  height: 20px;
-  background: #ddd;
-  border-radius: 10px;
-  overflow: hidden;
-}
-.skill-bar-fill {
-  height: 100%;
-  background: #2c3e50;
-  width: 70%;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .item div:first-child,
-  .item .text {
-    flex: 100%;
-    width: 100%;
-  }
-  .skills-section {
-    flex-direction: column;
-  }
-  .skills-bars,
-  .skills-info {
-    flex: 100%;
-  }
-}
-</style>
+<link rel="stylesheet" href="style.css">
+<script defer src="bubbles.js"></script>
 </head>
 <body>
 
@@ -238,7 +18,7 @@ iframe {
       <ul>
         <li><a href="#project1">About Me</a></li>
         <li><a href="#skills">Skills</a></li>
-        <li><a href="#project2">Land Surveying</a></li>
+        <li><a href="#project2">Lampeter Survey</a></li>
         <li><a href="#project3">Project 3</a></li>
         <li><a href="#project4">Project 4</a></li>
       </ul>
@@ -252,62 +32,78 @@ iframe {
   <p>A Chronicle of My Projects</p>
 </header>
 
+<!-- Subpage Tiles -->
+<div class="container">
+  <div class="subpage-grid">
+    <div class="subpage-tile" onclick="document.getElementById('project1').scrollIntoView();">
+      <div class="title">About Me</div>
+      <img src="images/aboutme.jpg" alt="About Me">
+    </div>
+    <div class="subpage-tile" onclick="document.getElementById('skills').scrollIntoView();">
+      <div class="title">Skills</div>
+      <img src="images/aboutme.jpg" alt="Skills">
+    </div>
+    <div class="subpage-tile" onclick="document.getElementById('project2').scrollIntoView();">
+      <div class="title">Lampeter Survey</div>
+      <img src="images/lampeter.jpg" alt="Lampeter Survey">
+    </div>
+    <!-- Add more tiles for other projects -->
+  </div>
+</div>
+
 <div class="container">
 
   <!-- About Me -->
-  <section class="item" id="project1">
-    <div class="text">
-      <h2>About Me</h2>
-      <p>I am a second-year undergraduate civil engineering student at University College London with a diverse international background, having completed my secondary education in France through a BFI pathway.</p>
-      <p>My goal as a civil engineer is to create tangible, positive change in the built environment — developing solutions that serve clients, end-users, and local communities alike. I have a particular interest in vernacular design, ensuring that buildings and infrastructure respond to local needs and integrate seamlessly into their surroundings.</p>
-      <p>Sustainability is central to my approach. Recognising the construction industry’s significant environmental impact, I am committed to delivering projects that meet and exceed current climate regulations, aiming for carbon neutrality — or even a net-negative footprint — throughout my future work.</p>
-      <p>My experience collaborating in a university environment has strengthened my ability to explain complex ideas clearly, and I am aiming to continue doing so in professional environments via internships.</p>
-    </div>
+  <section class="project-page" id="project1">
+    <h2>About Me</h2>
+    <p>Your about me text goes here...</p>
   </section>
 
   <!-- Skills Section -->
-  <section class="item" id="skills">
+  <section class="project-page" id="skills">
     <div class="skills-section">
       <div class="skills-info">
         <p>These are my key engineering and software skills.</p>
-        <p>Each bar represents my proficiency.</p>
       </div>
       <div class="skills-bars">
         <div class="skill">
           <div class="skill-name">AutoCAD</div>
-          <div class="skill-bar">
-            <div class="skill-bar-fill" style="width: 90%;"></div>
-          </div>
-        </div>
-        <div class="skill">
-          <div class="skill-name">Structural Analysis</div>
-          <div class="skill-bar">
-            <div class="skill-bar-fill" style="width: 75%;"></div>
-          </div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:90%;"></div></div>
         </div>
         <div class="skill">
           <div class="skill-name">Project Management</div>
-          <div class="skill-bar">
-            <div class="skill-bar-fill" style="width: 80%;"></div>
-          </div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width:80%;"></div></div>
         </div>
-        <!-- Add more skills as needed -->
       </div>
     </div>
   </section>
 
-  <!-- LAMPETER -->
-<section class="item" id="project2">
-  <div class="text">
-    <h2>Lampeter, Wales - Land Surveying</h2>
-    <p>This project consolidated the knowledge I gained during my first year at UCL, culminating in a detailed technical report (see PDF viewer below). Our task was to produce an accurate AutoCAD map of a designated area using professional surveying instruments such as Total Stations and Automatic Levels.</p>
-    <p>As team leader for this group project, I was responsible for coordinating workloads, maintaining efficiency, and ensuring accurate data collection. This experience deepened my understanding of the importance of precise land surveying and strengthened my leadership and project management skills.</p>
-    <p><a href="https://alexandresfedala.github.io/lamp_survey.pdf" download>Download the report here</a></p>
-    <iframe src="https://alexandresfedala.github.io/lamp_survey.pdf"></iframe>
-    <img src="AutoCAD.jpg" alt="AutoCAD land survey drawing">
-    <div class="caption">AutoCAD Drawing, one of the final deliverables</div>
-  </div>
-</section>
+  <!-- Lampeter Survey -->
+  <section class="project-page" id="project2">
+    <h2>Lampeter Survey</h2>
+    <p>Description of the project...</p>
+    <p><a href="pdfs/lamp_survey.pdf" download>Download PDF</a></p>
+    <iframe src="pdfs/lamp_survey.pdf"></iframe>
+    <img src="images/lampeter.jpg" alt="Lampeter Survey">
+  </section>
+
+  <!-- Project 3 -->
+  <section class="project-page" id="project3">
+    <h2>Project 3</h2>
+    <p>Description here...</p>
+  </section>
+
+  <!-- Project 4 -->
+  <section class="project-page" id="project4">
+    <h2>Project 4</h2>
+    <p>Description here...</p>
+  </section>
+
+</div>
+
+</body>
+</html>
+
 
 
 
