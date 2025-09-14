@@ -6,7 +6,7 @@ body {
   color:white; 
   scroll-behavior:smooth; 
   scroll-padding-top:100px; 
-  background-size: 60px 60px; /* Adjust the scale of honeycomb */
+  background-size: 150px 150px; /* Adjust the scale of honeycomb */
 }
 
 img {
