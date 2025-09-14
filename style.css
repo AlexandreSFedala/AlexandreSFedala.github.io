@@ -52,3 +52,4 @@ iframe { width:100%; height:900px; border:none; margin-bottom:1.5rem; }
 /* Responsive */
 @media(max-width:768px){.subpage{width:48%;}.skills-section{flex-direction:column;}.skills-info,.skills-bars{flex:100%;}}
 
+
