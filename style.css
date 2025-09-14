@@ -136,6 +136,24 @@ header::before {
   background:rgba(22,36,59,0.75); 
   z-index:1; 
 }
+/* particles canvas covering the header */
+#particles-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none; /* clicks pass through — we detect mouse globally */
+}
+
+/* Make sure overlay and text sit above/below correctly */
+header::before { z-index: 1; }           /* your existing overlay */
+header h1, header p, header .cta {       /* bump content above the canvas */
+  position: relative;
+  z-index: 3;
+}
+
 header h1 { font-size:5rem; position:relative; z-index:2; margin-bottom:1rem; }
 header p { font-size:2.5rem; position:relative; z-index:2; }
 
