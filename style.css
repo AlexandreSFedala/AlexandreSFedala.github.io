@@ -42,32 +42,33 @@ a.download-button:hover {
 nav { 
   background:#2c3e50; 
   display:flex; 
-  justify-content:space-between; 
+  justify-content:space-between; /* logo left, dropdown right */
   align-items:center; 
-  padding:1rem 2rem; 
+  padding:0.5rem 2rem; /* shrink height if needed */
   position:fixed; 
   top:0; 
   width:100%; 
   z-index:100; 
   transition:all 0.3s ease; 
 }
-nav .logo { color:white; font-weight:bold; font-size:1.5rem; text-decoration:none; }
-nav ul { list-style:none; display:flex; gap:1rem; }
+
+/* Logo */
+nav .logo { 
+  color:white; 
+  font-weight:bold; 
+  font-size:1.5rem; 
+  text-decoration:none; 
+}
+
+/* Dropdown menu */
+nav ul { 
+  list-style:none; 
+  display:flex; 
+  gap:1rem; 
+}
 nav ul li { position:relative; }
 nav ul li a { color:white; padding:0.5rem 1rem; display:block; border-radius:4px; transition:0.3s; }
 nav ul li a:hover { background:rgba(255,255,255,0.4); }
-
-nav .social-links a {
-  width: 36px;
-  height: 36px;
-}
-
-nav .social-links a img {
-  width: 20px;
-  height: 20px;
-}
-
-/* Dropdown */
 nav ul li ul { 
   display:none; 
   position:absolute; 
@@ -83,7 +84,36 @@ nav ul li:hover ul { display:block; }
 nav ul li ul li a { color:white; border-bottom:1px solid #3f5870; }
 nav ul li ul li a:hover { background:rgba(255,255,255,0.2); }
 
+/* Center social icons */
+nav .social-links {
+  display: flex;
+  gap:0.5rem;
+  align-items:center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
+/* Social icon sizing */
+nav .social-links a {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+nav .social-links a img {
+  width:20px;
+  height:20px;
+}
+
+nav .social-links a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
 
 header { 
   position:relative; 
