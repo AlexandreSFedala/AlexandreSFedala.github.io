@@ -90,8 +90,8 @@ header p { font-size:2.5rem; position:relative; z-index:2; }
   box-shadow:0 4px 12px rgba(0,0,0,0.4); 
 }
 
-.subpages { display:flex; flex-wrap:wrap; gap:2rem; margin-bottom:2rem; }
-.subpage { background:#5a5a5a; width:calc(33% - 1rem); min-width:220px; border-radius:10px; cursor:pointer; transition:transform 0.2s; }
+.subpages { display:flex; flex-wrap:wrap; gap:3rem; margin-bottom:3rem; }
+.subpage { background:#5a5a5a; width:calc(33% - 1rem); min-width:200px; border-radius:10px; cursor:pointer; transition:transform 0.2s; }
 .subpage:hover { transform:scale(1.05); }
 .subpage-title { background:#6a6a6a; padding:10px; text-align:center; font-weight:bold; }
 .subpage img { 
@@ -109,7 +109,7 @@ header p { font-size:2.5rem; position:relative; z-index:2; }
 .skill { margin-bottom:1rem; }
 .skill-name { margin-bottom:0.3rem; font-weight:bold; }
 .skill-bar { width:100%; height:20px; background:#555; border-radius:10px; overflow:hidden; }
-.skill-bar-fill { height:100%; background:#2c3e50; width:70%; }
+.skill-bar-fill { height:100%; background:#f0f0f0; width:70%; }
 
 /* PDF Iframe */
 iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
