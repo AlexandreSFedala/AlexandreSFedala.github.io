@@ -1,5 +1,5 @@
 // particles-init.js
-tsParticles.load('particles-js', {
+particlesJS('particles-js', {
   particles: {
     number: { value: 40, density: { enable: true, value_area: 800 } },
     color: { value: '#f0f0f0' },
