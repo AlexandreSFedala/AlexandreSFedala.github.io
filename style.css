@@ -37,32 +37,25 @@ nav ul li { position:relative; }
 nav ul li a { color:white; padding:0.5rem 1rem; display:block; border-radius:4px; transition:0.3s; }
 nav ul li a:hover { background:rgba(255,255,255,0.4); }
 
-/* Make all links block-level so we can center them */
-a {
-  display: inline-block;      /* allow padding and width */
-  text-align: center;         /* center text inside */
-  background-color: white;    /* white rectangle */
-  color: black;               /* text color */
-  padding: 0.75rem 1.5rem;    /* vertical and horizontal padding */
-  border-radius: 12px;        /* rounded corners */
-  text-decoration: none;      /* remove underline */
-  font-weight: bold;          /* optional for emphasis */
-  transition: transform 0.2s, box-shadow 0.2s; /* smooth hover effects */
-  margin: 1rem auto;          /* vertical spacing and center horizontally */
+/* Button-style links for downloads only */
+a.download-button {
+  display: block;              /* block-level so margin: auto works */
+  width: fit-content;          /* shrink to fit content */
+  text-align: center;
+  background-color: white;
+  color: black;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 1rem auto;           /* center horizontally */
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* Center the link on the page */
-a {
-  display: block;             /* makes margin: auto work */
-  width: fit-content;         /* shrink to fit content */
-}
-
-/* Optional hover effect */
-a:hover {
+a.download-button:hover {
   transform: translateY(-3px);
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
-
 /* Dropdown */
 nav ul li ul { 
   display:none; 
@@ -134,7 +127,7 @@ header p { font-size:2.5rem; position:relative; z-index:2; }
 .skills-bars { flex:65%; }
 .skill { margin-bottom:1rem; }
 .skill-name { margin-bottom:0.3rem; font-weight:bold; }
-.skill-bar { width:65%; height:20px; background:#555; border-radius:10px; overflow:hidden; }
+.skill-bar { width:100%; height:20px; background:#555; border-radius:10px; overflow:hidden; }
 .skill-bar-fill { height:100%; background:#f0f0f0; width:70%; }
 
 /* PDF Iframe */
