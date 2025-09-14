@@ -5,7 +5,7 @@ particlesJS('particles-js', {
     color: { value: '#f0f0f0' },
     shape: { type: 'circle' },
     opacity: { value: 0.9 },
-    size: { value: 5, random: true },
+    size: { value: 4, random: true },
     line_linked: {
       enable: true,
       distance: 200,
