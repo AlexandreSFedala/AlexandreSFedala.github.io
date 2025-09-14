@@ -1,0 +1,49 @@
+/* Reset */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:80px;}
+body{font-family:Arial,sans-serif;background:#222;color:white;}
+body::before{
+  content:"";position:fixed;top:0;left:0;width:100%;height:100%;
+  background:url('honeycomb.png') repeat;opacity:0.1;z-index:-1;
+}
+
+/* Navigation */
+nav{background:#2c3e50;display:flex;justify-content:space-between;align-items:center;padding:1rem 2rem;position:fixed;top:0;width:100%;z-index:100;}
+nav .logo{color:white;font-weight:bold;text-decoration:none;font-size:1.5rem;}
+nav ul{list-style:none;display:flex;gap:1rem;}
+nav ul li{position:relative;}
+nav ul li a{color:white;text-decoration:none;padding:0.5rem 1rem;display:block;border-radius:0;}
+nav ul li a:hover{background: rgba(255,255,255,0.4);}
+nav ul li ul{display:none;position:absolute;top:0;left:-180px;background:#2c3e50;width:180px;border-radius:0;}
+nav ul li:hover ul{display:block;}
+nav ul li ul li a{border-bottom:1px solid rgba(255,255,255,0.2);}
+nav ul li ul li:last-child a{border-bottom:none;}
+
+/* Header */
+header{position:relative;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;background-image:url('images/portico_welcome_sized.jpg');background-size:cover;background-position:center;overflow:hidden;}
+header::before{content:"";position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(22,36,59,0.75);z-index:1;}
+header h1{font-size:4rem;z-index:2;position:relative;}
+header p{font-size:2rem;z-index:2;position:relative;}
+
+/* Container */
+.container{max-width:1200px;margin:3rem auto;}
+.project-page{background:#444;padding:3rem;margin-bottom:3rem;border-radius:10px;color:white;}
+.project-page img, .project-page iframe{margin-top:1.5rem;border-radius:10px;}
+
+/* Subpage Tiles */
+.subpage-grid{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;}
+.subpage-tile{width:200px;height:250px;background:#555;border-radius:15px;display:flex;flex-direction:column;cursor:pointer;overflow:hidden;}
+.subpage-tile .title{background:rgba(0,0,0,0.3);width:100%;text-align:center;padding:0.5rem;font-weight:bold;}
+.subpage-tile img{width:100%;height:calc(100%-20%);object-fit:cover;}
+
+/* Skills Section */
+.skills-section{display:flex;gap:2rem;flex-wrap:wrap;margin-bottom:2rem;}
+.skills-info{flex:65%;}
+.skills-bars{flex:35%;}
+.skill{margin-bottom:1rem;}
+.skill-name{font-weight:bold;margin-bottom:0.3rem;}
+.skill-bar{width:100%;height:20px;background:#555;border-radius:10px;overflow:hidden;}
+.skill-bar-fill{height:100%;background:#2c3e50;}
+
+/* Responsive */
+@media(max-width:768px){.skills-section,.subpage-grid{flex-direction:column;}.skills-bars,.skills-info{flex:100%;}}
