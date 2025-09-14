@@ -5,13 +5,13 @@ particlesJS('particles-js', {
     color: { value: '#f0f0f0' },
     shape: { type: 'circle' },
     opacity: { value: 0.9 },
-    size: { value: 20, random: true },
+    size: { value: 10, random: true },
     line_linked: {
       enable: true,
-      distance: 250,
+      distance: 200,
       color: '#e6a21a',
       opacity: 0.6,
-      width: 8,
+      width: 5
     },
     move: { enable: true, speed: 2, out_mode: 'out' }
   },
