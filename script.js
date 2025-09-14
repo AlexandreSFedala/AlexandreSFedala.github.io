@@ -10,30 +10,19 @@ window.addEventListener('scroll', () => {
   }
 });
 
+// -----------------------------
+// 2. Interactive Header Bubbles
+// -----------------------------
 const bubbleContainer = document.getElementById('bubbleContainer');
-const NUM_BUBBLES = 20;
+const NUM_BUBBLES = 15;
 
 // Create bubbles
 for (let i = 0; i < NUM_BUBBLES; i++) {
   const bubble = document.createElement('div');
   bubble.classList.add('bubble');
   bubble.style.left = `${Math.random() * 90}%`;
-  bubble.style.top = `${Math.random() * 90 + 50}%`; // start below visible area
-  bubble.style.width = '50px';
-  bubble.style.height = '50px';
-  bubble.style.background = 'rgba(255,255,255,0.35)'; // 35% opacity
-  bubble.style.borderRadius = '50%';
-  bubble.style.position = 'absolute';
-  bubble.style.cursor = 'grab';
+  bubble.style.top = `${Math.random() * 90}%`;
   bubbleContainer.appendChild(bubble);
-
-  // Scale on click
-  bubble.addEventListener('mousedown', () => {
-    bubble.style.transform = 'scale(1.5)';
-  });
-  bubble.addEventListener('mouseup', () => {
-    bubble.style.transform = 'scale(1)';
-  });
 
   // Drag functionality
   bubble.addEventListener('mousedown', (e) => {
@@ -61,20 +50,6 @@ for (let i = 0; i < NUM_BUBBLES; i++) {
   bubble.ondragstart = () => false; // disable default drag
 }
 
-// Animate bubbles moving upwards continuously
-function animateBubbles() {
-  const bubbles = document.querySelectorAll('.bubble');
-  bubbles.forEach(bubble => {
-    let top = parseFloat(bubble.style.top);
-    top -= 0.2; // speed upward
-    if (top < -10) top = 100; // reset to bottom
-    bubble.style.top = top + '%';
-  });
-  requestAnimationFrame(animateBubbles);
-}
-animateBubbles();
-
-
 // -----------------------------
 // 3. Subpage Click Behavior
 // -----------------------------
@@ -101,4 +76,5 @@ subpages.forEach(subpage => {
 projectDetails.forEach((p, i) => {
   p.style.display = i === 0 ? 'block' : 'none';
 });
+
 
