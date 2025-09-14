@@ -79,39 +79,6 @@ nav ul li:hover ul { display:block; }
 nav ul li ul li a { color:white; border-bottom:1px solid #3f5870; }
 nav ul li ul li a:hover { background:rgba(255,255,255,0.2); }
 
-/* Center the social icons */
-nav .social-links {
-  display: flex;
-  gap: 0.75rem;
-  align-items: center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* Social icons styling */
-nav .social-links a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-nav .social-links a img {
-  width: 20px;
-  height: 20px;
-  filter: invert(1); /* makes icons white */
-}
-
-nav .social-links a:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-}
-
-
 header { 
   position:relative; 
   height:100vh; 
