@@ -83,25 +83,33 @@ nav ul li ul li a:hover {
   background: #f0f0f0;
 }
 
-/* Header / Fullscreen Landing */
+/* Fullscreen Header with background image and semi-transparent overlay */
 header {
+  position: relative;
   height: 100vh;
-  background: #34495e;
-  color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   padding: 2rem;
+  color: white;
+  /* Dark blue semi-transparent overlay */
+  background-color: rgba(10, 25, 70, 0.85); /* Dark blue with 85% opacity */
+  /* Background image behind overlay */
+  background-image: url('your-image.jpg'); /* replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
-header h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
-}
+
+/* Optional: keep text fully opaque */
+header h1,
 header p {
-  font-size: 1.5rem;
+  z-index: 2;
+  position: relative;
 }
+
 
 /* Container */
 .container {
