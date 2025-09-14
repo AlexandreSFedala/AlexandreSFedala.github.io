@@ -5,15 +5,15 @@ particlesJS('particles-js', {
     color: { value: '#f0f0f0' },
     shape: { type: 'circle' },
     opacity: { value: 0.9 },
-    size: { value: 10, random: true },
+    size: { value: 5, random: true },
     line_linked: {
       enable: true,
       distance: 200,
       color: '#e6a21a',
       opacity: 0.6,
-      width: 5
+      width: 2
     },
-    move: { enable: true, speed: 2, out_mode: 'out' }
+    move: { enable: true, speed: 4, out_mode: 'out' }
   },
   interactivity: {
     detect_on: 'window',
