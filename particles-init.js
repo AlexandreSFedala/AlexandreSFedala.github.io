@@ -2,7 +2,7 @@
 particlesJS('particles-js', {
   particles: {
     number: { value: 60, density: { enable: true, value_area: 800 } },
-    color: { value: '#ffffff' },
+    color: { value: '#f0f0f0' },
     shape: { type: 'circle' },
     opacity: { value: 0.9 },
     size: { value: 5, random: true },
