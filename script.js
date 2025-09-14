@@ -1,78 +1,40 @@
-// -----------------------------
-// 1. Shrinking Navbar on Scroll
-// -----------------------------
+// Navbar shrink
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
-  if (window.scrollY > 100) {
-    navbar.classList.add('shrink');
-  } else {
-    navbar.classList.remove('shrink');
-  }
+  if(window.scrollY > 80) navbar.classList.add('shrink');
+  else navbar.classList.remove('shrink');
 });
 
-// -----------------------------
-// 2. Interactive Header Bubbles
-// -----------------------------
+// Bubbles
 const bubbleContainer = document.getElementById('bubbleContainer');
-const NUM_BUBBLES = 15;
+const bubbles = [];
+const numBubbles = 25;
 
-// Create bubbles
-for (let i = 0; i < NUM_BUBBLES; i++) {
+for(let i=0;i<numBubbles;i++){
   const bubble = document.createElement('div');
-  bubble.classList.add('bubble');
-  bubble.style.left = `${Math.random() * 90}%`;
-  bubble.style.top = `${Math.random() * 90}%`;
+  bubble.className='bubble';
+  bubble.style.width = bubble.style.height = `${30+Math.random()*20}px`;
+  bubble.style.left = `${Math.random()*100}%`;
+  bubble.style.bottom = `${-50-Math.random()*100}px`;
+  bubble.style.opacity = 0.35;
   bubbleContainer.appendChild(bubble);
-
-  // Drag functionality
-  bubble.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    let shiftX = e.clientX - bubble.getBoundingClientRect().left;
-    let shiftY = e.clientY - bubble.getBoundingClientRect().top;
-
-    function moveAt(pageX, pageY) {
-      bubble.style.left = pageX - shiftX + 'px';
-      bubble.style.top = pageY - shiftY + 'px';
-    }
-
-    function onMouseMove(event) {
-      moveAt(event.pageX, event.pageY);
-    }
-
-    document.addEventListener('mousemove', onMouseMove);
-
-    bubble.onmouseup = function() {
-      document.removeEventListener('mousemove', onMouseMove);
-      bubble.onmouseup = null;
-    };
+  bubbles.push({el:bubble, speed:1+Math.random()*2});
+  
+  // drag & scale on click
+  bubble.addEventListener('mousedown', ()=>{
+    bubble.style.transform='scale(1.5)';
+    bubble.addEventListener('mouseup', ()=>{bubble.style.transform='scale(1)';}, {once:true});
   });
-
-  bubble.ondragstart = () => false; // disable default drag
 }
 
-// -----------------------------
-// 3. Subpage Click Behavior
-// -----------------------------
-const subpages = document.querySelectorAll('.subpage');
-const projectDetails = document.querySelectorAll('.project-detail');
-
-subpages.forEach(subpage => {
-  subpage.addEventListener('click', () => {
-    const targetId = subpage.dataset.target;
-
-    // Hide all projects first
-    projectDetails.forEach(p => p.style.display = 'none');
-
-    // Show the selected project
-    const targetProject = document.getElementById(targetId);
-    if (targetProject) targetProject.style.display = 'block';
-
-    // Scroll to the project smoothly
-    targetProject.scrollIntoView({behavior: 'smooth'});
+// Animate bubbles
+function animate(){
+  bubbles.forEach(b=>{
+    const bottom = parseFloat(b.el.style.bottom);
+    b.el.style.bottom = `${bottom + b.speed}px`;
+    if(bottom > window.innerHeight) b.el.style.bottom = `${-50-Math.random()*100}px`;
   });
-});
+  requestAnimationFrame(animate);
+}
+animate();
 
-// Initialize all projects hidden except first
-projectDetails.forEach((p, i) => {
-  p.style.display = i === 0 ? 'block' : 'none';
-});
