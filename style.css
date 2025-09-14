@@ -22,10 +22,18 @@ header::before { content:""; position:absolute; top:0; left:0; width:100%; heigh
 header h1 { font-size:5rem; position:relative; z-index:2; margin-bottom:1rem; }
 header p { font-size:2.5rem; position:relative; z-index:2; }
 
-/* Bubbles */
-.bubble-container { position:absolute; width:100%; height:100%; z-index:1; pointer-events:none; }
-.bubble { position:absolute; border-radius:50%; width:90px; height:90px; background:rgba(255,255,255,0.9); cursor:grab; pointer-events:auto; transition:transform 0.2s; }
-.bubble:active { transform:scale(1.3); }
+@keyframes rise {
+  from { transform: translateY(100vh); }
+  to   { transform: translateY(-100px); }
+}
+
+.bubble {
+  position:absolute; border-radius:50%; width:90px; height:90px;
+  background:rgba(255,255,255,0.35); cursor:grab; pointer-events:auto;
+  transition:transform 0.2s;
+  animation: rise 10s linear infinite;
+}
+
 
 /* Container Sections */
 .container { max-width:1100px; margin:2rem auto; background:#3a3a3a; padding:2rem; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.4); }
@@ -35,7 +43,7 @@ header p { font-size:2.5rem; position:relative; z-index:2; }
 .subpage { background:#4a4a4a; width:calc(33% - 1rem); min-width:220px; border-radius:10px; cursor:pointer; transition:transform 0.2s; }
 .subpage:hover { transform:scale(1.05); }
 .subpage-title { background:#5a5a5a; padding:10px; text-align:center; font-weight:bold; }
-.subpage img { width:100%; display:block; }
+.subpage img { max-width:100%; width:auto; display:block; }
 
 /* Skills */
 .skills-section { display:flex; gap:2rem; flex-wrap:wrap; margin-bottom:2rem; }
@@ -47,7 +55,7 @@ header p { font-size:2.5rem; position:relative; z-index:2; }
 .skill-bar-fill { height:100%; background:#2c3e50; width:70%; }
 
 /* PDF Iframe */
-iframe { width:100%; height:900px; border:none; margin-bottom:1.5rem; }
+iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
 
 /* Responsive */
 @media(max-width:768px){.subpage{width:48%;}.skills-section{flex-direction:column;}.skills-info,.skills-bars{flex:100%;}}
