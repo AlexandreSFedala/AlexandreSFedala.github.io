@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AF - Portfolio</title>
 <link rel="stylesheet" href="style.css">
-<script defer src="bubbles.js"></script>
 </head>
 <body>
 
@@ -16,51 +15,31 @@
     <li>
       <a href="#">Contents ▾</a>
       <ul>
-        <li><a href="#project1">About Me</a></li>
+        <li><a href="#about">About Me</a></li>
         <li><a href="#skills">Skills</a></li>
-        <li><a href="#project2">Lampeter Survey</a></li>
-        <li><a href="#project3">Project 3</a></li>
-        <li><a href="#project4">Project 4</a></li>
+        <li><a href="#projects">Projects</a></li>
       </ul>
     </li>
   </ul>
 </nav>
 
-<!-- Fullscreen Header -->
+<!-- Header -->
 <header>
   <h1>An Undergraduate Portfolio</h1>
   <p>A Chronicle of My Projects</p>
+  <div class="bubble-container" id="bubbleContainer"></div>
 </header>
-
-<!-- Subpage Tiles -->
-<div class="container">
-  <div class="subpage-grid">
-    <div class="subpage-tile" onclick="document.getElementById('project1').scrollIntoView();">
-      <div class="title">About Me</div>
-      <img src="images/aboutme.jpg" alt="About Me">
-    </div>
-    <div class="subpage-tile" onclick="document.getElementById('skills').scrollIntoView();">
-      <div class="title">Skills</div>
-      <img src="images/aboutme.jpg" alt="Skills">
-    </div>
-    <div class="subpage-tile" onclick="document.getElementById('project2').scrollIntoView();">
-      <div class="title">Lampeter Survey</div>
-      <img src="images/lampeter.jpg" alt="Lampeter Survey">
-    </div>
-    <!-- Add more tiles for other projects -->
-  </div>
-</div>
 
 <div class="container">
 
   <!-- About Me -->
-  <section class="project-page" id="project1">
+  <section id="about">
     <h2>About Me</h2>
-    <p>Your about me text goes here...</p>
+    <p>I am a second-year undergraduate civil engineering student at University College London...</p>
   </section>
 
-  <!-- Skills Section -->
-  <section class="project-page" id="skills">
+  <!-- Skills -->
+  <section id="skills">
     <div class="skills-section">
       <div class="skills-info">
         <p>These are my key engineering and software skills.</p>
@@ -68,42 +47,67 @@
       <div class="skills-bars">
         <div class="skill">
           <div class="skill-name">AutoCAD</div>
-          <div class="skill-bar"><div class="skill-bar-fill" style="width:90%;"></div></div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width: 90%;"></div></div>
+        </div>
+        <div class="skill">
+          <div class="skill-name">Structural Analysis</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width: 75%;"></div></div>
         </div>
         <div class="skill">
           <div class="skill-name">Project Management</div>
-          <div class="skill-bar"><div class="skill-bar-fill" style="width:80%;"></div></div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width: 80%;"></div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Lampeter Survey -->
-  <section class="project-page" id="project2">
-    <h2>Lampeter Survey</h2>
-    <p>Description of the project...</p>
-    <p><a href="pdfs/lamp_survey.pdf" download>Download PDF</a></p>
-    <iframe src="pdfs/lamp_survey.pdf"></iframe>
-    <img src="images/lampeter.jpg" alt="Lampeter Survey">
-  </section>
+  <!-- Projects (Subpages) -->
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="subpages">
+      <div class="subpage" data-target="project2">
+        <div class="subpage-title">Lampeter Survey</div>
+        <img src="images/placeholder.jpg" alt="Lampeter Survey">
+      </div>
+      <div class="subpage" data-target="project3">
+        <div class="subpage-title">Project 3</div>
+        <img src="images/placeholder.jpg" alt="Project 3">
+      </div>
+      <div class="subpage" data-target="project4">
+        <div class="subpage-title">Project 4</div>
+        <img src="images/placeholder.jpg" alt="Project 4">
+      </div>
+    </div>
 
-  <!-- Project 3 -->
-  <section class="project-page" id="project3">
-    <h2>Project 3</h2>
-    <p>Description here...</p>
-  </section>
+    <!-- Project Details -->
+    <div class="project-detail" id="project2">
+      <h3>Lampeter, Wales - Land Surveying</h3>
+      <p>Technical report using AutoCAD & surveying instruments...</p>
+      <a href="pdfs/lamp_survey.pdf" download>Download PDF</a>
+      <iframe src="pdfs/lamp_survey.pdf"></iframe>
+      <img src="images/placeholder.jpg" alt="AutoCAD Drawing">
+    </div>
 
-  <!-- Project 4 -->
-  <section class="project-page" id="project4">
-    <h2>Project 4</h2>
-    <p>Description here...</p>
+    <div class="project-detail" id="project3">
+      <h3>Project 3</h3>
+      <p>Description for Project 3.</p>
+      <img src="images/placeholder.jpg" alt="Project 3 Image">
+    </div>
+
+    <div class="project-detail" id="project4">
+      <h3>Project 4</h3>
+      <p>Description for Project 4.</p>
+      <a href="pdfs/file4.pdf" download>Download PDF</a>
+      <iframe src="pdfs/file4.pdf"></iframe>
+      <img src="images/placeholder.jpg" alt="Project 4 Image">
+    </div>
   </section>
 
 </div>
 
+<script src="script.js"></script>
 </body>
 </html>
-
 
 
 
