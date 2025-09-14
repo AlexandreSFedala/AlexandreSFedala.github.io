@@ -56,7 +56,7 @@ header p { font-size:2.5rem; position:relative; z-index:2; }
 iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
 
 /* Boundaries for standalone project images */
-.item img {
+.project-detail img {
   display: block;
   max-width: 100%;    /* Prevent overflow beyond the container */
   max-height: 600px;  /* Adjust max height to taste */
