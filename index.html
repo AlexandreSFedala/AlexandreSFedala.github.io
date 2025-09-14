@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A.Fedala - Portfolio</title>
+<title>AF - Portfolio</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,12 +14,10 @@
   <ul>
     <li>
       <a href="#">Contents ▾</a>
-      <ul class="dropdown-left">
-        <li><a href="#project1">About Me</a></li>
+      <ul>
+        <li><a href="#about">About Me</a></li>
         <li><a href="#skills">Skills</a></li>
-        <li><a href="#project2">Land Surveying</a></li>
-        <li><a href="#project3">Project 3</a></li>
-        <li><a href="#project4">Project 4</a></li>
+        <li><a href="#projects">Projects</a></li>
       </ul>
     </li>
   </ul>
@@ -27,24 +25,21 @@
 
 <!-- Header -->
 <header>
-  <div id="bubbleContainer"></div>
   <h1>An Undergraduate Portfolio</h1>
   <p>A Chronicle of My Projects</p>
+  <div class="bubble-container" id="bubbleContainer"></div>
 </header>
 
 <div class="container">
 
   <!-- About Me -->
-  <section class="item" id="project1">
-    <div class="text">
-      <h2>About Me</h2>
-      <p>I am a second-year undergraduate civil engineering student at UCL with a diverse international background...</p>
-      <p>My goal as a civil engineer is to create tangible, positive change...</p>
-    </div>
+  <section id="about">
+    <h2>About Me</h2>
+    <p>I am a second-year undergraduate civil engineering student at University College London...</p>
   </section>
 
-  <!-- Skills Section -->
-  <section class="item" id="skills">
+  <!-- Skills -->
+  <section id="skills">
     <div class="skills-section">
       <div class="skills-info">
         <p>These are my key engineering and software skills.</p>
@@ -52,30 +47,59 @@
       <div class="skills-bars">
         <div class="skill">
           <div class="skill-name">AutoCAD</div>
-          <div class="skill-bar">
-            <div class="skill-bar-fill" style="width: 90%;"></div>
-          </div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width: 90%;"></div></div>
         </div>
         <div class="skill">
           <div class="skill-name">Structural Analysis</div>
-          <div class="skill-bar">
-            <div class="skill-bar-fill" style="width: 75%;"></div>
-          </div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width: 75%;"></div></div>
+        </div>
+        <div class="skill">
+          <div class="skill-name">Project Management</div>
+          <div class="skill-bar"><div class="skill-bar-fill" style="width: 80%;"></div></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Subpage: Project 2 -->
-  <section class="subpage" id="project2">
-    <div class="subpage-box">
-      <div class="subpage-title">Lampeter, Wales - Land Surveying</div>
-      <img src="images/placeholder.jpg" alt="Project placeholder">
-      <div class="text">
-        <p>Technical report and AutoCAD drawings.</p>
-        <p><a href="pdfs/lamp_survey.pdf" download>Download PDF</a></p>
-        <iframe src="pdfs/lamp_survey.pdf"></iframe>
+  <!-- Projects (Subpages) -->
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="subpages">
+      <div class="subpage" data-target="project2">
+        <div class="subpage-title">Lampeter Survey</div>
+        <img src="images/placeholder.jpg" alt="Lampeter Survey">
       </div>
+      <div class="subpage" data-target="project3">
+        <div class="subpage-title">Project 3</div>
+        <img src="images/placeholder.jpg" alt="Project 3">
+      </div>
+      <div class="subpage" data-target="project4">
+        <div class="subpage-title">Project 4</div>
+        <img src="images/placeholder.jpg" alt="Project 4">
+      </div>
+    </div>
+
+    <!-- Project Details -->
+    <div class="project-detail" id="project2">
+      <h3>Lampeter, Wales - Land Surveying</h3>
+      <p>Technical report using AutoCAD & surveying instruments...</p>
+      <a href="pdfs/lamp_survey.pdf" download>Download PDF</a>
+      <iframe src="pdfs/lamp_survey.pdf"></iframe>
+      <img src="images/placeholder.jpg" alt="AutoCAD Drawing">
+    </div>
+
+    <div class="project-detail" id="project3">
+      <h3>Project 3</h3>
+      <p>Description for Project 3.</p>
+      <img src="images/placeholder.jpg" alt="Project 3 Image">
+    </div>
+
+    <div class="project-detail" id="project4">
+      <h3>Project 4</h3>
+      <p>Description for Project 4.</p>
+      <a href="pdfs/file4.pdf" download>Download PDF</a>
+      <iframe src="pdfs/file4.pdf"></iframe>
+      <img src="images/placeholder.jpg" alt="Project 4 Image">
     </div>
   </section>
 
@@ -84,8 +108,4 @@
 <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
 
