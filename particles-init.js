@@ -5,13 +5,13 @@ particlesJS('particles-js', {
     color: { value: '#f0f0f0' },
     shape: { type: 'circle' },
     opacity: { value: 0.9 },
-    size: { value: 4, random: true },
+    size: { value: 6, random: true },
     line_linked: {
       enable: true,
       distance: 200,
       color: '#e6a21a',
       opacity: 0.6,
-      width: 2
+      width: 3
     },
     move: { enable: true, speed: 4, out_mode: 'out' }
   },
@@ -23,7 +23,7 @@ particlesJS('particles-js', {
       resize: true
     },
     modes: {
-      grab: { distance: 300, line_linked: { opacity: 0.8 } },
+      grab: { distance: 500, line_linked: { opacity: 1 } },
       push: { particles_nb: 4 }
     }
   },
