@@ -4,10 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A.Fedala - Portfolio</title>
-
-<!-- PDF.js library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.107/pdf.min.js"></script>
-
 <style>
 /* Basic Reset */
 * {
@@ -17,7 +13,7 @@
 }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 80px; /* offset for fixed navbar */
+  scroll-padding-top: 80px;
 }
 body {
   font-family: Arial, sans-serif;
@@ -61,11 +57,13 @@ nav ul li a {
   text-decoration: none;
   padding: 0.5rem 1rem;
   display: block;
+  border-radius: 4px;
+  transition: all 0.3s ease;
 }
 nav ul li a:hover {
-  background: rgba(255,255,255,0.4); /* highlighted rectangle */
-  border-radius: 4px;
+  background: rgba(255,255,255,0.4); /* 40% white overlay */
 }
+
 /* Dropdown menu */
 nav ul li ul {
   display: none;
@@ -90,7 +88,7 @@ nav ul li ul li a:hover {
   background: #f0f0f0;
 }
 
-/* Header */
+/* Fullscreen Header */
 header {
   position: relative;
   height: 100vh;
@@ -107,22 +105,29 @@ header {
   background-repeat: no-repeat;
   overflow: hidden;
 }
+
+/* Blue overlay */
 header::before {
   content: "";
   position: absolute;
-  top:0; left:0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background-color: rgba(22,36,59,0.75);
   z-index: 1;
 }
-header h1, header p {
+
+/* Header text */
+header h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
   position: relative;
   z-index: 2;
-  font-weight: bold;
 }
-header h1 { font-size: 4rem; margin-bottom: 0.5rem; }
-header p { font-size: 1.8rem; }
+header p {
+  font-size: 2rem;
+  position: relative;
+  z-index: 2;
+}
 
 /* Container */
 .container {
@@ -142,40 +147,83 @@ header p { font-size: 1.8rem; }
   flex-wrap: wrap;
   align-items: flex-start;
 }
-.item div:first-child { flex: 2; }
-.item .text { flex: 3; }
-.item img { width: 100%; border-radius: 8px; }
-.caption { text-align:center; font-size:0.9rem; color:#666; margin-top:0.5rem; }
-.text h2 { margin-top:0; }
-.text p { margin-bottom:1rem; }
+.item div:first-child {
+  flex: 2;
+}
+.item .text {
+  flex: 3;
+}
+.item img {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+}
+.caption {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+.text h2 {
+  margin-top: 0;
+}
+.text p {
+  margin-bottom: 1rem;
+}
+iframe {
+  width: 100%;
+  height: 600px;
+  border: none;
+  margin-bottom: 1.5rem;
+}
 
-/* PDF Book Viewer */
-.pdf-book {
-  display:flex;
-  gap:10px;
-  justify-content:center;
-  flex-wrap:wrap;
-  margin: 1rem 0;
+/* Skills Section */
+.skills-section {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
 }
-.pdf-book canvas { border:1px solid #ccc; }
-.pdf-book .controls {
-  width:100%;
-  text-align:center;
-  margin:0.5rem 0;
+.skills-info {
+  flex: 65%;
 }
-.pdf-book button {
-  padding:0.3rem 0.7rem;
-  margin:0 0.5rem;
-  cursor:pointer;
-  font-size:1rem;
+.skills-bars {
+  flex: 35%;
+}
+.skill {
+  margin-bottom: 1rem;
+}
+.skill-name {
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
+.skill-bar {
+  width: 100%;
+  height: 20px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.skill-bar-fill {
+  height: 100%;
+  background: #2c3e50;
+  width: 70%;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-  .item div:first-child, .item .text { flex: 100%; width: 100%; }
-  header h1 { font-size: 2.5rem; }
-  header p { font-size: 1.2rem; }
-  .pdf-book { flex-direction: column; align-items:center; }
+  .item div:first-child,
+  .item .text {
+    flex: 100%;
+    width: 100%;
+  }
+  .skills-section {
+    flex-direction: column;
+  }
+  .skills-bars,
+  .skills-info {
+    flex: 100%;
+  }
 }
 </style>
 </head>
@@ -206,150 +254,60 @@ header p { font-size: 1.8rem; }
 
 <div class="container">
 
-  <!-- Project 1: About Me -->
+  <!-- About Me -->
   <section class="item" id="project1">
     <div class="text">
       <h2>About Me</h2>
       <p>I am a second-year undergraduate civil engineering student at University College London with a diverse international background, having completed my secondary education in France through a BFI pathway.</p>
-      <p>My goal as a civil engineer is to create tangible, positive change in the built environment — developing solutions that serve clients, end-users, and local communities alike.</p>
+      <p>My goal as a civil engineer is to create tangible, positive change in the built environment — developing solutions that serve clients, end-users, and local communities alike. I have a particular interest in vernacular design, ensuring that buildings and infrastructure respond to local needs and integrate seamlessly into their surroundings.</p>
+      <p>Sustainability is central to my approach. Recognising the construction industry’s significant environmental impact, I am committed to delivering projects that meet and exceed current climate regulations, aiming for carbon neutrality — or even a net-negative footprint — throughout my future work.</p>
+      <p>My experience collaborating in a university environment has strengthened my ability to explain complex ideas clearly, and I am aiming to continue doing so in professional environments via internships.</p>
     </div>
   </section>
 
   <!-- Skills Section -->
   <section class="item" id="skills">
-    <div class="text" style="flex:65%;">
-      <h2>Skills</h2>
-      <p>Here you can add your skills description, context, or summary.</p>
-    </div>
-    <div style="flex:35%;">
-      <p>AutoCAD</p>
-      <div style="background:#ddd; width:100%; height:10px; border-radius:5px;">
-        <div style="width:80%; height:100%; background:#2c3e50;"></div>
+    <div class="skills-section">
+      <div class="skills-info">
+        <p>These are my key engineering and software skills.</p>
+        <p>Each bar represents my proficiency.</p>
       </div>
-      <p>Structural Design</p>
-      <div style="background:#ddd; width:100%; height:10px; border-radius:5px;">
-        <div style="width:70%; height:100%; background:#2c3e50;"></div>
-      </div>
-      <p>Surveying</p>
-      <div style="background:#ddd; width:100%; height:10px; border-radius:5px;">
-        <div style="width:90%; height:100%; background:#2c3e50;"></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Project 2: PDF Book Viewer -->
-  <section class="item" id="project2">
-    <div class="text">
-      <h2>Lampeter, Wales - Land Surveying</h2>
-      <p>This project consolidated the knowledge I gained during my first year at UCL, culminating in a detailed technical report.</p>
-
-      <div class="pdf-book" data-pdf="https://alexandresfedala.github.io/lamp_survey.pdf">
-        <canvas class="page1"></canvas>
-        <canvas class="page2"></canvas>
-        <div class="controls">
-          <button class="prev">← Previous</button>
-          <button class="next">Next →</button>
+      <div class="skills-bars">
+        <div class="skill">
+          <div class="skill-name">AutoCAD</div>
+          <div class="skill-bar">
+            <div class="skill-bar-fill" style="width: 90%;"></div>
+          </div>
         </div>
-      </div>
-
-      <img src="AutoCAD.jpg" alt="AutoCAD land survey drawing">
-      <div class="caption">AutoCAD Drawing, one of the final deliverables</div>
-    </div>
-  </section>
-
-  <!-- Project 3 -->
-  <section class="item" id="project3">
-    <div>
-      <img src="image3.jpg" alt="Project 3 image">
-      <div class="caption">Image caption 3</div>
-    </div>
-    <div class="text">
-      <h2>Project 3 Title</h2>
-      <p>This project has an image and description but no PDF.</p>
-    </div>
-  </section>
-
-  <!-- Project 4: PDF Book Viewer -->
-  <section class="item" id="project4">
-    <div class="text">
-      <h2>Project 4 Title</h2>
-      <p>No image here, just text and a PDF viewer.</p>
-
-      <div class="pdf-book" data-pdf="file4.pdf">
-        <canvas class="page1"></canvas>
-        <canvas class="page2"></canvas>
-        <div class="controls">
-          <button class="prev">← Previous</button>
-          <button class="next">Next →</button>
+        <div class="skill">
+          <div class="skill-name">Structural Analysis</div>
+          <div class="skill-bar">
+            <div class="skill-bar-fill" style="width: 75%;"></div>
+          </div>
         </div>
+        <div class="skill">
+          <div class="skill-name">Project Management</div>
+          <div class="skill-bar">
+            <div class="skill-bar-fill" style="width: 80%;"></div>
+          </div>
+        </div>
+        <!-- Add more skills as needed -->
       </div>
-
     </div>
   </section>
-</div>
 
-<script>
-// Smooth shrinking navbar
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > window.innerHeight - 50) {
-    navbar.classList.add('shrink');
-  } else {
-    navbar.classList.remove('shrink');
-  }
-});
-
-// PDF.js reusable book viewer
-document.querySelectorAll('.pdf-book').forEach(book => {
-  const url = book.dataset.pdf;
-  const canvas1 = book.querySelector('.page1');
-  const canvas2 = book.querySelector('.page2');
-  const ctx1 = canvas1.getContext('2d');
-  const ctx2 = canvas2.getContext('2d');
-  let pdfDoc = null;
-  let pageNum = 1;
-  const scale = 1.2;
-
-  pdfjsLib.getDocument(url).promise.then(pdf => {
-    pdfDoc = pdf;
-    renderPages();
-  });
-
-  function renderPages() {
-    if (!pdfDoc) return;
-
-    pdfDoc.getPage(pageNum).then(page => {
-      const vp = page.getViewport({scale});
-      canvas1.width = vp.width;
-      canvas1.height = vp.height;
-      page.render({canvasContext: ctx1, viewport: vp});
-    });
-
-    if (pageNum + 1 <= pdfDoc.numPages) {
-      pdfDoc.getPage(pageNum + 1).then(page => {
-        const vp = page.getViewport({scale});
-        canvas2.width = vp.width;
-        canvas2.height = vp.height;
-        page.render({canvasContext: ctx2, viewport: vp});
-      });
-    } else {
-      ctx2.clearRect(0,0,canvas2.width,canvas2.height);
-    }
-  }
-
-  book.querySelector('.next').addEventListener('click', () => {
-    if (pageNum + 2 <= pdfDoc.numPages) { pageNum += 2; renderPages(); }
-  });
-
-  book.querySelector('.prev').addEventListener('click', () => {
-    if (pageNum - 2 >= 1) { pageNum -= 2; renderPages(); }
-  });
-});
-</script>
-
-</body>
-</html>
-
+  <!-- LAMPETER -->
+<section class="item" id="project2">
+  <div class="text">
+    <h2>Lampeter, Wales - Land Surveying</h2>
+    <p>This project consolidated the knowledge I gained during my first year at UCL, culminating in a detailed technical report (see PDF viewer below). Our task was to produce an accurate AutoCAD map of a designated area using professional surveying instruments such as Total Stations and Automatic Levels.</p>
+    <p>As team leader for this group project, I was responsible for coordinating workloads, maintaining efficiency, and ensuring accurate data collection. This experience deepened my understanding of the importance of precise land surveying and strengthened my leadership and project management skills.</p>
+    <p><a href="https://alexandresfedala.github.io/lamp_survey.pdf" download>Download the report here</a></p>
+    <iframe src="https://alexandresfedala.github.io/lamp_survey.pdf"></iframe>
+    <img src="AutoCAD.jpg" alt="AutoCAD land survey drawing">
+    <div class="caption">AutoCAD Drawing, one of the final deliverables</div>
+  </div>
+</section>
 
 
 
