@@ -1,78 +1,53 @@
-// -----------------------------
-// 1. Shrinking Navbar on Scroll
-// -----------------------------
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 100) {
-    navbar.classList.add('shrink');
-  } else {
-    navbar.classList.remove('shrink');
-  }
-});
+/* Basic Reset & Layout */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Arial; background:#2a2a2a; color:white; scroll-behavior:smooth; scroll-padding-top:100px; }
 
-// -----------------------------
-// 2. Interactive Header Bubbles
-// -----------------------------
-const bubbleContainer = document.getElementById('bubbleContainer');
-const NUM_BUBBLES = 15;
+/* Navbar */
+nav { background:#2c3e50; display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; position:fixed; top:0; width:100%; z-index:100; transition:all 0.3s ease; }
+nav .logo { color:white; font-weight:bold; font-size:1.5rem; text-decoration:none; }
+nav ul { list-style:none; display:flex; gap:1rem; }
+nav ul li { position:relative; }
+nav ul li a { color:white; padding:0.5rem 1rem; display:block; border-radius:4px; transition:0.3s; }
+nav ul li a:hover { background:rgba(255,255,255,0.4); }
 
-// Create bubbles
-for (let i = 0; i < NUM_BUBBLES; i++) {
-  const bubble = document.createElement('div');
-  bubble.classList.add('bubble');
-  bubble.style.left = `${Math.random() * 90}%`;
-  bubble.style.top = `${Math.random() * 90}%`;
-  bubbleContainer.appendChild(bubble);
+/* Dropdown */
+nav ul li ul { display:none; position:absolute; top:100%; left:-20px; background:#2c3e50; min-width:200px; border-radius:4px; box-shadow:0 4px 8px rgba(0,0,0,0.2); z-index:10; }
+nav ul li:hover ul { display:block; }
+nav ul li ul li a { color:white; border-bottom:1px solid #3f5870; }
+nav ul li ul li a:hover { background:rgba(255,255,255,0.2); }
 
-  // Drag functionality
-  bubble.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    let shiftX = e.clientX - bubble.getBoundingClientRect().left;
-    let shiftY = e.clientY - bubble.getBoundingClientRect().top;
+/* Header */
+header { position:relative; height:100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:2rem; background-image:url('images/portico_welcome_sized.jpg'); background-size:cover; background-position:center; }
+header::before { content:""; position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(22,36,59,0.75); z-index:1; }
+header h1 { font-size:5rem; position:relative; z-index:2; margin-bottom:1rem; }
+header p { font-size:2.5rem; position:relative; z-index:2; }
 
-    function moveAt(pageX, pageY) {
-      bubble.style.left = pageX - shiftX + 'px';
-      bubble.style.top = pageY - shiftY + 'px';
-    }
+/* Bubbles */
+.bubble-container { position:absolute; width:100%; height:100%; z-index:1; pointer-events:none; }
+.bubble { position:absolute; border-radius:50%; width:90px; height:90px; background:rgba(255,255,255,0.9); cursor:grab; pointer-events:auto; transition:transform 0.2s; }
+.bubble:active { transform:scale(1.3); }
 
-    function onMouseMove(event) {
-      moveAt(event.pageX, event.pageY);
-    }
+/* Container Sections */
+.container { max-width:1100px; margin:2rem auto; background:#3a3a3a; padding:2rem; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.4); }
 
-    document.addEventListener('mousemove', onMouseMove);
+/* Subpages */
+.subpages { display:flex; flex-wrap:wrap; gap:2rem; margin-bottom:2rem; }
+.subpage { background:#4a4a4a; width:calc(33% - 1rem); min-width:220px; border-radius:10px; cursor:pointer; transition:transform 0.2s; }
+.subpage:hover { transform:scale(1.05); }
+.subpage-title { background:#5a5a5a; padding:10px; text-align:center; font-weight:bold; }
+.subpage img { width:100%; display:block; }
 
-    bubble.onmouseup = function() {
-      document.removeEventListener('mousemove', onMouseMove);
-      bubble.onmouseup = null;
-    };
-  });
+/* Skills */
+.skills-section { display:flex; gap:2rem; flex-wrap:wrap; margin-bottom:2rem; }
+.skills-info { flex:65%; }
+.skills-bars { flex:35%; }
+.skill { margin-bottom:1rem; }
+.skill-name { margin-bottom:0.3rem; font-weight:bold; }
+.skill-bar { width:100%; height:20px; background:#555; border-radius:10px; overflow:hidden; }
+.skill-bar-fill { height:100%; background:#2c3e50; width:70%; }
 
-  bubble.ondragstart = () => false; // disable default drag
-}
+/* PDF Iframe */
+iframe { width:100%; height:900px; border:none; margin-bottom:1.5rem; }
 
-// -----------------------------
-// 3. Subpage Click Behavior
-// -----------------------------
-const subpages = document.querySelectorAll('.subpage');
-const projectDetails = document.querySelectorAll('.project-detail');
-
-subpages.forEach(subpage => {
-  subpage.addEventListener('click', () => {
-    const targetId = subpage.dataset.target;
-
-    // Hide all projects first
-    projectDetails.forEach(p => p.style.display = 'none');
-
-    // Show the selected project
-    const targetProject = document.getElementById(targetId);
-    if (targetProject) targetProject.style.display = 'block';
-
-    // Scroll to the project smoothly
-    targetProject.scrollIntoView({behavior: 'smooth'});
-  });
-});
-
-// Initialize all projects hidden except first
-projectDetails.forEach((p, i) => {
-  p.style.display = i === 0 ? 'block' : 'none';
-});
+/* Responsive */
+@media(max-width:768px){.subpage{width:48%;}.skills-section{flex-direction:column;}.skills-info,.skills-bars{flex:100%;}}
