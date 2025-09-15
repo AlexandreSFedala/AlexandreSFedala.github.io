@@ -98,6 +98,69 @@ document.addEventListener('DOMContentLoaded', () => {
         target.scrollIntoView({ behavior: 'smooth' });
     });
 
+// -----------------------------
+// 3. Smart scrolling that accounts for navbar
+// -----------------------------
+function scrollToColumn(column) {
+    const navbarHeight = navbar.offsetHeight;
+    const columnRect = column.getBoundingClientRect();
+    const columnTop = columnRect.top + window.pageYOffset;
+    
+    window.scrollTo({
+        top: columnTop - navbarHeight - 10, // 10px extra spacing
+        behavior: 'smooth'
+    });
+}
+
+// Update the column click handler
+columns.forEach(column => {
+    column.addEventListener('click', () => {
+        const isAlreadyActive = column.classList.contains('active');
+        columns.forEach(c => c.classList.remove('active'));
+        
+        if (!isAlreadyActive) {
+            column.classList.add('active');
+            // Use our smart scroll function
+            setTimeout(() => scrollToColumn(column), 10);
+            
+            // Projects column handling
+            if (column.classList.contains('projects')) {
+                const subpagesContainer = column.querySelector('.subpages');
+                const projectDetails = column.querySelectorAll('.project-detail');
+                subpagesContainer.classList.remove('hidden');
+                subpagesContainer.classList.add('flex-visible');
+                projectDetails.forEach(p => {
+                    p.classList.remove('visible');
+                    p.classList.add('hidden');
+                });
+            }
+        }
+    });
+});
+
+// Update auto-scroll to account for navbar
+window.addEventListener('scroll', () => {
+    // ... existing navbar shrink code ...
+    
+    // Auto-scroll to columns - with navbar offset
+    if (!hasScrolledToColumns && window.scrollY > 10 && window.scrollY < 50) {
+        hasScrolledToColumns = true;
+        const target = document.querySelector('#main-columns');
+        if (target) {
+            const navbarHeight = navbar.offsetHeight;
+            const targetRect = target.getBoundingClientRect();
+            const targetTop = targetRect.top + window.pageYOffset;
+            
+            window.scrollTo({
+                top: targetTop - navbarHeight - 15,
+                behavior: 'smooth'
+            });
+        }
+    }
+    
+    // ... rest of your scroll code ...
+});
+    
     // Make columns "selectable" with toggle functionality
 const columns = document.querySelectorAll('.main-columns .column');
 
