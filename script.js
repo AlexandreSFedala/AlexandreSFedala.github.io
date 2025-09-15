@@ -52,11 +52,11 @@ window.addEventListener('scroll', () => {
         const target = document.querySelector('#main-columns');
         if (target) {
             setTimeout(() => {
-                // NEW CODE (instant)
-target.scrollIntoView({ 
-    behavior: 'smooth',
-    block: 'start'
-});
+    target.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+    });
+}, 300); // Remove this delay
         }
     }
     
