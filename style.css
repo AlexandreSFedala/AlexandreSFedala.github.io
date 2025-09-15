@@ -263,50 +263,55 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
 .column.skills { background: #3498db; }
 .column.projects { background: #9b59b6; }
 
-/* Column titles */
+/* Titles always visible */
 .column h2 {
-  font-size: 2rem;
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  transition: all 0.5s ease;
+  white-space: nowrap;
   z-index: 2;
 }
 
-/* Column content hidden by default */
-.column-content, .project-detail {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.4s, transform 0.4s;
-  text-align: left;
-  width: 90%;
-  overflow-y: auto;
-  max-height: calc(100vh - 4rem);
-  display: none; /* fully hidden by default */
+/* Hide all content by default */
+.column-content,
+.projects .subpages,
+.projects .project-detail {
+  display: none;   /* fully hidden */
 }
 
-/* Hover expand */
-.column:hover {
-  flex: 6;
-}
-
-/* Show content on hover or active column */
-.column:hover .column-content,
+/* Show content only when the column is "active" */
 .column.active .column-content,
 .column.active .projects .subpages,
 .column.active .projects .project-detail {
   display: block;
-  opacity: 1;
-  transform: translateY(0);
 }
 
-/* Shrink non-hovered columns */
-.column:not(:hover):not(.active) {
-  flex: 1;
-}
-
-/* Rotate titles in squished columns */
-.column:not(:hover):not(.active) h2 {
+/* Rotate titles for inactive columns */
+.column:not(.active) h2 {
   transform: rotate(-90deg);
   transform-origin: left top;
   font-size: 2rem;
 }
+
+/* Columns flex behavior */
+.column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  cursor: pointer;
+  transition: flex 0.5s ease;
+}
+
+/* Expanded column when active */
+.column.active {
+  flex: 6;
+}
+
 
 /* Project Details */
 .projects .project-detail {
