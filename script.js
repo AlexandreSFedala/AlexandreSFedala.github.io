@@ -20,54 +20,65 @@ document.addEventListener('DOMContentLoaded', () => {
     target.scrollIntoView({ behavior: 'smooth' });
   });
 
-// Make columns "selectable"
-const columns = document.querySelectorAll('.main-columns .column');
+  // Make columns "selectable"
+  const columns = document.querySelectorAll('.main-columns .column');
 
-columns.forEach(column => {
-  column.addEventListener('click', () => {
-    // Remove 'active' from all columns
-    columns.forEach(c => c.classList.remove('active'));
-    // Add 'active' to clicked column
-    column.classList.add('active');
+  columns.forEach(column => {
+    column.addEventListener('click', () => {
+      // Remove 'active' from all columns
+      columns.forEach(c => c.classList.remove('active'));
+      // Add 'active' to clicked column
+      column.classList.add('active');
+    });
   });
-});
 
-// Projects subpage click behavior
-const projectsColumn = document.querySelector('.projects');
-const subpagesContainer = projectsColumn.querySelector('.subpages');
-const projectDetails = projectsColumn.querySelectorAll('.project-detail');
-const subpages = projectsColumn.querySelectorAll('.subpage');
+  // Projects subpage click behavior
+  const projectsColumn = document.querySelector('.projects');
+  const subpagesContainer = projectsColumn.querySelector('.subpages');
+  const projectDetails = projectsColumn.querySelectorAll('.project-detail');
+  const subpages = projectsColumn.querySelectorAll('.subpage');
 
-subpages.forEach(subpage => {
-  subpage.addEventListener('click', e => {
-    e.stopPropagation(); // don't toggle active on column
-    const targetId = subpage.dataset.target;
+  // Initialize display states
+  subpagesContainer.style.display = 'none';
+  projectDetails.forEach(p => p.style.display = 'none');
 
-    // Hide subpages and other details
-    subpagesContainer.style.display = 'none';
-    projectDetails.forEach(p => p.style.display = 'none');
-
-    // Show selected project detail
-    const targetProject = document.getElementById(targetId);
-    if(targetProject) targetProject.style.display = 'block';
+  // Show subpages when projects column is active
+  projectsColumn.addEventListener('click', (e) => {
+    // Only trigger if the column itself was clicked, not a child element
+    if (e.target === projectsColumn || e.target === projectsColumn.querySelector('h2')) {
+      subpagesContainer.style.display = 'flex';
+      projectDetails.forEach(p => p.style.display = 'none');
+    }
   });
-});
 
-// Back arrow inside project detail
-projectDetails.forEach(detail => {
-  const backBtn = document.createElement('span');
-  backBtn.textContent = '←';
-  backBtn.classList.add('back-arrow');
-  backBtn.addEventListener('click', () => {
-    detail.style.display = 'none';
-    subpagesContainer.style.display = 'flex';
+  subpages.forEach(subpage => {
+    subpage.addEventListener('click', e => {
+      e.stopPropagation(); // don't toggle active on column
+      const targetId = subpage.dataset.target;
+
+      // Hide subpages and other details
+      subpagesContainer.style.display = 'none';
+      projectDetails.forEach(p => p.style.display = 'none');
+
+      // Show selected project detail
+      const targetProject = document.getElementById(targetId);
+      if(targetProject) targetProject.style.display = 'block';
+    });
   });
-  detail.prepend(backBtn);
+
+  // Back arrow inside project detail
+  projectDetails.forEach(detail => {
+    const backBtn = document.createElement('span');
+    backBtn.textContent = '←';
+    backBtn.classList.add('back-arrow');
+    backBtn.addEventListener('click', () => {
+      detail.style.display = 'none';
+      subpagesContainer.style.display = 'flex';
+    });
+    detail.prepend(backBtn);
+  });
+
 });
-
-
-});
-
 
 
 
