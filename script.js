@@ -11,30 +11,46 @@ window.addEventListener('scroll', () => {
 });
 
 // -----------------------------
-// 3. Subpage Click Behavior
+// Subpage Click Behavior
 // -----------------------------
-const subpages = document.querySelectorAll('.subpage');
-const projectDetails = document.querySelectorAll('.project-detail');
+const subpagesContainer = document.querySelector('.projects .subpages');
+const projectDetails = document.querySelectorAll('.projects .project-detail');
 
 subpages.forEach(subpage => {
   subpage.addEventListener('click', () => {
     const targetId = subpage.dataset.target;
 
-    // Hide all projects first
+    // Hide the subpages container
+    subpagesContainer.style.display = 'none';
+
+    // Hide all project details first
     projectDetails.forEach(p => p.style.display = 'none');
 
-    // Show the selected project
+    // Show the selected project detail
     const targetProject = document.getElementById(targetId);
     if (targetProject) targetProject.style.display = 'block';
 
-    // Scroll to the project smoothly
-    targetProject.scrollIntoView({behavior: 'smooth'});
+    // Scroll Projects column to top
+    const projectsColumn = document.querySelector('.projects');
+    projectsColumn.scrollTop = 0;
   });
 });
 
-// Initialize all projects hidden except first
-projectDetails.forEach((p, i) => {
-  p.style.display = i === 0 ? 'block' : 'none';
+// Optional: Add a "Back" button inside each project detail
+projectDetails.forEach(detail => {
+  const backBtn = document.createElement('button');
+  backBtn.textContent = 'Back to Projects';
+  backBtn.style.margin = '1rem 0';
+  backBtn.style.padding = '0.5rem 1rem';
+  backBtn.style.cursor = 'pointer';
+  backBtn.addEventListener('click', () => {
+    // Hide this detail
+    detail.style.display = 'none';
+    // Show the subpages container again
+    subpagesContainer.style.display = 'flex';
+  });
+  detail.prepend(backBtn); // add at the top
 });
+
 
 
