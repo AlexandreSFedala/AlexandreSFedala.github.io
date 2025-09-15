@@ -269,3 +269,10 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
 .column, .column-content {
   transition: all 0.5s ease;
 }
+
+.projects .project-detail {
+  display: none; /* hide by default */
+  overflow-y: auto;
+  max-height: calc(100vh - 4rem);
+  padding: 1rem;
+}
