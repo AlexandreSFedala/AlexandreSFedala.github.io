@@ -533,3 +533,51 @@ header::after {
     opacity: 0;
     transition: opacity 0.5s ease;
 }
+
+/* ===== FIXES FOR AUTO-SCROLL AND COLUMNS ===== */
+/* Remove any gap between header and columns */
+.main-columns {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Ensure columns are flush with navbar when scrolled */
+html {
+    scroll-padding-top: 80px;
+}
+
+.main-columns {
+    scroll-margin-top: 80px;
+}
+
+/* Prevent content from being hidden behind navbar */
+.column.active {
+    padding-top: 20px;
+}
+
+.column.active h2 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/* Ensure proper spacing for column content */
+.column-content {
+    padding: 20px;
+}
+
+/* Make sure project content is visible */
+.subpages,
+.project-detail {
+    padding-top: 15px;
+}
+
+/* Fix for mobile responsiveness */
+@media (max-width: 768px) {
+    .main-columns {
+        scroll-margin-top: 70px;
+    }
+    
+    html {
+        scroll-padding-top: 70px;
+    }
+}
