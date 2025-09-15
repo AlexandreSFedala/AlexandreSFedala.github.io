@@ -278,6 +278,7 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
   width: 90%;
   overflow-y: auto;
   max-height: calc(100vh - 4rem);
+  display: none; /* fully hidden by default */
 }
 
 /* Hover expand */
@@ -285,14 +286,26 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
   flex: 6;
 }
 
-.column:hover .column-content {
+/* Show content on hover or active column */
+.column:hover .column-content,
+.column.active .column-content,
+.column.active .projects .subpages,
+.column.active .projects .project-detail {
+  display: block;
   opacity: 1;
   transform: translateY(0);
 }
 
 /* Shrink non-hovered columns */
-.column:not(:hover) {
+.column:not(:hover):not(.active) {
   flex: 1;
+}
+
+/* Rotate titles in squished columns */
+.column:not(:hover):not(.active) h2 {
+  transform: rotate(-90deg);
+  transform-origin: left top;
+  font-size: 2rem;
 }
 
 /* Project Details */
@@ -321,6 +334,7 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
 }
 .subpage:hover { transform: scale(1.05); }
 
+/* Back arrow inside project details */
 .back-arrow {
   display: inline-block;
   font-size: 2rem;
@@ -334,7 +348,6 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
   transform: translateX(-5px);
 }
 
-
 /* Responsive */
 @media(max-width:768px){
   .main-columns { flex-direction: column; height: auto; }
@@ -342,28 +355,4 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
   .column:hover { flex: none; }
 }
 
-/* Hide content unless hovered */
-.column-content {
-  display: none;
-}
-
-/* Column titles styling */
-.column h2 {
-  font-size: 3rem;
-  font-weight: bold;
-  transition: all 0.5s ease;
-  white-space: nowrap;
-}
-
-/* When hovered, show content */
-.column:hover .column-content {
-  display: block;
-}
-
-/* Rotate titles in squished columns */
-.column:not(:hover) h2 {
-  transform: rotate(-90deg);
-  transform-origin: left top;
-  font-size: 2rem;
-}
 
