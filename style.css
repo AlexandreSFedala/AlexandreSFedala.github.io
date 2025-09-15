@@ -554,3 +554,30 @@ header::after {
     opacity: 0;
     transition: opacity 0.5s ease;
 }
+
+/* ===== REMOVE GAP BETWEEN NAVBAR AND COLUMNS ===== */
+.main-columns {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+header {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure no hidden margins */
+.container, .container-fluid, .row, .col {
+    margin: 0;
+    padding: 0;
+}
+
+/* Remove any default browser spacing */
+* {
+    box-sizing: border-box;
+}
