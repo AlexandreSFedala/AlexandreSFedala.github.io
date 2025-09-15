@@ -227,9 +227,9 @@ header p {
 }
 
 /* Column colors */
-.column.aboutme { background: #1abc9c; }
-.column.skills { background: #3498db; }
-.column.projects { background: #9b59b6; }
+.column.aboutme { background: #3d5670; }
+.column.skills { background: #2c3e50; }
+.column.projects { background: #243240; }
 
 .column h2 {
     font-size: 3rem;
