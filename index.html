@@ -1,137 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AF - Portfolio</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AF - Portfolio</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <nav id="navbar">
-  <a href="#" class="logo">Back to Top</a>
+    <a href="#" class="logo">Back to Top</a>
 
-  <ul>
-    <li>
-      <a href="#">Contents ▾</a>
-      <ul>
-        <li><a href="#about">About Me</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#projects">Projects</a></li>
-      </ul>
-    </li>
-  </ul>
+    <ul>
+        <li>
+            <a href="#">Contents ▾</a>
+            <ul>
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+            </ul>
+        </li>
+    </ul>
 
-  <!-- Social Links -->
-  <div class="social-links">
-    <a href="https://wa.me/447927708325" target="_blank" aria-label="Instagram">
-      <img src="images/whatsapp-white-icon.png" alt="Instagram">
-    </a>
-    <a href="https://www.linkedin.com/in/afedala/" target="_blank" aria-label="LinkedIn">
-      <img src="images/linkedin-app-white-icon.png" alt="LinkedIn">
-    </a>
-    <a href="mailto:alexandrefedala.afedala@gmail.com" aria-label="Email">
-      <img src="images/email-envelope-white-icon.png" alt="Email">
-    </a>
-  </div>
+    <!-- Social Links - Using original image references -->
+    <div class="social-links">
+        <a href="https://wa.me/447927708325" target="_blank" aria-label="WhatsApp">
+            <img src="images/whatsapp-white-icon.png" alt="WhatsApp" width="20" height="20">
+        </a>
+        <a href="https://www.linkedin.com/in/afedala/" target="_blank" aria-label="LinkedIn">
+            <img src="images/linkedin-app-white-icon.png" alt="LinkedIn" width="20" height="20">
+        </a>
+        <a href="mailto:alexandrefedala.afedala@gmail.com" aria-label="Email">
+            <img src="images/email-envelope-white-icon.png" alt="Email" width="20" height="20">
+        </a>
+    </div>
 </nav>
-
 
 <!-- Header -->
 <header>
-  <div id="particles-js" aria-hidden="true"></div>
-  <h1>An Undergraduate Portfolio</h1>
-  <p>by Alexandre S. Fedala</p>
-  
+    <div id="particles-js" aria-hidden="true"></div>
+    <h1>An Undergraduate Portfolio</h1>
+    <p>by Alexandre S. Fedala</p>
 </header>
 
-<!-- Put this at the bottom of your header -->
+<!-- Scroll down indicator -->
 <div class="scroll-down-indicator">
-  <span class="scroll-text">Scroll Down</span>
-  <a href="#main-columns" class="scroll-arrow">&#x2193;</a>
+    <span class="scroll-text">Scroll Down</span>
+    <a href="#main-columns" class="scroll-arrow">&#x2193;</a>
 </div>
-
 
 <div class="main-columns" id="main-columns">
-
-  <!-- About Me Column -->
-  <div class="column aboutme">
-    <h2>About Me</h2>
-    <div class="column-content">
-      <p>I am a second-year undergraduate civil engineering student at University College London with a diverse international background...</p>
-      <p>My goal as a civil engineer is to create tangible, positive change in the built environment...</p>
-      <p>Sustainability is central to my approach...</p>
-    </div>
-  </div>
-
-  <!-- Skills Column -->
-  <div class="column skills">
-    <h2>Skills</h2>
-    <div class="column-content">
-      <div class="skill">
-        <div class="skill-name">AutoCAD</div>
-        <div class="skill-bar"><div class="skill-bar-fill" style="width: 58%;"></div></div>
-      </div>
-      <div class="skill">
-        <div class="skill-name">Structural Analysis</div>
-        <div class="skill-bar"><div class="skill-bar-fill" style="width: 65%;"></div></div>
-      </div>
-      <div class="skill">
-        <div class="skill-name">Project Management</div>
-        <div class="skill-bar"><div class="skill-bar-fill" style="width: 87%;"></div></div>
-      </div>
-      <div class="skill">
-        <div class="skill-name">Office Software</div>
-        <div class="skill-bar"><div class="skill-bar-fill" style="width: 80%;"></div></div>
-      </div>
-      <div class="skill">
-        <div class="skill-name">Revit</div>
-        <div class="skill-bar"><div class="skill-bar-fill" style="width: 65%;"></div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Projects Column -->
-  <div class="column projects">
-    <h2>Projects</h2>
-
-    <!-- Subpages cards -->
-    <div class="subpages">
-      <div class="subpage" data-target="project2">
-        <div class="subpage-title">Revit - Point Cloud</div>
-        <img src="images/revitbox.jpg" alt="Revit">
-      </div>
-      <div class="subpage" data-target="project3">
-        <div class="subpage-title">Land Surveying</div>
-        <img src="images/landsurveyingbox.jpg" alt="Lampeter Surveying">
-      </div>
-      <div class="subpage" data-target="project4">
-        <div class="subpage-title">Project 4</div>
-        <img src="images/placeholder.jpg" alt="Project 4">
-      </div>
+    <!-- About Me Column -->
+    <div class="column aboutme">
+        <h2>About Me</h2>
+        <div class="column-content">
+            <p>I am a second-year undergraduate civil engineering student at University College London with a diverse international background...</p>
+            <p>My goal as a civil engineer is to create tangible, positive change in the built environment...</p>
+            <p>Sustainability is central to my approach...</p>
+        </div>
     </div>
 
-    <!-- Project Details -->
-    <div class="project-detail" id="project2">
-      <p>This project introduced me to 3D Modelling in civil engineering...</p>
-      <a href="pdfs/mainbuildingmodel.rvt" class="download-button" download>Download the model (Revit 2026)</a>
-    </div>
-    <div class="project-detail" id="project3">
-      <p>This project consolidated the knowledge I gained during my first year at UCL...</p>
-      <a href="pdfs/lamp_survey.pdf" class="download-button" download>Download full report</a>
-    </div>
-    <div class="project-detail" id="project4">
-      <p>Description for Project 4.</p>
-      <a href="pdfs/file4.pdf" class="download-button" download>Download PDF</a>
+    <!-- Skills Column -->
+    <div class="column skills">
+        <h2>Skills</h2>
+        <div class="column-content">
+            <div class="skill">
+                <div class="skill-name">
+                    <span>AutoCAD</span>
+                    <span>58%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="width: 58%;"></div></div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">
+                    <span>Structural Analysis</span>
+                    <span>65%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="width: 65%;"></div></div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">
+                    <span>Project Management</span>
+                    <span>87%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="width: 87%;"></div></div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">
+                    <span>Office Software</span>
+                    <span>80%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="width: 80%;"></div></div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">
+                    <span>Revit</span>
+                    <span>65%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="width: 65%;"></div></div>
+            </div>
+        </div>
     </div>
 
-  </div>
+    <!-- Projects Column -->
+    <div class="column projects">
+        <h2>Projects</h2>
+
+        <!-- Subpages cards -->
+        <div class="subpages">
+            <div class="subpage" data-target="project1">
+                <div class="subpage-title">Placeholder</div>
+                <img src="images/placeholder.jpg" alt="Placeholder">
+            </div>
+            <div class="subpage" data-target="project2">
+                <div class="subpage-title">Revit - Point Cloud</div>
+                <img src="images/revitbox.jpg" alt="Revit">
+            </div>
+            <div class="subpage" data-target="project3">
+                <div class="subpage-title">Land Surveying</div>
+                <img src="images/landsurveyingbox.jpg" alt="Lampeter Surveying">
+            </div>
+        </div>
+
+        <!-- Project Details -->
+        <div class="project-detail" id="project1">
+            <p>This is a placeholder project that demonstrates the functionality of the portfolio website.</p>
+            <p>You can replace this with your actual project details, descriptions, and download links.</p>
+            <a href="#" class="download-button" download>Download Project Files</a>
+        </div>
+        <div class="project-detail" id="project2">
+            <p>This project introduced me to 3D Modelling in civil engineering...</p>
+            <a href="#" class="download-button" download>Download the model (Revit 2026)</a>
+        </div>
+        <div class="project-detail" id="project3">
+            <p>This project consolidated the knowledge I gained during my first year at UCL...</p>
+            <a href="#" class="download-button" download>Download full report</a>
+        </div>
+    </div>
 </div>
 
-
-<script src="script.js"></script>
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script src="particles-init.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
 
 
 </body>
