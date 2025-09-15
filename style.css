@@ -284,10 +284,10 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
 }
 
 .column.active h2 {
-  transform: translate(-50%, 0);
   position: relative;
   top: 0;
   left: 0;
+  transform: none;
   margin: 1rem 0;
   width: 100%;
 }
