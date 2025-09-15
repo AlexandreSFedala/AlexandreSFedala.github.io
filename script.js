@@ -45,16 +45,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Add back button dynamically
-  projectDetails.forEach(detail => {
-    const backBtn = document.createElement('button');
-    backBtn.textContent = 'Back to Projects';
-    backBtn.addEventListener('click', () => {
-      detail.style.display = 'none';
-      subpagesContainer.style.display = 'flex';
-    });
-    detail.prepend(backBtn);
+// Back arrow inside project detail
+projectDetails.forEach(detail => {
+  const backBtn = document.createElement('span');
+  backBtn.textContent = '←';
+  backBtn.classList.add('back-arrow');
+  backBtn.addEventListener('click', () => {
+    detail.style.display = 'none';
+    subpagesContainer.style.display = 'flex';
   });
+  detail.prepend(backBtn);
+});
+
 
 });
 
