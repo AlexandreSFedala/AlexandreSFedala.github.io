@@ -476,3 +476,33 @@ header p {
 .flex-visible {
     display: flex !important;
 }
+
+/* Logo styling */
+.nav-logo {
+    height: 40px; /* Adjust based on your logo size */
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo:hover {
+    transform: scale(1.1);
+}
+
+/* Adjust navbar layout for logo */
+nav .logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* Remove text styles from logo link */
+nav .logo {
+    color: transparent !important;
+    font-weight: normal !important;
+    text-decoration: none !important;
+}
+
+/* Optional: Add padding to logo for better spacing */
+nav .logo {
+    padding: 5px 0;
+}
