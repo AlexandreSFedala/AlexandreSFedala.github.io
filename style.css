@@ -263,7 +263,6 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
 .column.skills { background: #3498db; }
 .column.projects { background: #9b59b6; }
 
-/* Titles always visible */
 .column h2 {
   font-size: 3rem;
   font-weight: bold;
@@ -272,6 +271,25 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
   transition: all 0.5s ease;
   white-space: nowrap;
   z-index: 2;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.column:not(.active) h2 {
+  transform: translate(-50%, -50%) rotate(-90deg);
+  transform-origin: center;
+  font-size: 2rem;
+}
+
+.column.active h2 {
+  transform: translate(-50%, 0);
+  position: relative;
+  top: 0;
+  left: 0;
+  margin: 1rem 0;
+  width: 100%;
 }
 
 /* Hide all content by default */
@@ -288,12 +306,6 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
   display: block;
 }
 
-/* Rotate titles for inactive columns */
-.column:not(.active) h2 {
-  transform: rotate(-90deg);
-  transform-origin: left top;
-  font-size: 2rem;
-}
 
 /* Columns flex behavior */
 .column {
