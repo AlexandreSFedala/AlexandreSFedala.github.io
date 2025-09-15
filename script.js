@@ -20,30 +20,38 @@ document.addEventListener('DOMContentLoaded', () => {
     target.scrollIntoView({ behavior: 'smooth' });
   });
 
-  // Projects interactivity
-  const subpagesContainer = document.querySelector('.projects .subpages');
-  const projectDetails = document.querySelectorAll('.projects .project-detail');
-  const subpages = document.querySelectorAll('.projects .subpage');
+// Make columns "selectable"
+const columns = document.querySelectorAll('.main-columns .column');
 
-  subpages.forEach(subpage => {
-    subpage.addEventListener('click', () => {
-      const targetId = subpage.dataset.target;
-
-      // Hide subpages container
-      subpagesContainer.style.display = 'none';
-
-      // Hide all project details
-      projectDetails.forEach(p => p.style.display = 'none');
-
-      // Show target project
-      const targetProject = document.getElementById(targetId);
-      if (targetProject) targetProject.style.display = 'block';
-
-      // Scroll projects column to top
-      const projectsColumn = document.querySelector('.projects');
-      projectsColumn.scrollTop = 0;
-    });
+columns.forEach(column => {
+  column.addEventListener('click', () => {
+    // Remove 'active' from all columns
+    columns.forEach(c => c.classList.remove('active'));
+    // Add 'active' to clicked column
+    column.classList.add('active');
   });
+});
+
+// Projects subpage click behavior
+const projectsColumn = document.querySelector('.projects');
+const subpagesContainer = projectsColumn.querySelector('.subpages');
+const projectDetails = projectsColumn.querySelectorAll('.project-detail');
+const subpages = projectsColumn.querySelectorAll('.subpage');
+
+subpages.forEach(subpage => {
+  subpage.addEventListener('click', e => {
+    e.stopPropagation(); // don't toggle active on column
+    const targetId = subpage.dataset.target;
+
+    // Hide subpages and other details
+    subpagesContainer.style.display = 'none';
+    projectDetails.forEach(p => p.style.display = 'none');
+
+    // Show selected project detail
+    const targetProject = document.getElementById(targetId);
+    if(targetProject) targetProject.style.display = 'block';
+  });
+});
 
 // Back arrow inside project detail
 projectDetails.forEach(detail => {
