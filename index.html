@@ -45,16 +45,22 @@
   
 </header>
 
-<div class="main-columns">
+<!-- Arrow to scroll down -->
+<a href="#main-columns" class="scroll-arrow">&#x2193;</a>
 
+<div class="main-columns" id="main-columns">
+
+  <!-- About Me Column -->
   <div class="column aboutme">
     <h2>About Me</h2>
     <div class="column-content">
       <p>I am a second-year undergraduate civil engineering student at University College London with a diverse international background...</p>
       <p>My goal as a civil engineer is to create tangible, positive change in the built environment...</p>
+      <p>Sustainability is central to my approach...</p>
     </div>
   </div>
 
+  <!-- Skills Column -->
   <div class="column skills">
     <h2>Skills</h2>
     <div class="column-content">
@@ -81,39 +87,41 @@
     </div>
   </div>
 
+  <!-- Projects Column -->
   <div class="column projects">
     <h2>Projects</h2>
-    <div class="column-content">
-      <div class="subpages">
-        <div class="subpage" data-target="project2">
-          <div class="subpage-title">Revit - Point Cloud</div>
-          <img src="images/revitbox.jpg" alt="Revit">
-        </div>
-        <div class="subpage" data-target="project3">
-          <div class="subpage-title">Land Surveying</div>
-          <img src="images/landsurveyingbox.jpg" alt="Lampeter Surveying">
-        </div>
-        <div class="subpage" data-target="project4">
-          <div class="subpage-title">Project 4</div>
-          <img src="images/placeholder.jpg" alt="Project 4">
-        </div>
-      </div>
 
-      <div class="project-detail" id="project2">
-        <h3>Detailed Introduction to Revit</h3>
-        <p>This project introduced me to 3D Modelling in civil engineering...</p>
+    <!-- Subpages cards -->
+    <div class="subpages">
+      <div class="subpage" data-target="project2">
+        <div class="subpage-title">Revit - Point Cloud</div>
+        <img src="images/revitbox.jpg" alt="Revit">
       </div>
-      <div class="project-detail" id="project3">
-        <h3>Lampeter, Wales - Land Surveying</h3>
-        <p>This project consolidated the knowledge I gained during my first year at UCL...</p>
+      <div class="subpage" data-target="project3">
+        <div class="subpage-title">Land Surveying</div>
+        <img src="images/landsurveyingbox.jpg" alt="Lampeter Surveying">
       </div>
-      <div class="project-detail" id="project4">
-        <h3>Project 4</h3>
-        <p>Description for Project 4.</p>
+      <div class="subpage" data-target="project4">
+        <div class="subpage-title">Project 4</div>
+        <img src="images/placeholder.jpg" alt="Project 4">
       </div>
     </div>
-  </div>
 
+    <!-- Project Details -->
+    <div class="project-detail" id="project2">
+      <p>This project introduced me to 3D Modelling in civil engineering...</p>
+      <a href="pdfs/mainbuildingmodel.rvt" class="download-button" download>Download the model (Revit 2026)</a>
+    </div>
+    <div class="project-detail" id="project3">
+      <p>This project consolidated the knowledge I gained during my first year at UCL...</p>
+      <a href="pdfs/lamp_survey.pdf" class="download-button" download>Download full report</a>
+    </div>
+    <div class="project-detail" id="project4">
+      <p>Description for Project 4.</p>
+      <a href="pdfs/file4.pdf" class="download-button" download>Download PDF</a>
+    </div>
+
+  </div>
 </div>
 
 
