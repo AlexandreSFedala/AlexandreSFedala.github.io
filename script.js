@@ -10,47 +10,54 @@ window.addEventListener('scroll', () => {
   }
 });
 
-// -----------------------------
-// Subpage Click Behavior
-// -----------------------------
-const subpagesContainer = document.querySelector('.projects .subpages');
-const projectDetails = document.querySelectorAll('.projects .project-detail');
+document.addEventListener('DOMContentLoaded', () => {
 
-subpages.forEach(subpage => {
-  subpage.addEventListener('click', () => {
-    const targetId = subpage.dataset.target;
-
-    // Hide the subpages container
-    subpagesContainer.style.display = 'none';
-
-    // Hide all project details first
-    projectDetails.forEach(p => p.style.display = 'none');
-
-    // Show the selected project detail
-    const targetProject = document.getElementById(targetId);
-    if (targetProject) targetProject.style.display = 'block';
-
-    // Scroll Projects column to top
-    const projectsColumn = document.querySelector('.projects');
-    projectsColumn.scrollTop = 0;
+  // Smooth scroll for header arrow
+  const scrollArrow = document.querySelector('.scroll-arrow');
+  scrollArrow.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector('#main-columns');
+    target.scrollIntoView({ behavior: 'smooth' });
   });
+
+  // Projects interactivity
+  const subpagesContainer = document.querySelector('.projects .subpages');
+  const projectDetails = document.querySelectorAll('.projects .project-detail');
+  const subpages = document.querySelectorAll('.projects .subpage');
+
+  subpages.forEach(subpage => {
+    subpage.addEventListener('click', () => {
+      const targetId = subpage.dataset.target;
+
+      // Hide subpages container
+      subpagesContainer.style.display = 'none';
+
+      // Hide all project details
+      projectDetails.forEach(p => p.style.display = 'none');
+
+      // Show target project
+      const targetProject = document.getElementById(targetId);
+      if (targetProject) targetProject.style.display = 'block';
+
+      // Scroll projects column to top
+      const projectsColumn = document.querySelector('.projects');
+      projectsColumn.scrollTop = 0;
+    });
+  });
+
+  // Add back button dynamically
+  projectDetails.forEach(detail => {
+    const backBtn = document.createElement('button');
+    backBtn.textContent = 'Back to Projects';
+    backBtn.addEventListener('click', () => {
+      detail.style.display = 'none';
+      subpagesContainer.style.display = 'flex';
+    });
+    detail.prepend(backBtn);
+  });
+
 });
 
-// Optional: Add a "Back" button inside each project detail
-projectDetails.forEach(detail => {
-  const backBtn = document.createElement('button');
-  backBtn.textContent = 'Back to Projects';
-  backBtn.style.margin = '1rem 0';
-  backBtn.style.padding = '0.5rem 1rem';
-  backBtn.style.cursor = 'pointer';
-  backBtn.addEventListener('click', () => {
-    // Hide this detail
-    detail.style.display = 'none';
-    // Show the subpages container again
-    subpagesContainer.style.display = 'flex';
-  });
-  detail.prepend(backBtn); // add at the top
-});
 
 
 
