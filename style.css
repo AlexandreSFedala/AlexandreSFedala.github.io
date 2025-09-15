@@ -321,17 +321,19 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
 }
 .subpage:hover { transform: scale(1.05); }
 
-/* Back button inside project details */
-.project-detail button {
-  margin-bottom: 1rem;
-  padding: 0.5rem 1rem;
+.back-arrow {
+  display: inline-block;
+  font-size: 2rem;
   cursor: pointer;
-  border: none;
-  background: rgba(255,255,255,0.25);
-  border-radius: 5px;
   color: white;
+  margin-bottom: 1rem;
+  user-select: none;
+  transition: transform 0.2s;
 }
-.project-detail button:hover { background: rgba(255,255,255,0.5); }
+.back-arrow:hover {
+  transform: translateX(-5px);
+}
+
 
 /* Responsive */
 @media(max-width:768px){
