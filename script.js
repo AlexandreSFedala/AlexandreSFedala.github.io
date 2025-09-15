@@ -52,11 +52,11 @@ window.addEventListener('scroll', () => {
         const target = document.querySelector('#main-columns');
         if (target) {
             setTimeout(() => {
-                target.scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }, 300); // Small delay for better UX
+                // NEW CODE (instant)
+target.scrollIntoView({ 
+    behavior: 'smooth',
+    block: 'start'
+});
         }
     }
     
