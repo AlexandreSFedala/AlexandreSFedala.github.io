@@ -533,3 +533,24 @@ header::after {
     opacity: 0;
     transition: opacity 0.5s ease;
 }
+
+/* Ensure content is never hidden behind navbar */
+.main-columns {
+    scroll-margin-top: 80px; /* Height of your navbar */
+}
+
+.column.active {
+    scroll-margin-top: 80px; /* Extra protection for active columns */
+}
+
+/* Add padding to the top of column content */
+.column-content,
+.subpages,
+.project-detail {
+    padding-top: 20px; /* Space below navbar */
+}
+
+/* Ensure smooth scrolling accounts for navbar */
+html {
+    scroll-padding-top: 80px; /* Global scroll padding */
+}
