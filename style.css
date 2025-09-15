@@ -1,203 +1,583 @@
 /* Basic Reset & Layout */
 * { margin:0; padding:0; box-sizing:border-box; }
 body { 
-  font-family: Arial; 
-  background:#2a2a2a url('honeycomb.png') repeat; /* Honeycomb pattern added */
-  color:white; 
-  scroll-behavior:smooth; 
-  scroll-padding-top:100px; 
-  background-size: 120px 120px; /* Adjust the scale of honeycomb */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background: #2a2a2a; 
+    color: white; 
+    scroll-behavior: smooth; 
+    scroll-padding-top: 100px; 
+    line-height: 1.6;
 }
 
 img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  margin: 1rem auto;
-  max-height: 600px;
-  object-fit: contain;
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1rem auto;
+    max-height: 600px;
+    object-fit: contain;
 }
 
 /* Button-style links for downloads only */
 a.download-button {
-  display: block;              /* block-level so margin: auto works */
-  width: fit-content;          /* shrink to fit content */
-  text-align: center;
-  background-color: white;
-  color: black;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
-  text-decoration: none;
-  font-weight: bold;
-  margin: 1rem auto;           /* center horizontally */
-  transition: transform 0.2s, box-shadow 0.2s;
+    display: block;
+    width: fit-content;
+    text-align: center;
+    background-color: white;
+    color: black;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    margin: 1rem auto;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 a.download-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
 /* Navbar */
 nav { 
-  background:#2c3e50; 
-  display:flex; 
-  justify-content:space-between; /* logo left, dropdown right */
-  align-items:center; 
-  padding:0.5rem 2rem; /* shrink height if needed */
-  position:fixed; 
-  top:0; 
-  width:100%; 
-  z-index:100; 
-  transition:all 0.3s ease; 
+    background: #2c3e50; 
+    display: flex; 
+    justify-content: space-between;
+    align-items: center; 
+    padding: 0.75rem 2rem;
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+    z-index: 100; 
+    transition: all 0.3s ease; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+nav.shrink {
+    padding: 0.25rem 1.5rem;
 }
 
 /* Logo */
 nav .logo { 
-  color:white; 
-  font-weight:bold; 
-  font-size:1.5rem; 
-  text-decoration:none; 
+    color: white; 
+    font-weight: bold; 
+    font-size: 1.5rem; 
+    text-decoration: none; 
 }
 
 /* Dropdown menu */
 nav ul { 
-  list-style:none; 
-  display:flex; 
-  gap:1rem; 
+    list-style: none; 
+    display: flex; 
+    gap: 1.5rem; 
 }
-nav ul li { position:relative; }
-nav ul li a { color:white; padding:0.5rem 1rem; display:block; border-radius:4px; transition:0.3s; }
-nav ul li a:hover { background:rgba(255,255,255,0.4); }
+nav ul li { position: relative; }
+nav ul li a { 
+    color: white; 
+    padding: 0.5rem 1rem; 
+    display: block; 
+    border-radius: 4px; 
+    transition: 0.3s; 
+}
+nav ul li a:hover { background: rgba(255,255,255,0.2); }
 nav ul li ul { 
-  display:none; 
-  position:absolute; 
-  top:100%; 
-  left:-20px; 
-  background:#2c3e50; 
-  min-width:200px; 
-  border-radius:4px; 
-  box-shadow:0 4px 8px rgba(0,0,0,0.2); 
-  z-index:10; 
+    display: none; 
+    position: absolute; 
+    top: 100%; 
+    left: 0; 
+    background: #2c3e50; 
+    min-width: 200px; 
+    border-radius: 4px; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
+    z-index: 10; 
 }
-nav ul li:hover ul { display:block; }
-nav ul li ul li a { color:white; border-bottom:1px solid #3f5870; }
-nav ul li ul li a:hover { background:rgba(255,255,255,0.2); }
+nav ul li:hover ul { display: block; }
+nav ul li ul li a { color: white; border-bottom: 1px solid #3f5870; }
+nav ul li ul li a:hover { background: rgba(255,255,255,0.2); }
 
 /* Center social icons */
 nav .social-links {
-  display: flex;
-  gap:0.5rem;
-  align-items:center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
 }
 
 /* Social icon sizing */
 nav .social-links a {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-nav .social-links a img {
-  width:20px;
-  height:20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    transition: transform 0.2s, box-shadow 0.2s;
+    background: rgba(255,255,255,0.1);
 }
 
 nav .social-links a:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.2);
 }
 
+/* Header */
 header { 
-  position:relative; 
-  height:100vh; 
-  display:flex; 
-  flex-direction:column; 
-  justify-content:center; 
-  align-items:center; 
-  text-align:center; 
-  padding:2rem; 
-  background-image:url('images/portico_welcome_sized.jpg'); 
-  background-size:cover; 
-  background-position:center; 
+    position: relative; 
+    height: 100vh; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    text-align: center; 
+    padding: 2rem; 
+    background-image: url('images/portico_welcome_sized.jpg');
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
 }
-header::before { 
-  content:""; 
-  position:absolute; 
-  top:0; left:0; 
-  width:100%; height:100%; 
-  background:rgba(22,36,59,0.75); 
-  z-index:1; 
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(22, 36, 59, 0.75);
+    z-index: 1;
 }
-/* particles canvas covering the header */
+
 #particles-js {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none; /* clicks pass through — we detect mouse globally */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
 }
 
-/* Make sure overlay and text sit above/below correctly */
-header::before { z-index: 1; }           /* your existing overlay */
-header h1, header p, header .cta {       /* bump content above the canvas */
-  position: relative;
-  z-index: 3;
+header h1, header p { 
+    position: relative;
+    z-index: 3;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
-header h1 { font-size:5rem; position:relative; z-index:2; margin-bottom:1rem; }
-header p { font-size:2.5rem; position:relative; z-index:2; }
-
-.bubble-container { position:absolute; width:100%; height:100%; z-index:1; pointer-events:none; }
-.bubble { position:absolute; border-radius:50%; width:90px; height:90px; background:rgba(255,255,255,0.35); cursor:grab; pointer-events:auto; transition:transform 0.2s; }
-.bubble:active { transform:scale(1.3); }
-
-.container { 
-  max-width:1100px; 
-  margin:2rem auto; 
-  background:#4a4a4a; 
-  padding:2rem; 
-  border-radius:10px; 
-  box-shadow:0 4px 12px rgba(0,0,0,0.4); 
+header h1 { 
+    font-size: 4rem; 
+    margin-bottom: 1rem; 
+}
+header p { 
+    font-size: 2rem; 
+    margin-bottom: 2rem;
 }
 
-.subpages { display:flex; flex-wrap:wrap; gap:3rem; margin-bottom:3rem; }
-.subpage { background:#5a5a5a; width:calc(33% - 1rem); min-width:200px; max-height:300px; border-radius:10px; cursor:pointer; transition:transform 0.2s; }
-.subpage:hover { transform:scale(1.05); }
-.subpage-title { background:#6a6a6a; padding:10px; text-align:center; font-weight:bold; }
-.subpage img { 
-  max-width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 0 0 10px 10px;
-  display: block;
-  margin: 0;
-  max-height: none;
+.scroll-down-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 5;
 }
-.skills-section { display:flex; gap:2rem; flex-wrap:wrap; margin-bottom:2rem; }
-.skills-info { flex:35%; }
-.skills-bars { flex:65%; }
-.skill { margin-bottom:1rem; }
-.skill-name { margin-bottom:0.3rem; font-weight:bold; }
-.skill-bar { width:100%; height:20px; background:#555; border-radius:10px; overflow:hidden; }
-.skill-bar-fill { height:100%; background:#f0f0f0; width:70%; }
 
-/* PDF Iframe */
-iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
+.scroll-text {
+    display: block;
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.scroll-arrow {
+    font-size: 2.5rem;
+    color: white;
+    cursor: pointer;
+    animation: bounce 1.5s infinite;
+    text-decoration: none;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-15px); }
+    60% { transform: translateY(-7px); }
+}
+
+/* Main Columns Layout */
+.main-columns {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    margin-top: 0;
+    overflow: hidden;
+}
+
+/* Each column */
+.column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    transition: flex 0.5s ease;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    padding: 1rem;
+}
+
+/* Column colors */
+.column.aboutme { background: #3d5670; }
+.column.skills { background: #2c3e50; }
+.column.projects { background: #243240; }
+
+.column h2 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    transition: all 0.5s ease;
+    white-space: nowrap;
+    z-index: 2;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.column:not(.active) h2 {
+    transform: translate(-50%, -50%) rotate(-90deg);
+    transform-origin: center;
+    font-size: 2rem;
+}
+
+.column.active h2 {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+/* Hide all content by default */
+.column-content,
+.subpages,
+.project-detail {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    transition: opacity 0.5s ease;
+}
+
+/* Show content only when the column is "active" */
+.column.active .column-content,
+.column.active .subpages,
+.column.active .project-detail {
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+}
+
+/* Specifically for subpages container */
+.subpages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    padding: 1rem;
+    width: 100%;
+}
+
+.column.active .subpages {
+    display: flex;
+}
+
+/* Expanded column when active */
+.column.active {
+    flex: 6;
+    overflow-y: auto;
+}
+
+/* Project Details */
+.project-detail {
+    display: none;
+    width: 100%;
+    padding: 2rem;
+    text-align: center;
+}
+
+/* Specifically for subpages container */
+.subpages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding: 2rem;
+    width: 100%;
+}
+
+/* Subpage card - 3 per line */
+.subpage {
+    background: #2c3e50;
+    border-radius: 12px;
+    width: calc(33.333% - 2rem); /* 3 per line with gap */
+    min-width: 280px;
+    padding: 0;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.subpage:hover { 
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.subpage-title {
+    font-weight: bold;
+    font-size: 1.3rem;
+    padding: 1.2rem;
+    color: white;
+    background: #2c3e50;
+    margin: 0;
+}
+
+.subpage img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    margin: 0;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .subpage {
+        width: calc(50% - 2rem); /* 2 per line on tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .subpage {
+        width: 100%; /* 1 per line on mobile */
+        max-width: 350px;
+    }
+    
+    .subpages {
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+}
+
+/* Back arrow inside project details */
+.back-arrow {
+    display: inline-block;
+    font-size: 2rem;
+    cursor: pointer;
+    color: white;
+    margin-bottom: 1rem;
+    user-select: none;
+    transition: transform 0.2s;
+}
+.back-arrow:hover {
+    transform: translateX(-5px);
+}
+
+/* Skills bars */
+.skill {
+    margin-bottom: 1.5rem;
+    width: 100%;
+}
+
+.skill-name {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.skill-bar {
+    width: 100%;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.skill-bar-fill {
+    height: 100%;
+    background: white;
+    border-radius: 10px;
+    transition: width 1s ease-in-out;
+}
 
 /* Responsive */
-@media(max-width:768px){
-  .subpage{width:48%;}
-  .skills-section{flex-direction:column;}
-  .skills-info,.skills-bars{flex:100%;}
+@media (max-width: 768px) {
+    .main-columns { 
+        flex-direction: column; 
+        height: auto; 
+    }
+    
+    .column { 
+        flex: none; 
+        width: 100%; 
+        min-height: 80px;
+        overflow: hidden;
+    }
+    
+    .column h2 {
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none !important;
+        margin: 1rem 0;
+    }
+    
+    .column:not(.active) h2 {
+        transform: none !important;
+    }
+    
+    .column.active {
+        flex: none;
+        min-height: 500px;
+    }
+    
+    header h1 {
+        font-size: 2.5rem;
+    }
+    
+    header p {
+        font-size: 1.5rem;
+    }
+    
+    nav {
+        flex-direction: column;
+        padding: 0.5rem;
+    }
+    
+    nav ul {
+        margin: 0.5rem 0;
+    }
 }
 
+/* Visibility classes */
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+.flex-visible {
+    display: flex !important;
+}
+
+/* Logo styling */
+.nav-logo {
+    height: 35px; /* Adjust based on your logo size */
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.nav-logo:hover {
+    transform: scale(1.1);
+}
+
+/* Adjust navbar layout for logo */
+nav .logo {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+/* Remove text styles from logo link */
+nav .logo {
+    color: transparent !important;
+    font-weight: normal !important;
+    text-decoration: none !important;
+}
+
+/* Optional: Add padding to logo for better spacing */
+nav .logo {
+    padding: 5px 0;
+}
+
+/* Scroll hint animation */
+header::after {
+    content: '';
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat center;
+    opacity: 0.7;
+    animation: pulse 2s infinite;
+    z-index: 4;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.7; transform: translateX(-50%) translateY(0); }
+    50% { opacity: 1; transform: translateX(-50%) translateY(5px); }
+}
+
+/* Hide scroll hint after first scroll */
+.scrolled .scroll-down-indicator,
+.scrolled header::after {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+/* ===== FIXES FOR AUTO-SCROLL AND COLUMNS ===== */
+/* Remove any gap between header and columns */
+.main-columns {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+/* Ensure columns are flush with navbar when scrolled */
+html {
+    scroll-padding-top: 80px;
+}
+
+.main-columns {
+    scroll-margin-top: 80px;
+}
+
+/* Prevent content from being hidden behind navbar */
+.column.active {
+    padding-top: 20px;
+}
+
+.column.active h2 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/* Ensure proper spacing for column content */
+.column-content {
+    padding: 20px;
+}
+
+/* Make sure project content is visible */
+.subpages,
+.project-detail {
+    padding-top: 15px;
+}
+
+/* Fix for mobile responsiveness */
+@media (max-width: 768px) {
+    .main-columns {
+        scroll-margin-top: 70px;
+    }
+    
+    html {
+        scroll-padding-top: 70px;
+    }
+}
