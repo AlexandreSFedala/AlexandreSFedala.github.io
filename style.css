@@ -479,7 +479,7 @@ header p {
 
 /* Logo styling */
 .nav-logo {
-    height: 40px; /* Adjust based on your logo size */
+    height: 35px; /* Adjust based on your logo size */
     width: auto;
     transition: transform 0.3s ease;
 }
