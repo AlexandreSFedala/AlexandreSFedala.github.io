@@ -1,7 +1,7 @@
 // particles-init.js
 particlesJS('particles-js', {
   particles: {
-    number: { value: 20, density: { enable: true, value_area: 800 } },
+    number: { value: 30, density: { enable: true, value_area: 800 } },
     color: { value: '#f0f0f0' },
     shape: { type: 'circle' },
     opacity: { value: 0.9 },
@@ -24,7 +24,6 @@ particlesJS('particles-js', {
     },
     modes: {
       grab: { distance: 400, line_linked: { opacity: 1 } },
-      push: { particles_nb: 4 }
     }
   },
   retina_detect: true
