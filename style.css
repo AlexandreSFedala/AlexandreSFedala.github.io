@@ -170,8 +170,22 @@ header p { font-size:2.5rem; position:relative; z-index:2; }
   box-shadow:0 4px 12px rgba(0,0,0,0.4); 
 }
 
-.subpages { display:flex; flex-wrap:wrap; gap:3rem; margin-bottom:3rem; }
-.subpage { background:#5a5a5a; width:calc(33% - 1rem); min-width:200px; max-height:300px; border-radius:10px; cursor:pointer; transition:transform 0.2s; }
+.subpages { 
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  margin-bottom: 3rem;
+  justify-content: center;
+}
+.subpage { 
+  background:#5a5a5a; 
+  width:calc(33% - 1rem); 
+  min-width:200px; 
+  max-height:300px; 
+  border-radius:10px; 
+  cursor:pointer; 
+  transition:transform 0.2s; 
+}
 .subpage:hover { transform:scale(1.05); }
 .subpage-title { background:#6a6a6a; padding:10px; text-align:center; font-weight:bold; }
 .subpage img { 
@@ -296,16 +310,32 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
 .column-content,
 .projects .subpages,
 .projects .project-detail {
-  display: none;   /* fully hidden */
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 0.5s ease;
 }
 
 /* Show content only when the column is "active" */
 .column.active .column-content,
 .column.active .projects .subpages,
 .column.active .projects .project-detail {
-  display: block;
+  opacity: 1;
+  height: auto;
+  overflow: visible;
 }
 
+/* Specifically for subpages container */
+.projects .subpages {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.column.active .projects .subpages {
+  display: flex;
+}
 
 /* Columns flex behavior */
 .column {
@@ -324,20 +354,11 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
   flex: 6;
 }
 
-
 /* Project Details */
 .projects .project-detail {
   display: none;
   opacity: 1 !important;
   transform: translateY(0) !important;
-}
-
-/* Subpages flex */
-.subpages {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
 }
 
 /* Subpage card */
@@ -370,6 +391,15 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
   .main-columns { flex-direction: column; height: auto; }
   .column { flex: none; width: 100%; }
   .column:hover { flex: none; }
+  .column h2 {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none !important;
+  }
+  .column:not(.active) h2 {
+    transform: none !important;
+  }
 }
 
 
