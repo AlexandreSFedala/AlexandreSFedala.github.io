@@ -29,6 +29,21 @@ document.addEventListener('DOMContentLoaded', () => {
       columns.forEach(c => c.classList.remove('active'));
       // Add 'active' to clicked column
       column.classList.add('active');
+      
+      // Special handling for projects column
+      if (column.classList.contains('projects')) {
+        // Show subpages when projects column is activated
+        const subpagesContainer = column.querySelector('.subpages');
+        const projectDetails = column.querySelectorAll('.project-detail');
+        
+        // Use classes instead of direct style manipulation
+        subpagesContainer.classList.remove('hidden');
+        subpagesContainer.classList.add('visible');
+        projectDetails.forEach(p => {
+          p.classList.remove('visible');
+          p.classList.add('hidden');
+        });
+      }
     });
   });
 
@@ -38,31 +53,29 @@ document.addEventListener('DOMContentLoaded', () => {
   const projectDetails = projectsColumn.querySelectorAll('.project-detail');
   const subpages = projectsColumn.querySelectorAll('.subpage');
 
-  // Initialize display states
-  subpagesContainer.style.display = 'none';
-  projectDetails.forEach(p => p.style.display = 'none');
-
-  // Show subpages when projects column is active
-  projectsColumn.addEventListener('click', (e) => {
-    // Only trigger if the column itself was clicked, not a child element
-    if (e.target === projectsColumn || e.target === projectsColumn.querySelector('h2')) {
-      subpagesContainer.style.display = 'flex';
-      projectDetails.forEach(p => p.style.display = 'none');
-    }
-  });
+  // Initialize display states using classes
+  subpagesContainer.classList.add('visible');
+  projectDetails.forEach(p => p.classList.add('hidden'));
 
   subpages.forEach(subpage => {
     subpage.addEventListener('click', e => {
       e.stopPropagation(); // don't toggle active on column
       const targetId = subpage.dataset.target;
 
-      // Hide subpages and other details
-      subpagesContainer.style.display = 'none';
-      projectDetails.forEach(p => p.style.display = 'none');
+      // Hide subpages and other details using classes
+      subpagesContainer.classList.remove('visible');
+      subpagesContainer.classList.add('hidden');
+      projectDetails.forEach(p => {
+        p.classList.remove('visible');
+        p.classList.add('hidden');
+      });
 
       // Show selected project detail
       const targetProject = document.getElementById(targetId);
-      if(targetProject) targetProject.style.display = 'block';
+      if(targetProject) {
+        targetProject.classList.remove('hidden');
+        targetProject.classList.add('visible');
+      }
     });
   });
 
@@ -71,15 +84,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const backBtn = document.createElement('span');
     backBtn.textContent = '←';
     backBtn.classList.add('back-arrow');
-    backBtn.addEventListener('click', () => {
-      detail.style.display = 'none';
-      subpagesContainer.style.display = 'flex';
+    backBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      detail.classList.remove('visible');
+      detail.classList.add('hidden');
+      subpagesContainer.classList.remove('hidden');
+      subpagesContainer.classList.add('visible');
     });
     detail.prepend(backBtn);
   });
 
 });
-
-
 
 
