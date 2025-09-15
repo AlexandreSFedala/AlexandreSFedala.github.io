@@ -342,3 +342,28 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
   .column:hover { flex: none; }
 }
 
+/* Hide content unless hovered */
+.column-content {
+  display: none;
+}
+
+/* Column titles styling */
+.column h2 {
+  font-size: 3rem;
+  font-weight: bold;
+  transition: all 0.5s ease;
+  white-space: nowrap;
+}
+
+/* When hovered, show content */
+.column:hover .column-content {
+  display: block;
+}
+
+/* Rotate titles in squished columns */
+.column:not(:hover) h2 {
+  transform: rotate(-90deg);
+  transform-origin: left top;
+  font-size: 2rem;
+}
+
