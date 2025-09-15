@@ -2,13 +2,92 @@
 // 1. Shrinking Navbar on Scroll
 // -----------------------------
 const navbar = document.getElementById('navbar');
+// Update your existing scroll handler to this:
 window.addEventListener('scroll', () => {
+    // Navbar shrink functionality
     if (window.scrollY > 100) {
         navbar.classList.add('shrink');
     } else {
         navbar.classList.remove('shrink');
     }
+    
+    // Add scrolled class for CSS effects
+    if (window.scrollY > 50) {
+        document.body.classList.add('scrolled');
+    } else {
+        document.body.classList.remove('scrolled');
+    }
+    
+    // Auto-scroll to columns (keep this separate)
+    if (!hasScrolledToColumns && window.scrollY > 50 && window.scrollY < 100) {
+        hasScrolledToColumns = true;
+        const target = document.querySelector('#main-columns');
+        if (target) {
+            setTimeout(() => {
+                target.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 300);
+        }
+    }
+    
+    // Reset if user scrolls back to top
+    if (window.scrollY < 10) {
+        hasScrolledToColumns = false;
+    }
 });
+
+// -----------------------------
+// 2. Auto-scroll to columns on initial scroll
+// -----------------------------
+let hasScrolledToColumns = false;
+
+window.addEventListener('scroll', () => {
+    // Only trigger once and only if not already at columns
+    if (!hasScrolledToColumns && window.scrollY > 50 && window.scrollY < 100) {
+        hasScrolledToColumns = true;
+        
+        // Smooth scroll to columns section
+        const target = document.querySelector('#main-columns');
+        if (target) {
+            setTimeout(() => {
+                target.scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }, 300); // Small delay for better UX
+        }
+    }
+    
+    // Reset if user scrolls back to top
+    if (window.scrollY < 10) {
+        hasScrolledToColumns = false;
+    }
+});
+
+// Optional: Add touch scroll detection for mobile
+let touchStartY = 0;
+
+document.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+}, { passive: true });
+
+document.addEventListener('touchmove', (e) => {
+    if (hasScrolledToColumns) return;
+    
+    const touchY = e.touches[0].clientY;
+    const diff = touchStartY - touchY;
+    
+    // If scrolling down significantly
+    if (diff > 50 && window.scrollY < 100) {
+        hasScrolledToColumns = true;
+        const target = document.querySelector('#main-columns');
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+}, { passive: true });
 
 document.addEventListener('DOMContentLoaded', () => {
     // Smooth scroll for header arrow
