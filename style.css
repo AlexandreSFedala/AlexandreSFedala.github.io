@@ -307,36 +307,70 @@ header p {
     text-align: center;
 }
 
-/* Subpage card */
+/* Specifically for subpages container */
+.subpages {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    padding: 2rem;
+    width: 100%;
+}
+
+/* Subpage card - 3 per line */
 .subpage {
-    background: rgba(255, 255, 255, 0.15);
-    border-radius: 10px;
-    width: 200px;
-    padding: 1rem;
+    background: #2c3e50;
+    border-radius: 12px;
+    width: calc(33.333% - 2rem); /* 3 per line with gap */
+    min-width: 280px;
+    padding: 0;
     text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .subpage:hover { 
-    transform: scale(1.05); 
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 .subpage-title {
     font-weight: bold;
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    padding: 1.2rem;
+    color: white;
+    background: #2c3e50;
+    margin: 0;
 }
 
 .subpage img {
     width: 100%;
-    height: 120px;
+    height: 220px;
     object-fit: cover;
-    border-radius: 8px;
-    margin: 0.5rem 0;
+    display: block;
+    margin: 0;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .subpage {
+        width: calc(50% - 2rem); /* 2 per line on tablets */
+    }
+}
+
+@media (max-width: 768px) {
+    .subpage {
+        width: 100%; /* 1 per line on mobile */
+        max-width: 350px;
+    }
+    
+    .subpages {
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
 }
 
 /* Back arrow inside project details */
