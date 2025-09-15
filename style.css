@@ -402,4 +402,51 @@ iframe { width:100%; height:700px; border:none; margin-bottom:1.5rem; }
   }
 }
 
+/* Add these styles to your CSS file */
 
+/* Visibility classes for JavaScript control */
+.hidden {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+  display: none !important;
+}
+
+.visible {
+  opacity: 1;
+  height: auto;
+  overflow: visible;
+  display: flex !important;
+}
+
+/* Ensure subpages container is flex when visible */
+.projects .subpages.visible {
+  display: flex !important;
+}
+
+/* Ensure project details are block when visible */
+.projects .project-detail.visible {
+  display: block !important;
+}
+
+/* Override the default column content display */
+.column.active .column-content {
+  display: block;
+  opacity: 1;
+  height: auto;
+  overflow: visible;
+}
+
+.column.active .projects .subpages.visible {
+  display: flex !important;
+  opacity: 1;
+  height: auto;
+  overflow: visible;
+}
+
+.column.active .projects .project-detail.visible {
+  display: block !important;
+  opacity: 1;
+  height: auto;
+  overflow: visible;
+}
