@@ -19,14 +19,20 @@ document.addEventListener('DOMContentLoaded', () => {
         target.scrollIntoView({ behavior: 'smooth' });
     });
 
-    // Make columns "selectable"
-    const columns = document.querySelectorAll('.main-columns .column');
+    // Make columns "selectable" with toggle functionality
+const columns = document.querySelectorAll('.main-columns .column');
 
-    columns.forEach(column => {
-        column.addEventListener('click', () => {
-            // Remove 'active' from all columns
-            columns.forEach(c => c.classList.remove('active'));
-            // Add 'active' to clicked column
+columns.forEach(column => {
+    column.addEventListener('click', () => {
+        // Check if the clicked column is already active
+        const isAlreadyActive = column.classList.contains('active');
+        
+        // Remove 'active' from all columns first
+        columns.forEach(c => c.classList.remove('active'));
+        
+        // If the column wasn't already active, activate it
+        // If it was active, it will just shrink back (all are now inactive)
+        if (!isAlreadyActive) {
             column.classList.add('active');
             
             // Special handling for projects column
@@ -43,8 +49,22 @@ document.addEventListener('DOMContentLoaded', () => {
                     p.classList.add('hidden');
                 });
             }
-        });
+        } else {
+            // If clicking an already active column, ensure projects content is hidden
+            if (column.classList.contains('projects')) {
+                const subpagesContainer = column.querySelector('.subpages');
+                const projectDetails = column.querySelectorAll('.project-detail');
+                
+                subpagesContainer.classList.remove('flex-visible');
+                subpagesContainer.classList.add('hidden');
+                projectDetails.forEach(p => {
+                    p.classList.remove('visible');
+                    p.classList.add('hidden');
+                });
+            }
+        }
     });
+});
 
     // Projects subpage click behavior
     const projectsColumn = document.querySelector('.projects');
