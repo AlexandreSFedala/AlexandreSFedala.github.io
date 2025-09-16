@@ -1,4 +1,4 @@
-// loader/loader.js - Final revision with random timing between messages
+// loader/loader.js - Final revision with enhanced "Done !" animation
 // Vibrant color palette
 const COLORS = [
   "#FF5252", "#FFB300", "#00E676", "#40C4FF", "#7C4DFF",
@@ -78,6 +78,13 @@ function updateStatus(message) {
   const statusText = document.querySelector('.status-text');
   if (statusText) {
     statusText.textContent = message;
+    
+    // Special animation for "Done !" message
+    if (message === "Done !") {
+      statusText.classList.add('done-animation');
+    } else {
+      statusText.classList.remove('done-animation');
+    }
   }
 }
 
