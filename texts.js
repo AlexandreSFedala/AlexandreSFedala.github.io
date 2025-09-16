@@ -208,16 +208,27 @@ function setLanguage(lang) {
   });
 }
 
- // Set up language switcher event listeners
-document.querySelectorAll('.lang-link').forEach(link => {
-  link.addEventListener('click', function(e) {
-    e.preventDefault();
-    const lang = this.getAttribute('data-lang');
-    if (lang) {
-      setLanguage(lang);
-    }
-  });
-});
+// Fix for language switcher event listeners
+function initLanguageSwitcher() {
+    const langLinks = document.querySelectorAll('.lang-link');
+    
+    langLinks.forEach(link => {
+        // Remove any existing event listeners to prevent duplicates
+        link.replaceWith(link.cloneNode(true));
+    });
+    
+    // Re-select the links after cloning
+    document.querySelectorAll('.lang-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Language link clicked:', this.dataset.lang);
+            setLanguage(this.dataset.lang);
+        });
+    });
+}
 
-// Initialize with English
-setLanguage('en');
+// Call this function after DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initLanguageSwitcher();
+    setLanguage('en'); // Set default language
+});
