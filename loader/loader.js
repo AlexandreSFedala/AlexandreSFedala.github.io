@@ -106,7 +106,7 @@ function startLoader() {
   animateSymbols();
 
   // Random duration between 700ms and 2000ms
-  const duration = 700 + Math.random() * 1300;
+  const duration = 700 + Math.random() * 2000;
   console.log("Loader duration: " + duration + "ms");
   
   // Calculate random timing for each message with max 100ms between messages
