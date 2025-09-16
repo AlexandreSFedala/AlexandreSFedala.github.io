@@ -5,14 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="loader/loader.css">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
 </head>
 <body>
-
+<div id="loader-overlay">
+  <div class="loader-symbols"></div>
+</div>
 <nav id="navbar">
-<a href="#" class="logo">
-        <img src="images/logo.png" alt="AF Portfolio" class="nav-logo">
+  <div class="logo-container">
+    <div class="nav-blue-circle"></div>
+    <a href="#" class="logo">
+      <img src="images/logo.png" alt="AF Portfolio" class="nav-logo">
     </a>
+  </div>
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+      <a href="#" data-lang="en" class="lang-link active">English</a> |
+      <a href="#" data-lang="fr" class="lang-link">Français</a>
+    </div>
     <!-- Social Links - Using original image references -->
     <div class="social-links">
         <a href="https://wa.me/447927708325" target="_blank" aria-label="WhatsApp">
@@ -43,14 +56,15 @@
 <div class="main-columns" id="main-columns">
     <!-- About Me Column -->
     <div class="column aboutme">
-        <h2>About Me</h2>
-        <div class="column-content">
-            <p>I am a second-year undergraduate civil engineering student at University College London with a diverse international background, having completed my secondary education in France through a BFI pathway.</p>
-      <p>My goal as a civil engineer is to create tangible, positive change in the built environment — developing solutions that serve clients, end-users, and local communities alike. I have a particular interest in vernacular design, ensuring that buildings and infrastructure respond to local needs and integrate seamlessly into their surroundings.</p>
-      <p>Sustainability is central to my approach. Recognising the construction industry’s significant environmental impact, I am committed to delivering projects that meet and exceed current climate regulations, aiming for carbon neutrality — or even a net-negative footprint — throughout my future work.</p>
-      <p>My experience collaborating in a university environment has strengthened my ability to explain complex ideas clearly, and I am aiming to continue doing so in professional environments via internships.</p>
-        </div>
+  <h2>About Me</h2>
+  <div class="column-content">
+    <!-- About Me paragraphs will be injected here by JS -->
+    <div class="certifications-section" style="display:none;">
+      <h3 class="certifications-title">Certifications</h3>
+      <div class="certifications-list"></div>
     </div>
+  </div>
+</div>
 
     <!-- Skills Column -->
     <div class="column skills">
@@ -66,9 +80,9 @@
             <div class="skill">
                 <div class="skill-name">
                     <span>Structural Analysis</span>
-                    <span>65%</span>
+                    <span>60%</span>
                 </div>
-                <div class="skill-bar"><div class="skill-bar-fill" style="width: 65%;"></div></div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="width: 60%;"></div></div>
             </div>
             <div class="skill">
                 <div class="skill-name">
@@ -90,6 +104,20 @@
                     <span>65%</span>
                 </div>
                 <div class="skill-bar"><div class="skill-bar-fill" style="width: 65%;"></div></div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">
+                    <span>MatLab</span>
+                    <span>60%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="width: 60%;"></div></div>
+            </div>
+            <div class="skill">
+                <div class="skill-name">
+                    <span>HTML</span>
+                    <span>40%</span>
+                </div>
+                <div class="skill-bar"><div class="skill-bar-fill" style="width: 40%;"></div></div>
             </div>
         </div>
     </div>
@@ -129,19 +157,19 @@
         <div class="project-detail" id="project3">
 <p>This project consolidated the knowledge I gained during my first year at UCL, culminating in a detailed technical report (see PDF viewer below). Our task was to produce an accurate AutoCAD map of a designated area using professional surveying instruments such as Total Stations and Automatic Levels.</p>
       <p>As team leader for this group project, I was responsible for coordinating workloads, maintaining efficiency, and ensuring accurate data collection. This experience deepened my understanding of the importance of precise land surveying and strengthened my leadership and project management skills.</p>
-            <a href="pdfs/lamp_survey.pdf" class="download-button" download>Download full report</a>
-            <img src="images/AutoCAD.jpg" alt="AutoCAD Drawing">
-        </div>
+                    <div class="pdf-buttons-container">
+        <a href="pdf-viewer/pdf-viewer.html?file=../pdfs/lamp_survey.pdf&title=Land Surveying Report" 
+           class="download-button" target="_blank">View PDF in Browser</a>
+        <a href="pdfs/lamp_survey.pdf" class="download-button" download>Download Full Report</a>
     </div>
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script src="particles-init.js"></script>
+<script src="texts.js"></script>
 <script src="script.js"></script>
-
-</body>
-</html>
-
+<script src="loader/loader.js"></script>
 
 </body>
 </html>
