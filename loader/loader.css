@@ -1,0 +1,31 @@
+/* loader/loader.css */
+#loader-overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.7s;
+}
+
+.loader-symbols {
+  display: flex;
+  gap: 1rem;
+  font-size: 4rem; /* Increased from 2.5rem to 4rem */
+  font-family: 'Montserrat', 'Consolas', 'Menlo', monospace;
+  user-select: none;
+}
+
+.loader-symbol {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(.4,2,.3,1);
+  will-change: transform;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.25));
+  opacity: 0.95;
+}
+.loader-symbol.jumping {
+  transform: translateY(-30px) scale(1.2);
+  opacity: 1;
+}

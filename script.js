@@ -117,6 +117,18 @@ document.addEventListener('DOMContentLoaded', () => {
                         p.classList.remove('visible');
                         p.classList.add('hidden');
                     });
+                } else if (column.classList.contains('aboutme')) {
+                  setTimeout(() => {
+                    const certSection = column.querySelector('.certifications-section');
+                    if (certSection) certSection.style.display = 'block';
+                  }, 300);
+                } else {
+                  // Hide certifications if About Me is not active
+                  const aboutMeCol = document.querySelector('.column.aboutme');
+                  if (aboutMeCol) {
+                    const certSection = aboutMeCol.querySelector('.certifications-section');
+                    if (certSection) certSection.style.display = 'none';
+                  }
                 }
             }
         });
