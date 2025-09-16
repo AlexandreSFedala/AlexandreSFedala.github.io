@@ -110,100 +110,114 @@
       }
     };
 
-    function setLanguage(lang) {
-      // Headings
-      document.querySelector('.column.aboutme h2').textContent = translations[lang].aboutMe;
-      document.querySelector('.column.skills h2').textContent = translations[lang].skills;
-      document.querySelector('.column.projects h2').textContent = translations[lang].projects;
+function setLanguage(lang) {
+  // Make sure the language exists in translations
+  if (!translations[lang]) return;
+  
+  // Headings
+  document.querySelector('.column.aboutme h2').textContent = translations[lang].aboutMe;
+  document.querySelector('.column.skills h2').textContent = translations[lang].skills;
+  document.querySelector('.column.projects h2').textContent = translations[lang].projects;
 
-      // Header
-      document.querySelector('header h1').textContent = translations[lang].portfolioTitle;
-      document.querySelector('header p').textContent = translations[lang].portfolioSubtitle;
+  // Header
+  document.querySelector('header h1').textContent = translations[lang].portfolioTitle;
+  document.querySelector('header p').textContent = translations[lang].portfolioSubtitle;
 
-      // Scroll down
-      document.querySelector('.scroll-text').textContent = translations[lang].scrollDown;
+  // Scroll down
+  document.querySelector('.scroll-text').textContent = translations[lang].scrollDown;
 
-      // Skill names
-      document.querySelectorAll('.column.skills .skill-name span:first-child').forEach((el, i) => {
-        el.textContent = translations[lang].skillNames[i];
-      });
+  // Skill names
+  document.querySelectorAll('.column.skills .skill-name span:first-child').forEach((el, i) => {
+    if (translations[lang].skillNames[i]) {
+      el.textContent = translations[lang].skillNames[i];
+    }
+  });
 
-      // Project card titles
-      document.querySelectorAll('.subpage-title').forEach((el, i) => {
-        if (i === 0) el.textContent = translations[lang].project1Title;
-        if (i === 1) el.textContent = translations[lang].project2Title;
-        if (i === 2) el.textContent = translations[lang].project3Title;
-      });
+  // Project card titles
+  document.querySelectorAll('.subpage-title').forEach((el, i) => {
+    if (i === 0) el.textContent = translations[lang].project1Title;
+    if (i === 1) el.textContent = translations[lang].project2Title;
+    if (i === 2) el.textContent = translations[lang].project3Title;
+  });
 
-      // Project details
-      // Project 1
-      const project1 = document.getElementById('project1');
-      if (project1) {
-        const p = project1.querySelectorAll('p');
-        if (p[0]) p[0].textContent = translations[lang].project1Detail[0];
-        if (p[1]) p[1].textContent = translations[lang].project1Detail[1];
-        const btn = project1.querySelector('.download-button');
-        if (btns[0]) btns[0].textContent = translations[lang].project1ViewPDF;
-        if (btns[1]) btns[1].textContent = translations[lang].project1Download;
-      }
-      // Project 2
-      const project2 = document.getElementById('project2');
-      if (project2) {
-        const p = project2.querySelectorAll('p');
-        if (p[0]) p[0].textContent = translations[lang].project2Detail[0];
-        if (p[1]) p[1].textContent = translations[lang].project2Detail[1];
-        if (p[2]) p[2].textContent = translations[lang].project2Detail[2];
-        const btn = project2.querySelector('.download-button');
-        if (btn) btn.textContent = translations[lang].project2Download;
-      }
-      // Project 3
-      const project3 = document.getElementById('project3');
-      if (project3) {
-        const p = project3.querySelectorAll('p');
-        if (p[0]) p[0].textContent = translations[lang].project3Detail[0];
-        if (p[1]) p[1].textContent = translations[lang].project3Detail[1];
-        const btns = project3.querySelectorAll('.download-button');
-        if (btns[0]) btns[0].textContent = translations[lang].project3ViewPDF;
-        if (btns[1]) btns[1].textContent = translations[lang].project3Download;
-      }
+  // Project details
+  // Project 1
+  const project1 = document.getElementById('project1');
+  if (project1) {
+    const p = project1.querySelectorAll('p');
+    if (p[0]) p[0].textContent = translations[lang].project1Detail[0];
+    if (p[1]) p[1].textContent = translations[lang].project1Detail[1];
+    const btns = project1.querySelectorAll('.download-button');
+    if (btns[0]) btns[0].textContent = translations[lang].project1ViewPDF;
+    if (btns[1]) btns[1].textContent = translations[lang].project1Download;
+  }
+  
+  // Project 2
+  const project2 = document.getElementById('project2');
+  if (project2) {
+    const p = project2.querySelectorAll('p');
+    if (p[0]) p[0].textContent = translations[lang].project2Detail[0];
+    if (p[1]) p[1].textContent = translations[lang].project2Detail[1];
+    if (p[2]) p[2].textContent = translations[lang].project2Detail[2];
+    const btn = project2.querySelector('.download-button');
+    if (btn) btn.textContent = translations[lang].project2Download;
+  }
+  
+  // Project 3
+  const project3 = document.getElementById('project3');
+  if (project3) {
+    const p = project3.querySelectorAll('p');
+    if (p[0]) p[0].textContent = translations[lang].project3Detail[0];
+    if (p[1]) p[1].textContent = translations[lang].project3Detail[1];
+    const btns = project3.querySelectorAll('.download-button');
+    if (btns[0]) btns[0].textContent = translations[lang].project3ViewPDF;
+    if (btns[1]) btns[1].textContent = translations[lang].project3Download;
+  }
 
-      // About Me section
-      const aboutMeSection = document.querySelector('.column.aboutme .column-content');
-      if (aboutMeSection) {
-        aboutMeSection.innerHTML = `
-          <p>${translations[lang].aboutMeText[0]}</p>
-          <p>${translations[lang].aboutMeText[1]}</p>
-          <p>${translations[lang].aboutMeText[2]}</p>
-          <p>${translations[lang].aboutMeText[3]}</p>
-          <div class="certifications-section" style="display:none;">
-            <h3 class="certifications-title">${translations[lang].certificationsTitle}</h3>
-            <div class="certifications-list"></div>
-          </div>
+  // About Me section
+  const aboutMeSection = document.querySelector('.column.aboutme .column-content');
+  if (aboutMeSection) {
+    const paragraphs = aboutMeSection.querySelectorAll('p');
+    translations[lang].aboutMeText.forEach((text, i) => {
+      if (paragraphs[i]) paragraphs[i].textContent = text;
+    });
+    
+    // Update certifications title
+    const certTitle = aboutMeSection.querySelector('.certifications-title');
+    if (certTitle) certTitle.textContent = translations[lang].certificationsTitle;
+    
+    // Update certifications content
+    const certList = aboutMeSection.querySelector('.certifications-list');
+    if (certList) {
+      certList.innerHTML = '';
+      translations[lang].certifications.forEach(cert => {
+        const certDiv = document.createElement('div');
+        certDiv.className = 'certification-item';
+        certDiv.innerHTML = `
+          <img src="${cert.img}" alt="${cert.title}">
+          <span class="cert-title">${cert.title}</span>
         `;
-        // Render certifications
-        const certList = aboutMeSection.querySelector('.certifications-list');
-        translations[lang].certifications.forEach(cert => {
-          const certDiv = document.createElement('div');
-          certDiv.className = 'certification-item';
-          certDiv.innerHTML = `
-            <img src="${cert.img}" alt="${cert.title}">
-            <span class="cert-title">${cert.title}</span>
-          `;
-          certList.appendChild(certDiv);
-        });
-      }
-
-      // Update active link
-      document.querySelectorAll('.lang-link').forEach(link => {
-        link.classList.toggle('active', link.dataset.lang === lang);
+        certList.appendChild(certDiv);
       });
     }
+  }
 
-    document.querySelectorAll('.lang-link').forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        setLanguage(this.dataset.lang);
-      });
-    });
+  // Update active link
+  document.querySelectorAll('.lang-link').forEach(link => {
+    link.classList.toggle('active', link.dataset.lang === lang);
+  });
+}
 
-    setLanguage('en');
+ // Set up language switcher event listeners
+document.querySelectorAll('.lang-link').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const lang = this.getAttribute('data-lang');
+    if (lang) {
+      setLanguage(lang);
+    }
+  });
+});
+
+// Initialize with English
+setLanguage('en');
