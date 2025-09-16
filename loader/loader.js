@@ -70,7 +70,7 @@ function startLoader() {
   animateSymbols();
 
   // Random duration between 3 and 5 seconds
-  const duration = 1000 + Math.random() * 2000;
+  const duration = 500 + Math.random() * 1200;
   setTimeout(() => {
     // Fade out loader
     const overlay = document.getElementById('loader-overlay');
