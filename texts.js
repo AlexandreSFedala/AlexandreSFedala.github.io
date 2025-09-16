@@ -13,13 +13,16 @@
         scrollDown: "Scroll Down",
         portfolioTitle: "An Undergraduate Portfolio",
         portfolioSubtitle: "by Alexandre S. Fedala",
-        project1Title: "Placeholder",
+        project1Title: "UCL East Extension Design",
         project2Title: "Revit - Point Cloud",
         project3Title: "Land Surveying",
         project1Detail: [
-          "This is a placeholder project that demonstrates the functionality of the portfolio website.",
-          "You can replace this with your actual project details, descriptions, and download links."
+          "This project involved creating the preliminary design for a new building for the UCL East campus, covering everything from the volumetric study of the building to the functions it would perform.”,
+          "This initial project gave me a much deeper understanding of the scale that a project of major interest can take on. Our solution had to take into account our client's requirements and UK regulations concerning educational infrastructure.",
+          "My role was to determine a possible expenditure range for the construction of our solution in the first instance, and therefore I played a central role in the volumetric study, so as to maximize the benefits for the costs we were incurring.”,
+          "In addition, as Deputy Team Leader, I had to ensure the cohesion of the group when the Leader was engaged in other tasks.”
         ],
+        project1ViewPDF: "View PDF in Browser",
         project1Download: "Download Project Files",
         project2Detail: [
           "This project, whilst being one of the shortest ones I have had, has demonstrated immensely useful for the future of my career, as it introduced me to 3D Modelling in civil engineering.",
@@ -64,14 +67,17 @@
         scrollDown: "Faire défiler",
         portfolioTitle: "Un Portfolio de Licence",
         portfolioSubtitle: "par Alexandre S. Fedala",
-        project1Title: "Exemple",
+        project1Title: "Design d'extension d'UCL East",
         project2Title: "Revit - Nuage de points",
         project3Title: "Etude de terrain",
         project1Detail: [
-          "Ceci est un projet exemple qui démontre les fonctionnalités du site portfolio.",
-          "Vous pouvez le remplacer par vos propres projets, descriptions et liens de téléchargement."
+          "Ce projet consistait en la création du design préliminaire d'un nouvel édifice pour le campus d'UCL East, où l'entièreté de ce dernier, de l'étude volumétrique du bâtiment aux fonctions qu'il remplirait.",
+          "Ce premier m'a permis de comprendre en bien plus grande profondeur l'ampleur qu'un projet de premier intérêt peut prendre. Notre solution devait comprendre les demandes de notre client et les règlementations britanniques concernant les infrastructures éducatives.",
+          "Ma position consistait à déterminer un rayon de dépenses possibles pour la construction de notre solution en premier lieu, et donc un rôle central dans l'étude volumétrique, de sorte à maximiser les bénéfices pour les coûts que nous engagions.",
+          "De plus, je devais m'assurer de la cohésion du groupe en tant que Leader Adjoint de l'équipe, lorsque le Leader avait d'autres tâches."
         ],
-        project1Download: "Télécharger les fichiers du projet",
+        project1ViewPDF: "Voir le PDF dans le navigateur",
+        project1Download: "Télécharger le rapport complet",
         project2Detail: [
           "Ce projet, bien que l’un des plus courts que j’aie eus, s’est révélé extrêmement utile pour la suite de ma carrière, car il m’a initié à la modélisation 3D en génie civil.",
           "En quelques heures, j’ai dû modéliser un bâtiment historique, ce qui m’a permis de maîtriser l’outil très rapidement.",
@@ -137,7 +143,8 @@
         if (p[0]) p[0].textContent = translations[lang].project1Detail[0];
         if (p[1]) p[1].textContent = translations[lang].project1Detail[1];
         const btn = project1.querySelector('.download-button');
-        if (btn) btn.textContent = translations[lang].project1Download;
+        if (btns[0]) btns[0].textContent = translations[lang].project1ViewPDF;
+        if (btns[1]) btns[1].textContent = translations[lang].project1Download;
       }
       // Project 2
       const project2 = document.getElementById('project2');
