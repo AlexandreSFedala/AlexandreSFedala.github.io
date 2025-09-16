@@ -1,10 +1,11 @@
-/* loader/loader.css */
+/* loader/loader.css - Updated version with status text styles */
 #loader-overlay {
   position: fixed;
   z-index: 9999;
   inset: 0;
   background: #111;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   transition: opacity 0.7s;
@@ -13,9 +14,10 @@
 .loader-symbols {
   display: flex;
   gap: 1rem;
-  font-size: 4rem; /* Increased from 2.5rem to 4rem */
+  font-size: 4rem;
   font-family: 'Montserrat', 'Consolas', 'Menlo', monospace;
   user-select: none;
+  margin-bottom: 2rem;
 }
 
 .loader-symbol {
@@ -28,4 +30,21 @@
 .loader-symbol.jumping {
   transform: translateY(-30px) scale(1.2);
   opacity: 1;
+}
+
+.loader-status {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.status-text {
+  font-family: 'Montserrat', 'Consolas', 'Menlo', monospace;
+  font-size: 1.2rem;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+  letter-spacing: 1px;
+  transition: opacity 0.3s ease;
 }
