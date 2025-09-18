@@ -1,4 +1,4 @@
-// loader/loader.js
+// loader/loader.js - Final revision with enhanced "Done !" animation
 // Vibrant color palette
 const COLORS = [
   "#FF5252", "#FFB300", "#00E676", "#40C4FF", "#7C4DFF",
@@ -33,6 +33,18 @@ const SYMBOLS = [
   "⌁"   // Electric Arrow
 ];
 
+// Status messages to display
+const STATUS_MESSAGES = [
+  "Loading Header",
+  "Loading Content", 
+  "Loading Languages",
+  "Loading Interactive Elements",
+  "Loading Animations",
+  "Generating Flashcards",
+  "Loading PDFs",
+  "Done !"
+];
+
 function randomColor() {
   return COLORS[Math.floor(Math.random() * COLORS.length)];
 }
@@ -53,6 +65,29 @@ function createLoaderSymbols(count = 8) {
   }
 }
 
+// Create status text element
+function createStatusText() {
+  const statusContainer = document.createElement('div');
+  statusContainer.className = 'loader-status';
+  statusContainer.innerHTML = '<div class="status-text"></div>';
+  document.getElementById('loader-overlay').appendChild(statusContainer);
+}
+
+// Update status text
+function updateStatus(message) {
+  const statusText = document.querySelector('.status-text');
+  if (statusText) {
+    statusText.textContent = message;
+    
+    // Special animation for "Done !" message
+    if (message === "Done !") {
+      statusText.classList.add('done-animation');
+    } else {
+      statusText.classList.remove('done-animation');
+    }
+  }
+}
+
 // Animate the jumping effect
 function animateSymbols() {
   const symbols = document.querySelectorAll('.loader-symbol');
@@ -67,33 +102,68 @@ function animateSymbols() {
 // Loader logic
 function startLoader() {
   createLoaderSymbols(12);
+  createStatusText();
   animateSymbols();
 
-  // Random duration between 3 and 5 seconds
-  const duration = 1000 + Math.random() * 2000;
-  setTimeout(() => {
-    // Fade out loader
-    const overlay = document.getElementById('loader-overlay');
-    overlay.style.opacity = 0;
+  // Random duration between 700ms and 2000ms
+  const duration = 1500 + Math.random() * 3000;
+  console.log("Loader duration: " + duration + "ms");
+  
+  // Calculate random timing for each message with max 100ms between messages
+  const messageCount = STATUS_MESSAGES.length;
+  let totalTimeUsed = 0;
+  const messageTimings = [];
+  
+  // Generate random intervals (max 100ms) for all but the last message
+  for (let i = 0; i < messageCount - 1; i++) {
+    const randomInterval = 50 + Math.random() * 50; // 50-100ms
+    messageTimings.push(randomInterval);
+    totalTimeUsed += randomInterval;
+  }
+  
+  // Calculate time for the last message (Done !)
+  const timeForDone = Math.max(250, duration - totalTimeUsed);
+  messageTimings.push(timeForDone);
+  
+  console.log("Message timings:", messageTimings);
+  
+  // Show status messages with random timing
+  let cumulativeTime = 0;
+  
+  for (let i = 0; i < messageCount; i++) {
     setTimeout(() => {
-      overlay.style.display = 'none';
-      // Fade in header (if you want)
-      const header = document.querySelector('header');
-      if (header) {
-        header.style.opacity = 0;
-        header.style.transition = "opacity 1s";
-        setTimeout(() => { header.style.opacity = 1; }, 100);
+      updateStatus(STATUS_MESSAGES[i]);
+      
+      // If this is the last message, set the final timeout
+      if (i === messageCount - 1) {
+        setTimeout(() => {
+          // Fade out loader
+          const overlay = document.getElementById('loader-overlay');
+          overlay.style.opacity = 0;
+          setTimeout(() => {
+            overlay.style.display = 'none';
+            // Fade in header
+            const header = document.querySelector('header');
+            if (header) {
+              header.style.opacity = 0;
+              header.style.transition = "opacity 1s";
+              setTimeout(() => { header.style.opacity = 1; }, 100);
+            }
+            // Show rest of site
+            document.body.classList.remove('loading');
+          }, 700);
+        }, 250); // Ensure "Done !" is displayed for at least 250ms
       }
-      // Show rest of site if you had hidden it
-      document.body.classList.remove('loading');
-    }, 700);
-  }, duration);
+    }, cumulativeTime);
+    
+    cumulativeTime += messageTimings[i];
+  }
 }
 
 // Only run loader if overlay exists
 window.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('loader-overlay')) {
-    // Optionally hide rest of site while loading
+    // Hide rest of site while loading
     document.body.classList.add('loading');
     startLoader();
   }
