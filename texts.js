@@ -54,7 +54,7 @@ const translations = {
     ]
   },
   fr: {
-    aboutMe: "À propos de moi",
+    aboutMe: "Biographie",
     aboutMeText: [
       "Je suis étudiant en deuxième année de génie civil à University College London, avec un parcours international diversifié, ayant effectué ma scolarité secondaire en France via la filière BFI.",
       "Mon objectif en tant qu'ingénieur civil est d'apporter un changement concret et positif à l'environnement bâti — en développant des solutions qui servent les clients, les utilisateurs finaux et les communautés locales. J'ai un intérêt particulier pour l'architecture vernaculaire, afin que les bâtiments et infrastructures répondent aux besoins locaux et s'intègrent harmonieusement à leur environnement.",
