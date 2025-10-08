@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio for Alexandre S. Fedala, an undergraduate civil engineering student at University College London.">
+    <title>Alexandre S. Fedala | Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="loader/loader.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
+</head>
+<body class="loading"> <div id="loader-overlay">
+  <div class="loader-symbols"></div>
+  <div id="click-prompt" class="hidden">
+      <div class="prompt-text">Click to Begin</div>
+  </div>
+</div>
+
+<div id="main-website-content" class="hidden">
+    <nav id="navbar">
+      <div class="nav-left">
+        <div class="logo-container">
+          <div class="nav-blue-circle"></div>
+          <a href="#" class="logo"><img src="images/logo.png" alt="Alexandre S. Fedala Portfolio Logo" class="nav-logo"></a>
+        </div>
+        <div id="music-player-container">
+            <button id="play-pause-btn" aria-label="Play Music">
+                <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="pause-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+            <canvas id="audio-visualizer"></canvas>
+        </div>
+      </div>
+      <div class="nav-right">
+        <div class="language-switcher">
+          <a href="#" data-lang="en" class="lang-link active">English</a> |
+          <a href="#" data-lang="fr" class="lang-link">Français</a>
+        </div>
+        <div class="social-links">
+            <a href="https://wa.me/447927708325" target="_blank" aria-label="WhatsApp"><img src="images/whatsapp-white-icon.png" alt="WhatsApp Icon" width="20" height="20"></a>
+            <a href="https://www.linkedin.com/in/afedala/" target="_blank" aria-label="LinkedIn"><img src="images/linkedin-app-white-icon.png" alt="LinkedIn Icon" width="20" height="20"></a>
+            <a href="mailto:alexandrefedala.afedala@gmail.com" aria-label="Email"><img src="images/email-envelope-white-icon.png" alt="Email Icon" width="20" height="20"></a>
+        </div>
+      </div>
+    </nav>
+
+    <header>
+        <div id="particles-js" aria-hidden="true"></div>
+        <h1>An Undergraduate Portfolio</h1>
+        <p>by Alexandre S. Fedala</p>
+        <div id="cv-cta-container">
+            <a href="pdfs/CV.pdf" target="_blank" class="cv-arrow">See CV <span>&rarr;</span></a>
+        </div>
+    </header>
+
+    <div class="scroll-down-indicator">
+        <span class="scroll-text">Scroll Down</span>
+        <a href="#main-content" class="scroll-arrow">&#x2193;</a>
+    </div>
+
+    <main class="main-columns" id="main-content">
+        <section class="column aboutme">
+          <h2>About Me</h2>
+          <div class="column-content">
+            <div class="certifications-section">
+              <h3 class="certifications-title">Certifications</h3>
+              <div class="certifications-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="column skills">
+            <h2>Skills</h2>
+            <div class="column-content">
+                <div class="skill" data-level="Intermediate"><div class="skill-name"><span>AutoCAD</span><span class="skill-level-text">Intermediate</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+                <div class="skill" data-level="Intermediate"><div class="skill-name"><span>Structural Analysis</span><span class="skill-level-text">Intermediate</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+                <div class="skill" data-level="Proficient"><div class="skill-name"><span>Project Management</span><span class="skill-level-text">Proficient</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+                <div class="skill" data-level="Proficient"><div class="skill-name"><span>Office Software</span><span class="skill-level-text">Proficient</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+                <div class="skill" data-level="Intermediate"><div class="skill-name"><span>Revit</span><span class="skill-level-text">Intermediate</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+                <div class="skill" data-level="Intermediate"><div class="skill-name"><span>MatLab</span><span class="skill-level-text">Intermediate</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+                <div class="skill" data-level="Basic"><div class="skill-name"><span>HTML</span><span class="skill-level-text">Basic</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+            </div>
+        </section>
+
+        <section class="column projects">
+            <h2>Projects</h2>
+            <div class="subpages">
+                <div class="subpage" data-target="project1"><div class="subpage-title">UCL East Extension Design</div><img src="images/ucl_east.jpg" alt="Architectural render of UCL East Marshgate"></div>
+                <div class="subpage" data-target="project2"><div class="subpage-title">Revit - Point Cloud</div><img src="images/revitbox.jpg" alt="A 3D model created in Revit software"></div>
+                <div class="subpage" data-target="project3"><div class="subpage-title">Land Surveying</div><img src="images/landsurveyingbox.jpg" alt="A person using land surveying equipment outdoors"></div>
+            </div>
+
+            <div class="project-detail" id="project1">
+                <div class="project-description">
+                    <div class="project-text-content"></div>
+                    <div class="pdf-buttons-container">
+                        <a href="pdf-viewer/pdf-viewer.html?file=../pdfs/UclEastDesign.pdf" class="download-button" target="_blank">View PDF in Browser</a>
+                        <a href="#" class="download-button" download>Download Project Files</a>
+                    </div>
+                    <img src="images/artistimpression.jpg" alt="Artistic Impression of the Designed Building">
+                </div>
+                <div class="project-skills"><h4>Skills Used</h4><ul></ul></div>
+            </div>
+            <div class="project-detail" id="project2">
+                <div class="project-description">
+                    <div class="project-text-content"></div>
+                    <a href="pdfs/mainbuildingmodel.rvt" class="download-button" download>Download the model (Revit 2026)</a>
+                </div>
+                <div class="project-skills"><h4>Skills Used</h4><ul></ul></div>
+            </div>
+            <div class="project-detail" id="project3">
+                <div class="project-description">
+                    <div class="project-text-content"></div>
+                    <div class="pdf-buttons-container">
+                        <a href="pdf-viewer/pdf-viewer.html?file=../pdfs/lamp_survey.pdf" class="download-button" target="_blank">View PDF in Browser</a>
+                        <a href="pdfs/lamp_survey.pdf" class="download-button" download>Download Full Report</a>
+                    </div>
+                    <img src="images/AutoCAD.jpg" alt="Final AutoCAD rendering of the land survey">
+                </div>
+                <div class="project-skills"><h4>Skills Used</h4><ul></ul></div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<audio id="background-audio" src="sounds/background-music.mp3" loop></audio>
+
+<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="particles-init.js"></script>
+<script src="texts.js"></script>
+<script src="loader/loader.js"></script>
+<script src="script.js"></script>
+<script src="visualizer.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,151 @@
+/* Table of Contents
+-------------------
+1.  CSS Variables
+2.  Basic Reset & Global Styles
+3.  Loader & Click Prompt
+4.  Navbar & Music Player
+5.  Header & CV Button
+6.  Main Content Columns
+7.  Subpages & Project Details (3D Effect)
+8.  Typography
+9.  Skills Section
+10. Certifications Section
+11. PDF Viewer & Language Switcher
+12. Animations & Effects (Fades)
+13. Responsive Design
+14. Helper Classes
+------------------- */
+
+/* 1. CSS Variables */
+:root { --primary-bg: #2c3e50; --secondary-bg: #243240; --tertiary-bg: #3d5670; --skills-box-bg: #283747; --text-color: #fff; --accent-color: #3498db; --dark-text: #000; --font-primary: 'Open Sans', Arial, sans-serif; --font-secondary: 'Montserrat', Arial, sans-serif; --navbar-height: 80px; }
+
+/* 2. Basic Reset & Global Styles */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-padding-top: var(--navbar-height); }
+body { font-family: var(--font-primary); font-size: 1.25rem; line-height: 1.7; background: var(--primary-bg); color: var(--text-color); scroll-behavior: smooth; }
+#main-website-content { transition: opacity 1s ease; opacity: 1; }
+#main-website-content.hidden { opacity: 0; pointer-events: none; display: block !important; }
+body.loading #main-website-content { display: none; }
+
+/* 3. Loader & Click Prompt */
+#loader-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #2c3e50; z-index: 1001; transition: opacity 1s ease; }
+.loader-symbols, .loader-status { transition: opacity 0.5s ease; }
+#click-prompt { position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; cursor: pointer; opacity: 0; transition: opacity 0.5s ease; z-index: 1002; perspective: 800px; }
+#click-prompt:not(.hidden) { opacity: 1; }
+.prompt-text { font-family: var(--font-secondary); font-size: 2rem; color: var(--primary-bg); background: white; padding: 1rem 3rem; border: none; border-radius: 50px; position: relative; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 5px 20px rgba(0,0,0,0.2); will-change: transform; transform-style: preserve-3d; }
+.prompt-text .glint { position: absolute; width: 20px; height: 250%; background: rgba(142, 68, 173, 0.6); filter: blur(15px); transform-origin: center; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); pointer-events: none; }
+.glint-from-top-left { top: -125%; left: -100%; transform: rotate(45deg) scaleY(0); }
+.glint-from-top-right { top: -125%; right: -100%; transform: rotate(-45deg) scaleY(0); }
+.glint-from-bottom-left { bottom: -125%; left: -100%; transform: rotate(-45deg) scaleY(0); }
+.glint-from-bottom-right { bottom: -125%; right: -100%; transform: rotate(45deg) scaleY(0); }
+.prompt-text:hover .glint { transform: rotate(45deg) scaleY(1); }
+.prompt-text:hover .glint.glint-from-top-right { transform: rotate(-45deg) scaleY(1); }
+.prompt-text:hover .glint.glint-from-bottom-left { transform: rotate(-45deg) scaleY(1); }
+
+/* 4. Navbar & Music Player */
+nav { background: rgba(255,255,255,0.15); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 2rem; position: fixed; top: 0; width: 100%; z-index: 100; transition: all 0.3s ease; border-bottom: 1.5px solid rgba(255,255,255,0.18); box-shadow: 0 4px 24px rgba(44,62,80,0.08); }
+nav.shrink { padding: 0.25rem 1.5rem; }
+.nav-left { flex: 1; display: flex; align-items: center; gap: 1.5rem; }
+.nav-right { flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: 1.5rem; }
+.language-switcher { position: absolute; left: 50%; transform: translateX(-50%); }
+nav .logo-container { position: relative; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; }
+nav .nav-blue-circle { position: absolute; top: 50%; left: 50%; width: 50px; height: 50px; background: var(--primary-bg); border-radius: 50%; transform: translate(-50%, -50%); z-index: 1; box-shadow: 0 2px 8px rgba(52,152,219,0.18); }
+nav .nav-logo { position: relative; z-index: 2; width: 32px; height: 32px; object-fit: contain; display: block; transition: transform 0.3s ease; }
+nav .nav-logo:hover { transform: scale(1.1); }
+nav .social-links { display: flex; gap: 0.75rem; align-items: center; }
+nav .social-links a { display: flex; justify-content: center; align-items: center; width: 36px; height: 36px; border-radius: 50%; transition: transform 0.2s, box-shadow 0.2s; background: rgba(255,255,255,0.1); }
+nav .social-links a:hover { transform: translateY(-3px); background: rgba(255,255,255,0.2); }
+#music-player-container { display: flex; align-items: center; gap: 1rem; }
+#play-pause-btn { position: relative; background: none; border: 2px solid rgba(255, 255, 255, 0.5); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; justify-content: center; align-items: center; padding: 0; transition: background 0.3s, border-color 0.3s; }
+#play-pause-btn:hover { background: rgba(255, 255, 255, 0.2); border-color: rgba(255, 255, 255, 0.8); }
+#play-pause-btn svg { width: 20px; height: 20px; fill: white; }
+#audio-visualizer { width: 100px; height: 30px; }
+
+/* 5. Header & CV Button */
+header { position: relative; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem; background-image: url('images/portico_welcome_sized.jpg'); background-size: cover; background-position: center; overflow: hidden; }
+header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(22, 36, 59, 0.75); z-index: 1; }
+#particles-js { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; }
+header h1, header p { position: relative; z-index: 3; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+.scroll-down-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); text-align: center; z-index: 5; opacity: 1; transition: opacity 0.5s ease; }
+body:not(.loading) .scroll-down-indicator.scrolled { opacity: 0; }
+.scroll-text { display: block; color: var(--text-color); font-size: 1rem; margin-bottom: 0.5rem; font-weight: bold; text-shadow: 0 0 5px rgba(0,0,0,0.5); }
+.scroll-arrow { font-size: 2.5rem; color: var(--text-color); cursor: pointer; animation: bounce 1.5s infinite; text-decoration: none; }
+#cv-cta-container { position: absolute; top: 50%; right: 40px; transform: translateY(-50%); z-index: 5; }
+.cv-arrow { display: block; color: white; text-decoration: none; font-family: var(--font-secondary); font-size: 1.5rem; font-weight: bold; padding: 1rem; border: 2px solid white; border-radius: 8px; transition: all 0.3s ease; }
+.cv-arrow span { transition: transform 0.3s ease; display: inline-block; }
+.cv-arrow:hover { background: white; color: var(--primary-bg); }
+.cv-arrow:hover span { transform: translateX(10px); }
+
+/* 6. Main Content Columns */
+.main-columns { display: flex; width: 100%; height: 100vh; overflow: hidden; scroll-margin-top: var(--navbar-height); }
+.column { flex: 1; display: flex; flex-direction: column; justify-content: flex-start; align-items: center; transition: flex 0.5s ease, filter 0.3s ease; color: var(--text-color); cursor: pointer; position: relative; overflow: hidden; padding: 1rem; border-right: 1px solid rgba(255, 255, 255, 0.1); }
+.column:last-child { border-right: none; }
+.column:not(.active):hover { filter: brightness(1.15); }
+.column.aboutme { background: var(--tertiary-bg); }
+.column.skills { background: var(--primary-bg); }
+.column.projects { background: var(--secondary-bg); }
+.column.active { flex: 6; overflow-y: auto; cursor: default; padding-top: 20px; }
+.column-content, .subpages, .project-detail { opacity: 0; height: 0; overflow: hidden; width: 100%; visibility: hidden; }
+.column.active .column-content, .column.active .subpages, .column.active .project-detail { opacity: 1; height: auto; overflow: visible; visibility: visible; }
+.column-content { padding: 20px; }
+
+/* 7. Subpages & Project Details (3D Effect) */
+.subpages { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; padding: 2rem; perspective: 1000px; }
+.subpage { background: var(--primary-bg); border-radius: 12px; width: calc(33.333% - 2rem); min-width: 280px; text-align: center; transition: transform 0.4s ease, box-shadow 0.4s ease; cursor: pointer; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); will-change: transform; transform-style: preserve-3d; }
+.subpage:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); }
+.subpage-title { font-weight: bold; font-size: 1.3rem; padding: 1.2rem; color: var(--text-color); background: var(--primary-bg); margin: 0; }
+.subpage img { width: 100%; height: 220px; object-fit: cover; display: block; margin: 0; border-radius: 0 0 12px 12px; }
+.project-detail { padding: 2rem; text-align: left; display: flex; gap: 2rem; align-items: flex-start; }
+.project-description { flex: 3; display: block; }
+.project-description p { margin-bottom: 1.2rem; }
+.project-skills { flex: 1; background: var(--skills-box-bg); padding: 1.5rem; border-radius: 12px; min-width: 250px; }
+.project-skills h4 { font-family: var(--font-secondary); font-size: 1.5rem; margin-bottom: 1rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 0.5rem; }
+.project-skills ul { list-style-type: none; padding-left: 0; }
+.project-skills ul li { margin-bottom: 0.75rem; font-size: 1.1rem; }
+.back-arrow { display: inline-block; font-size: 2rem; cursor: pointer; color: var(--text-color); margin-bottom: 1rem; user-select: none; transition: transform 0.2s; }
+.back-arrow:hover { transform: translateX(-5px); }
+.pdf-buttons-container { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin: 2rem 0; text-align: center; }
+
+/* 8. Typography */
+.column h2 { font-family: var(--font-secondary); font-size: 3rem; font-weight: bold; text-align: center; transition: all 0.5s ease; white-space: nowrap; z-index: 2; margin: 0; position: absolute; top: 50%; left: 50%; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.column:not(.active) h2 { transform: translate(-50%, -50%) rotate(-90deg); transform-origin: center; font-size: 2rem; }
+.column.active h2 { position: relative; top: 0; left: 0; transform: none; margin: 1rem 0; width: 100%; text-shadow: none; }
+h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2rem; font-weight: 700; margin-bottom: 1rem; }
+
+/* 9. Skills Section */
+.skills .column-content { max-width: 700px; margin: 0 auto; }
+.skill { margin-bottom: 1.5rem; width: 100%; }
+.skill-name { margin-bottom: 0.5rem; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
+.skill-level-text { font-size: 0.9rem; font-weight: normal; opacity: 0.8; }
+.skill-bar { width: 100%; height: 16px; background: #222; border-radius: 8px; margin: 8px 0; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+.skill-bar-fill { height: 100%; background: var(--text-color); border-radius: 8px; width: 0; transition: width 0.8s cubic-bezier(.4,2,.3,1); }
+
+/* 10. Certifications Section */
+.certifications-section { margin-top: 2rem; text-align: left; }
+.certifications-list { display: flex; flex-wrap: wrap; gap: 2em; justify-content: flex-start; }
+.certification-item { display: flex; flex-direction: column; align-items: center; width: 30%; min-width: 180px; max-width: 250px; padding: 1em 0.5em; }
+.certification-item img { height: 90px; width: auto; border-radius: 8px; margin-bottom: 0.7em; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
+.certification-item .cert-title { font-size: 1.05em; font-weight: 500; text-align: center; margin-top: 0.3em; }
+
+/* 11. PDF Viewer & Language Switcher */
+.language-switcher .lang-link { color: var(--text-color); text-decoration: none; font-weight: bold; padding: 0 0.3em; opacity: 0.7; transition: opacity 0.2s; }
+.language-switcher .lang-link.active, .language-switcher .lang-link:hover { opacity: 1; text-decoration: underline; }
+
+/* 12. Animations & Effects (Fades) */
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-7px); } }
+.fade-in { animation: fadeIn 0.5s forwards; }
+.fade-out { animation: fadeOut 0.3s forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
+
+/* 13. Responsive Design */
+@media (max-width: 1200px) { #cv-cta-container { display: none; } }
+@media (max-width: 1024px) { .subpage { width: calc(50% - 2rem); } .project-detail { flex-direction: column; } .project-skills { width: 100%; min-width: 0; margin-top: 2rem; } }
+@media (max-width: 900px) { .column h2, h3, .certifications-title { font-size: 2.5rem; } .column h3 { font-size: 1.4rem; } body { font-size: 1.1rem; } .certification-item { width: 45%; } }
+@media (max-width: 768px) { nav { flex-direction: column; align-items: center; } .language-switcher { position: static; transform: none; margin: 0.5rem 0; } .nav-left, .nav-right { flex-basis: 100%; justify-content: center; } #music-player-container { display: none; } .main-columns { flex-direction: column; height: auto; } .column { flex: none; width: 100%; min-height: 80px; border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.1); } .column h2, .column:not(.active) h2 { position: relative; transform: none !important; margin: 1rem 0; } .column.active { min-height: 500px; } header h1 { font-size: 2.5rem; } header p { font-size: 1.5rem; } .subpage { width: 100%; max-width: 350px; } }
+@media (max-width: 600px) { .certification-item { width: 100%; } }
+
+/* 14. Helper Classes */
+.hidden { display: none !important; }
+.visible { display: flex !important; }
+.flex-visible { display: flex !important; }
