@@ -164,7 +164,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const translateX = targetX - currentX;
             const translateY = targetY - currentY;
 
-            // Apply the transform to move the button
+            // To ensure a smooth transition, we first reset any transform from the hover effect,
+            // force a browser reflow, and then apply the new transform.
+            selectedButton.style.transform = ''; // Reset hover transform
+            void selectedButton.offsetHeight; // Force reflow
+
+            // Apply the final transform to trigger the slide animation
             selectedButton.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
             // 4. Listen for the transition to end, then trigger aureoles and fade-in
