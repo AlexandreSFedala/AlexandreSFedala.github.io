@@ -109,50 +109,52 @@ document.addEventListener('DOMContentLoaded', () => {
         startLoader(showClickPrompt); // Run your animation, then show the prompt
     }
 
-    // This handles the 3D button and directional glint
-    if (promptText) {
+    const languageButtons = document.querySelectorAll('.language-button');
+
+    // Handle 3D hover effect and click for language buttons
+    languageButtons.forEach(button => {
         const glint = document.createElement('div');
         glint.className = 'glint';
-        promptText.appendChild(glint);
+        button.appendChild(glint);
 
-        promptText.addEventListener('mousemove', (e) => {
-            const rect = promptText.getBoundingClientRect();
+        button.addEventListener('mousemove', (e) => {
+            const rect = button.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 8;
-            const rotateY = (centerX - x) / 16;
-            promptText.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
-            promptText.style.boxShadow = '0 20px 40px rgba(0,0,0,0.4)';
+            // Match the rotation effect of the project cards
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            button.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
         });
 
-        promptText.addEventListener('mouseenter', (e) => {
-            const rect = promptText.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const isTop = y < rect.height / 2;
-            const isLeft = x < rect.width / 2;
-            
-            glint.className = 'glint';
-            if (isTop && isLeft) glint.classList.add('glint-from-bottom-right');
-            else if (isTop && !isLeft) glint.classList.add('glint-from-bottom-left');
-            else if (!isTop && isLeft) glint.classList.add('glint-from-top-right');
-            else glint.classList.add('glint-from-top-left');
+        button.addEventListener('mouseleave', () => {
+            button.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
         });
 
-        promptText.addEventListener('mouseleave', () => {
-            promptText.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-            promptText.style.boxShadow = '0 5px 20px rgba(0,0,0,0.2)';
-            glint.className = 'glint';
-        });
-    }
+        button.addEventListener('click', () => {
+            const lang = button.dataset.lang;
+            if (typeof setLanguage === 'function') {
+                setLanguage(lang);
+            }
 
-    // This handles what happens AFTER the user clicks "Click to Begin"
-    if (clickPrompt) {
-        clickPrompt.addEventListener('click', () => {
-            initAudioSystem();
-            if (loaderOverlay) loaderOverlay.style.opacity = '0';
+            // Hide the prompt immediately to prevent it showing during the fade-out
+            if (clickPrompt) {
+                clickPrompt.classList.add('hidden');
+            }
+
+            // De-duplicate listeners to prevent multiple triggers
+            languageButtons.forEach(btn => btn.style.pointerEvents = 'none');
+
+            if (typeof initAudioSystem === 'function') {
+                initAudioSystem();
+            }
+
+            if (loaderOverlay) {
+                loaderOverlay.style.opacity = '0';
+            }
+
             if (mainContent) {
                 mainContent.style.display = 'block';
                 setTimeout(() => {
@@ -160,9 +162,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     mainContent.classList.remove('hidden');
                 }, 20);
             }
+
             setTimeout(() => {
-                if (loaderOverlay) loaderOverlay.remove();
+                if (loaderOverlay) {
+                    loaderOverlay.remove();
+                }
             }, 1000);
-        }, { once: true });
-    }
+        });
+    });
 });
