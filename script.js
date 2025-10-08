@@ -6,19 +6,14 @@ function initAudioSystem() {
     const pauseIcon = document.getElementById('pause-icon');
     
     if (!audio) return;
-
     let isAudioInitialized = false;
-
     if (isAudioInitialized) return;
 
     audio.volume = 0;
-    const targetVolume = 0.15;
+    const targetVolume = 0.10; // Music volume set to 10%
     
     const fadeAudioIn = setInterval(() => {
-        if (audio.paused) {
-            clearInterval(fadeAudioIn);
-            return;
-        }
+        if (audio.paused) { clearInterval(fadeAudioIn); return; }
         if (audio.volume < targetVolume) {
             audio.volume = Math.min(targetVolume, audio.volume + 0.01);
         } else {
@@ -30,10 +25,8 @@ function initAudioSystem() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
     const analyser = audioContext.createAnalyser();
     const source = audioContext.createMediaElementSource(audio);
-
     source.connect(analyser);
     analyser.connect(audioContext.destination);
-
     audio.muted = false;
     const playPromise = audio.play();
 
@@ -42,11 +35,7 @@ function initAudioSystem() {
             playIcon.classList.add('hidden');
             pauseIcon.classList.remove('hidden');
             startVisualizer(analyser);
-        }).catch(error => {
-            console.error("Audio playback failed:", error);
-            playIcon.classList.remove('hidden');
-            pauseIcon.classList.add('hidden');
-        });
+        }).catch(error => console.error("Audio playback failed:", error));
     }
     isAudioInitialized = true;
 
@@ -67,8 +56,36 @@ function initAudioSystem() {
     }
 }
 
+// Reusable function for applying interactive 3D tilt effects
+function applyInteractiveEffects(element) {
+    if (!element) return;
+
+    const glint = document.createElement('div');
+    glint.className = 'glint';
+    element.appendChild(glint);
+
+    element.addEventListener('mousemove', (e) => {
+        const rect = element.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 10;
+        const rotateY = (centerX - x) / 20;
+        element.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        element.style.boxShadow = '0 15px 30px rgba(0,0,0,0.3)';
+    });
+
+    element.addEventListener('mouseleave', () => {
+        element.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+        element.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
+    });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
+    applyInteractiveEffects(document.querySelector('.prompt-text'));
+    document.querySelectorAll('.download-button').forEach(button => applyInteractiveEffects(button));
+
     const navbar = document.getElementById('navbar');
     const mainContent = document.getElementById('main-content');
     const scrollArrow = document.querySelector('.scroll-arrow');
