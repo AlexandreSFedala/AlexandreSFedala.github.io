@@ -150,33 +150,38 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             selectedButton.classList.add('selected');
 
-            // 3. Calculate center and move the selected button
+            // 3. Calculate the required translation to move the button to the center
             const screenWidth = window.innerWidth;
             const screenHeight = window.innerHeight;
             const buttonRect = selectedButton.getBoundingClientRect();
 
-            // Set the button's position to its current location explicitly before transition
-            selectedButton.style.top = `${buttonRect.top}px`;
-            selectedButton.style.left = `${buttonRect.left}px`;
+            const currentX = buttonRect.left + buttonRect.width / 2;
+            const currentY = buttonRect.top + buttonRect.height / 2;
 
-            // Force a reflow to ensure the initial position is registered
-            selectedButton.getBoundingClientRect();
+            const targetX = screenWidth / 2;
+            const targetY = screenHeight / 2;
 
-            // Calculate target position and trigger the transition
-            const targetTop = (screenHeight / 2) - (buttonRect.height / 2);
-            const targetLeft = (screenWidth / 2) - (buttonRect.width / 2);
-            selectedButton.style.top = `${targetTop}px`;
-            selectedButton.style.left = `${targetLeft}px`;
+            const translateX = targetX - currentX;
+            const translateY = targetY - currentY;
+
+            // Apply the transform to move the button
+            selectedButton.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
             // 4. Listen for the transition to end, then trigger aureoles and fade-in
             selectedButton.addEventListener('transitionend', () => {
                 const AUREOLE_COUNT = 5;
                 const STAGGER_DELAY = 150; // ms between each aureole animation start
+                const { width, height } = buttonRect; // Get dimensions from the captured buttonRect
 
                 // Create and animate aureoles
                 for (let i = 0; i < AUREOLE_COUNT; i++) {
                     const aureole = document.createElement('div');
                     aureole.className = 'aureole';
+
+                    // Dynamically set the size of the aureole to match the button
+                    aureole.style.width = `${width}px`;
+                    aureole.style.height = `${height}px`;
+
                     aureole.style.animationDelay = `${i * STAGGER_DELAY}ms`;
                     loaderOverlay.appendChild(aureole);
                 }
