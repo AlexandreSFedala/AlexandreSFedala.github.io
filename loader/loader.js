@@ -139,35 +139,80 @@ document.addEventListener('DOMContentLoaded', () => {
                 setLanguage(lang);
             }
 
-            // Hide the prompt immediately to prevent it showing during the fade-out
-            if (clickPrompt) {
-                clickPrompt.classList.add('hidden');
-            }
-
-            // De-duplicate listeners to prevent multiple triggers
+            // 1. Disable pointer events and identify buttons
             languageButtons.forEach(btn => btn.style.pointerEvents = 'none');
+            const selectedButton = button;
+            const unselectedButton = Array.from(languageButtons).find(btn => btn !== selectedButton);
 
-            if (typeof initAudioSystem === 'function') {
-                initAudioSystem();
+            // 2. Apply animation classes
+            if (unselectedButton) {
+                unselectedButton.classList.add('fading-out');
             }
+            selectedButton.classList.add('selected');
 
-            if (loaderOverlay) {
-                loaderOverlay.style.opacity = '0';
-            }
+            // 3. Calculate center and move the selected button
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const buttonRect = selectedButton.getBoundingClientRect();
 
-            if (mainContent) {
-                mainContent.style.display = 'block';
-                setTimeout(() => {
-                    document.body.classList.remove('loading');
-                    mainContent.classList.remove('hidden');
-                }, 20);
-            }
+            // Set the button's position to its current location explicitly before transition
+            selectedButton.style.top = `${buttonRect.top}px`;
+            selectedButton.style.left = `${buttonRect.left}px`;
 
-            setTimeout(() => {
-                if (loaderOverlay) {
-                    loaderOverlay.remove();
+            // Force a reflow to ensure the initial position is registered
+            selectedButton.getBoundingClientRect();
+
+            // Calculate target position and trigger the transition
+            const targetTop = (screenHeight / 2) - (buttonRect.height / 2);
+            const targetLeft = (screenWidth / 2) - (buttonRect.width / 2);
+            selectedButton.style.top = `${targetTop}px`;
+            selectedButton.style.left = `${targetLeft}px`;
+
+            // 4. Listen for the transition to end, then trigger aureoles and fade-in
+            selectedButton.addEventListener('transitionend', () => {
+                const AUREOLE_COUNT = 5;
+                const STAGGER_DELAY = 150; // ms between each aureole animation start
+
+                // Create and animate aureoles
+                for (let i = 0; i < AUREOLE_COUNT; i++) {
+                    const aureole = document.createElement('div');
+                    aureole.className = 'aureole';
+                    aureole.style.animationDelay = `${i * STAGGER_DELAY}ms`;
+                    loaderOverlay.appendChild(aureole);
                 }
-            }, 1000);
+
+                // Start the audio system
+                if (typeof initAudioSystem === 'function') {
+                    initAudioSystem();
+                }
+
+                // Time the website fade-in to coincide with the aureole animation
+                setTimeout(() => {
+                    if (mainContent) {
+                        mainContent.style.display = 'block';
+                        setTimeout(() => {
+                            document.body.classList.remove('loading');
+                            mainContent.classList.remove('hidden');
+                        }, 20);
+                    }
+                }, STAGGER_DELAY * AUREOLE_COUNT);
+
+                // Fade out the entire loader overlay as the website content fades in
+                setTimeout(() => {
+                    if (loaderOverlay) {
+                        loaderOverlay.style.opacity = '0';
+                    }
+                }, STAGGER_DELAY * AUREOLE_COUNT + 300);
+
+                // Set a final timeout to remove the loader from the DOM after all animations are complete
+                const totalAnimationTime = (AUREOLE_COUNT * STAGGER_DELAY) + 1500; // 1.5s is aureole animation duration
+                setTimeout(() => {
+                    if (loaderOverlay) {
+                        loaderOverlay.remove();
+                    }
+                }, totalAnimationTime);
+
+            }, { once: true }); // Ensure this only runs once.
         });
     });
 });

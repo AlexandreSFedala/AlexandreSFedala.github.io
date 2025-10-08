@@ -95,3 +95,71 @@
     font-size: 1rem; /* Adjust status text size */
   }
 }
+
+/* ---------------------------------- */
+/* --- Language Button Animations --- */
+/* ---------------------------------- */
+
+/* Style for the selected button to enable smooth transition to center */
+.language-button.selected {
+    position: absolute; /* Change to absolute to allow positioning */
+    z-index: 1003; /* Ensure it's above other elements */
+    transition: top 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                left 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.3s ease; /* Keep original transform for hover */
+}
+
+/* Animation for the unselected button to fade out */
+.language-button.fading-out {
+    animation: fadeOutButton 0.5s forwards;
+}
+
+@keyframes fadeOutButton {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+/* Aureole styles for the radiating effect */
+.aureole {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 150px; /* Start at the approximate size of the button */
+    height: 150px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background-color: transparent;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1002;
+    animation: radiate 1.5s ease-out forwards;
+}
+
+/* Keyframes for the radiating aureole effect with stepped color */
+@keyframes radiate {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        border: 4px solid rgba(255, 255, 255, 1);
+        opacity: 1;
+    }
+    25% {
+        border: 3px solid rgba(255, 255, 255, 0.7);
+    }
+    50% {
+        border: 2px solid rgba(44, 62, 80, 0.5);
+    }
+    75% {
+        border: 1px solid rgba(44, 62, 80, 0.2);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(20);
+        border: 1px solid rgba(44, 62, 80, 0);
+        opacity: 0;
+    }
+}
