@@ -95,3 +95,61 @@
     font-size: 1rem; /* Adjust status text size */
   }
 }
+
+/* ---------------------------------- */
+/* --- Language Button Animations --- */
+/* ---------------------------------- */
+
+/* Style for the selected button to enable smooth transition to center */
+.language-button.selected {
+    z-index: 1003; /* Ensure it's above other elements on the overlay */
+    /* Animate the transform property for smooth, hardware-accelerated movement */
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Animation for the unselected button to fade out */
+.language-button.fading-out {
+    animation: fadeOutButton 0.5s forwards;
+}
+
+@keyframes fadeOutButton {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+}
+
+/* Aureole styles for the radiating effect */
+.aureole {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Width and height are now set dynamically by JS */
+    border-radius: 50px; /* Match the pill shape of the buttons */
+    transform: translate(-50%, -50%) scale(0);
+    background-color: transparent;
+    /* Set a constant border style and width. The animation will handle color. */
+    border: 8px solid transparent;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1002;
+    animation: radiate 1.5s ease-out forwards;
+}
+
+/* Keyframes for the SMOOTH radiating aureole effect */
+@keyframes radiate {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        border-color: rgba(255, 255, 255, 0.8);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(20);
+        border-color: rgba(255, 255, 255, 0);
+        opacity: 0;
+    }
+}

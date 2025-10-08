@@ -86,6 +86,21 @@ function startLoader(onLoaderFinished) {
 // Main logic execution
 document.addEventListener('DOMContentLoaded', () => {
     const loaderOverlay = document.getElementById('loader-overlay');
+
+    // Preload the aureole animation by briefly adding and removing a hidden aureole element.
+    // This forces the browser to cache the keyframes, preventing stutter on first run.
+    if (loaderOverlay) {
+        const preloadAureole = document.createElement('div');
+        preloadAureole.className = 'aureole';
+        preloadAureole.style.position = 'absolute';
+        preloadAureole.style.opacity = '0';
+        preloadAureole.style.pointerEvents = 'none';
+        loaderOverlay.appendChild(preloadAureole);
+        setTimeout(() => {
+            preloadAureole.remove();
+        }, 50);
+    }
+
     const clickPrompt = document.getElementById('click-prompt');
     const mainContent = document.getElementById('main-website-content');
     const loaderSymbols = document.querySelector('.loader-symbols');
@@ -109,60 +124,134 @@ document.addEventListener('DOMContentLoaded', () => {
         startLoader(showClickPrompt); // Run your animation, then show the prompt
     }
 
-    // This handles the 3D button and directional glint
-    if (promptText) {
+    const languageButtons = document.querySelectorAll('.language-button');
+    const buttonListeners = new Map();
+
+    // Handle 3D hover effect and click for language buttons
+    languageButtons.forEach(button => {
         const glint = document.createElement('div');
         glint.className = 'glint';
-        promptText.appendChild(glint);
+        button.appendChild(glint);
 
-        promptText.addEventListener('mousemove', (e) => {
-            const rect = promptText.getBoundingClientRect();
+        // Define named handlers for the hover effect so they can be removed later
+        const handleMouseMove = (e) => {
+            const rect = button.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 8;
-            const rotateY = (centerX - x) / 16;
-            promptText.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
-            promptText.style.boxShadow = '0 20px 40px rgba(0,0,0,0.4)';
-        });
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            button.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        };
 
-        promptText.addEventListener('mouseenter', (e) => {
-            const rect = promptText.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const isTop = y < rect.height / 2;
-            const isLeft = x < rect.width / 2;
-            
-            glint.className = 'glint';
-            if (isTop && isLeft) glint.classList.add('glint-from-bottom-right');
-            else if (isTop && !isLeft) glint.classList.add('glint-from-bottom-left');
-            else if (!isTop && isLeft) glint.classList.add('glint-from-top-right');
-            else glint.classList.add('glint-from-top-left');
-        });
+        const handleMouseLeave = () => {
+            button.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+        };
 
-        promptText.addEventListener('mouseleave', () => {
-            promptText.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-            promptText.style.boxShadow = '0 5px 20px rgba(0,0,0,0.2)';
-            glint.className = 'glint';
-        });
-    }
+        buttonListeners.set(button, { handleMouseMove, handleMouseLeave });
 
-    // This handles what happens AFTER the user clicks "Click to Begin"
-    if (clickPrompt) {
-        clickPrompt.addEventListener('click', () => {
-            initAudioSystem();
-            if (loaderOverlay) loaderOverlay.style.opacity = '0';
-            if (mainContent) {
-                mainContent.style.display = 'block';
-                setTimeout(() => {
-                    document.body.classList.remove('loading');
-                    mainContent.classList.remove('hidden');
-                }, 20);
+        button.addEventListener('mousemove', handleMouseMove);
+        button.addEventListener('mouseleave', handleMouseLeave);
+
+        button.addEventListener('click', () => {
+            const lang = button.dataset.lang;
+            if (typeof setLanguage === 'function') {
+                setLanguage(lang);
             }
-            setTimeout(() => {
-                if (loaderOverlay) loaderOverlay.remove();
-            }, 1000);
-        }, { once: true });
-    }
+
+            // 1. Disable all hover effects and pointer events to prevent conflicts
+            languageButtons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+                const listeners = buttonListeners.get(btn);
+                if (listeners) {
+                    btn.removeEventListener('mousemove', listeners.handleMouseMove);
+                    btn.removeEventListener('mouseleave', listeners.handleMouseLeave);
+                }
+            });
+
+            const selectedButton = button;
+            const unselectedButton = Array.from(languageButtons).find(btn => btn !== selectedButton);
+
+            // 2. Apply animation classes
+            if (unselectedButton) {
+                unselectedButton.classList.add('fading-out');
+            }
+            selectedButton.classList.add('selected');
+
+            // 3. Calculate the required translation to move the button to the center
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const buttonRect = selectedButton.getBoundingClientRect();
+
+            const currentX = buttonRect.left + buttonRect.width / 2;
+            const currentY = buttonRect.top + buttonRect.height / 2;
+
+            const targetX = screenWidth / 2;
+            const targetY = screenHeight / 2;
+
+            const translateX = targetX - currentX;
+            const translateY = targetY - currentY;
+
+            // To ensure a smooth transition, we first reset any transform from the hover effect,
+            // force a browser reflow, and then apply the new transform.
+            selectedButton.style.transform = ''; // Reset hover transform
+            void selectedButton.offsetHeight; // Force reflow
+
+            // Apply the final transform to trigger the slide animation
+            selectedButton.style.transform = `translate(${translateX}px, ${translateY}px)`;
+
+            // 4. Listen for the transition to end, then trigger aureoles and fade-in
+            selectedButton.addEventListener('transitionend', () => {
+                const AUREOLE_COUNT = 5;
+                const STAGGER_DELAY = 150; // ms between each aureole animation start
+                const { width, height } = buttonRect; // Get dimensions from the captured buttonRect
+
+                // Create and animate aureoles
+                for (let i = 0; i < AUREOLE_COUNT; i++) {
+                    const aureole = document.createElement('div');
+                    aureole.className = 'aureole';
+
+                    // Dynamically set the size of the aureole to match the button
+                    aureole.style.width = `${width}px`;
+                    aureole.style.height = `${height}px`;
+
+                    aureole.style.animationDelay = `${i * STAGGER_DELAY}ms`;
+                    loaderOverlay.appendChild(aureole);
+                }
+
+                // Start the audio system
+                if (typeof initAudioSystem === 'function') {
+                    initAudioSystem();
+                }
+
+                // Time the website fade-in to coincide with the aureole animation
+                setTimeout(() => {
+                    if (mainContent) {
+                        mainContent.style.display = 'block';
+                        setTimeout(() => {
+                            document.body.classList.remove('loading');
+                            mainContent.classList.remove('hidden');
+                        }, 20);
+                    }
+                }, STAGGER_DELAY * AUREOLE_COUNT);
+
+                // Fade out the entire loader overlay as the website content fades in
+                setTimeout(() => {
+                    if (loaderOverlay) {
+                        loaderOverlay.style.opacity = '0';
+                    }
+                }, STAGGER_DELAY * AUREOLE_COUNT + 300);
+
+                // Set a final timeout to remove the loader from the DOM after all animations are complete
+                const totalAnimationTime = (AUREOLE_COUNT * STAGGER_DELAY) + 1500; // 1.5s is aureole animation duration
+                setTimeout(() => {
+                    if (loaderOverlay) {
+                        loaderOverlay.remove();
+                    }
+                }, totalAnimationTime);
+
+            }, { once: true }); // Ensure this only runs once.
+        });
+    });
 });

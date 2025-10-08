@@ -231,14 +231,8 @@ function setLanguage(lang) {
   });
 }
 
-function initLanguageSwitcher() {
-  document.querySelectorAll('.lang-link').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      setLanguage(this.dataset.lang);
-    });
-  });
-  setLanguage('en');
-}
-
-document.addEventListener('DOMContentLoaded', initLanguageSwitcher);
+document.addEventListener('DOMContentLoaded', () => {
+    // Set default language on initial load.
+    // The actual language switching is now handled by the buttons in the loader.
+    setLanguage('en');
+});

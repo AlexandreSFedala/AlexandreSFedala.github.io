@@ -16,7 +16,14 @@
 <div id="loader-overlay">
   <div class="loader-symbols"></div>
   <div id="click-prompt" class="hidden">
-      <div class="prompt-text">Click to Begin</div>
+    <div class="language-selection">
+        <button class="language-button" data-lang="en">
+    <img src="images/uk_flag.svg" alt="UK Flag" class="flag-icon"> English
+        </button>
+        <button class="language-button" data-lang="fr">
+    <img src="images/french_flag.svg" alt="French Flag" class="flag-icon"> Français
+        </button>
+    </div>
   </div>
 </div>
 
@@ -34,10 +41,6 @@
             </button>
             <canvas id="audio-visualizer"></canvas>
         </div>
-      </div>
-      <div class="language-switcher">
-          <a href="#" data-lang="en" class="lang-link active">English</a> |
-          <a href="#" data-lang="fr" class="lang-link">Français</a>
       </div>
       <div class="nav-right">
         <div class="social-links">
