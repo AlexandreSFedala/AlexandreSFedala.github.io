@@ -36,22 +36,19 @@ const translations = {
     project3ViewPDF: "View PDF in Browser",
     project3Download: "Download Full Report",
     skillNames: [
-      "AutoCAD",
-      "Structural Analysis",
-      "Project Management",
-      "Office Software",
-      "Revit",
-      "MatLab",
-      "HTML"
+      "AutoCAD", "Structural Analysis", "Project Management", "Office Software", "Revit", "MatLab", "HTML"
     ],
     certificationsTitle: "Certifications",
-    certifications: [
-      {
-        img: "images/CAA-Approved-drone.jpg",
-        title: "Certified Civil Aviation Authority (CAA) Drone Pilot"
-      },
-      // Add more as needed
-    ]
+    certifications: [ { img: "images/CAA-Approved-drone.jpg", title: "Certified Civil Aviation Authority (CAA) Drone Pilot" } ],
+    // *** ADDITIONS START HERE ***
+    skillBasic: "Basic",
+    skillIntermediate: "Intermediate",
+    skillProficient: "Proficient",
+    skillsUsedTitle: "Skills Used",
+    seeCV: "See CV",
+    project1Skills: [ "Structural Design", "Architectural Concepts", "CAD Drafting", "Project Planning", "Sustainability Analysis" ],
+    project2Skills: [ "3D Modelling", "Revit", "Point Cloud Data", "Rapid Prototyping", "Time Management" ],
+    project3Skills: [ "Land Surveying", "AutoCAD", "Data Collection & Analysis", "Team Leadership", "Project Management", "Technical Reporting" ]
   },
   fr: {
     aboutMe: "Biographie",
@@ -89,210 +86,116 @@ const translations = {
     ],
     project3ViewPDF: "Voir le PDF dans le navigateur",
     project3Download: "Télécharger le rapport complet",
-    skillNames: [
-      "AutoCAD",
-      "Analyse Structurelle",
-      "Gestion de Projet",
-      "Logiciels Bureautiques",
-      "Revit",
-      "MatLab",
-      "HTML"
-    ],
+    skillNames: [ "AutoCAD", "Analyse Structurelle", "Gestion de Projet", "Logiciels Bureautiques", "Revit", "MatLab", "HTML" ],
     certificationsTitle: "Certifications",
-    certifications: [
-      {
-        img: "images/CAA-Approved-drone.jpg",
-        title: "Pilote de drone certifié de la Civil Aviation Authority (CAA)"
-      },
-      // Add more as needed
-    ]
+    certifications: [ { img: "images/CAA-Approved-drone.jpg", title: "Pilote de drone certifié de la Civil Aviation Authority (CAA)" } ],
+    // *** ADDITIONS START HERE ***
+    skillBasic: "Basique",
+    skillIntermediate: "Intermédiaire",
+    skillProficient: "Compétent",
+    skillsUsedTitle: "Compétences Utilisées",
+    seeCV: "Voir CV",
+    project1Skills: [ "Conception Structurelle", "Concepts Architecturaux", "Dessin CAO", "Planification de Projet", "Analyse de Durabilité" ],
+    project2Skills: [ "Modélisation 3D", "Revit", "Données de Nuage de Points", "Prototypage Rapide", "Gestion du Temps" ],
+    project3Skills: [ "Arpentage", "AutoCAD", "Collecte et Analyse de Données", "Leadership d'Équipe", "Gestion de Projet", "Rapport Technique" ]
   }
 };
 
 function setLanguage(lang) {
-  // Make sure the language exists in translations
-  if (!translations[lang]) {
-    console.error('Language not found:', lang);
-    return;
-  }
-  
-  console.log('Setting language to:', lang);
-  
-  // Headings
-  const aboutMeHeading = document.querySelector('.column.aboutme h2');
-  const skillsHeading = document.querySelector('.column.skills h2');
-  const projectsHeading = document.querySelector('.column.projects h2');
-  
-  if (aboutMeHeading) aboutMeHeading.textContent = translations[lang].aboutMe;
-  if (skillsHeading) skillsHeading.textContent = translations[lang].skills;
-  if (projectsHeading) projectsHeading.textContent = translations[lang].projects;
+  if (!translations[lang]) return;
 
-  // Header
-  const headerTitle = document.querySelector('header h1');
-  const headerSubtitle = document.querySelector('header p');
-  
-  if (headerTitle) headerTitle.textContent = translations[lang].portfolioTitle;
-  if (headerSubtitle) headerSubtitle.textContent = translations[lang].portfolioSubtitle;
+  document.querySelector('.column.aboutme h2').textContent = translations[lang].aboutMe;
+  document.querySelector('.column.skills h2').textContent = translations[lang].skills;
+  document.querySelector('.column.projects h2').textContent = translations[lang].projects;
+  document.querySelector('header h1').textContent = translations[lang].portfolioTitle;
+  document.querySelector('header p').textContent = translations[lang].portfolioSubtitle;
+  document.querySelector('.scroll-text').textContent = translations[lang].scrollDown;
+  document.querySelector('.cv-arrow').firstChild.textContent = translations[lang].seeCV + ' ';
 
-  // Scroll down
-  const scrollText = document.querySelector('.scroll-text');
-  if (scrollText) scrollText.textContent = translations[lang].scrollDown;
-
-  // Skill names
-  document.querySelectorAll('.column.skills .skill-name span:first-child').forEach((el, i) => {
-    if (translations[lang].skillNames[i]) {
-      el.textContent = translations[lang].skillNames[i];
+  document.querySelectorAll('.column.skills .skill').forEach((skill, i) => {
+    skill.querySelector('.skill-name span:first-child').textContent = translations[lang].skillNames[i];
+    const level = skill.dataset.level;
+    let key = `skill${level}`;
+    if (translations[lang][key]) {
+      skill.querySelector('.skill-level-text').textContent = translations[lang][key];
     }
   });
 
-  // Project card titles
   document.querySelectorAll('.subpage-title').forEach((el, i) => {
-    if (i === 0) el.textContent = translations[lang].project1Title;
-    if (i === 1) el.textContent = translations[lang].project2Title;
-    if (i === 2) el.textContent = translations[lang].project3Title;
+    el.textContent = translations[lang][`project${i + 1}Title`];
   });
+  
+  function populateContent(container, paragraphKey, skillsKey) {
+      const textContainer = container.querySelector('.project-text-content');
+      if (textContainer && translations[lang][paragraphKey]) {
+          textContainer.innerHTML = '';
+          translations[lang][paragraphKey].forEach(text => {
+              textContainer.innerHTML += `<p>${text}</p>`;
+          });
+      }
+      const skillsList = container.querySelector('.project-skills ul');
+      if (skillsList && translations[lang][skillsKey]) {
+          skillsList.innerHTML = '';
+          translations[lang][skillsKey].forEach(skill => {
+              skillsList.innerHTML += `<li>${skill}</li>`;
+          });
+      }
+  }
 
-  // Project details
-  // Project 1
   const project1 = document.getElementById('project1');
   if (project1) {
-    const p = project1.querySelectorAll('p');
-    if (p[0]) p[0].textContent = translations[lang].project1Detail[0];
-    if (p[1]) p[1].textContent = translations[lang].project1Detail[1];
-    const btns = project1.querySelectorAll('.download-button');
-    if (btns[0]) btns[0].textContent = translations[lang].project1ViewPDF;
-    if (btns[1]) btns[1].textContent = translations[lang].project1Download;
+    populateContent(project1, 'project1Detail', 'project1Skills');
+    project1.querySelector('.download-button[target]').textContent = translations[lang].project1ViewPDF;
+    project1.querySelector('.download-button[download]').textContent = translations[lang].project1Download;
   }
-  
-  // Project 2
   const project2 = document.getElementById('project2');
   if (project2) {
-    const p = project2.querySelectorAll('p');
-    if (p[0]) p[0].textContent = translations[lang].project2Detail[0];
-    if (p[1]) p[1].textContent = translations[lang].project2Detail[1];
-    if (p[2]) p[2].textContent = translations[lang].project2Detail[2];
-    const btn = project2.querySelector('.download-button');
-    if (btn) btn.textContent = translations[lang].project2Download;
+    populateContent(project2, 'project2Detail', 'project2Skills');
+    project2.querySelector('.download-button').textContent = translations[lang].project2Download;
   }
-  
-  // Project 3
   const project3 = document.getElementById('project3');
   if (project3) {
-    const p = project3.querySelectorAll('p');
-    if (p[0]) p[0].textContent = translations[lang].project3Detail[0];
-    if (p[1]) p[1].textContent = translations[lang].project3Detail[1];
-    const btns = project3.querySelectorAll('.download-button');
-    if (btns[0]) btns[0].textContent = translations[lang].project3ViewPDF;
-    if (btns[1]) btns[1].textContent = translations[lang].project3Download;
+    populateContent(project3, 'project3Detail', 'project3Skills');
+    project3.querySelector('.download-button[target]').textContent = translations[lang].project3ViewPDF;
+    project3.querySelector('.download-button[download]').textContent = translations[lang].project3Download;
   }
 
-  // About Me section
-  const aboutMeSection = document.querySelector('.column.aboutme .column-content');
-  if (aboutMeSection) {
-    const paragraphs = aboutMeSection.querySelectorAll('p');
-    translations[lang].aboutMeText.forEach((text, i) => {
-      if (paragraphs[i]) paragraphs[i].textContent = text;
-    });
-    
-    // Update certifications title
-    const certTitle = aboutMeSection.querySelector('.certifications-title');
-    if (certTitle) certTitle.textContent = translations[lang].certificationsTitle;
-    
-    // Update certifications content
-    const certList = aboutMeSection.querySelector('.certifications-list');
-    if (certList) {
-      certList.innerHTML = '';
-      translations[lang].certifications.forEach(cert => {
-        const certDiv = document.createElement('div');
-        certDiv.className = 'certification-item';
-        certDiv.innerHTML = `
-          <img src="${cert.img}" alt="${cert.title}">
-          <span class="cert-title">${cert.title}</span>
-        `;
-        certList.appendChild(certDiv);
-      });
-    }
-  }
-
-  // Update active link
-  document.querySelectorAll('.lang-link').forEach(link => {
-    const isActive = link.dataset.lang === lang;
-    link.classList.toggle('active', isActive);
-    
-    // Add visual indication of active state
-    if (isActive) {
-      link.style.fontWeight = 'bold';
-      link.style.opacity = '1';
-    } else {
-      link.style.fontWeight = 'normal';
-      link.style.opacity = '0.7';
-    }
+  const aboutMeContent = document.querySelector('.column.aboutme .column-content');
+  const certSection = aboutMeContent.querySelector('.certifications-section');
+  aboutMeContent.querySelectorAll('p').forEach(p => p.remove());
+  translations[lang].aboutMeText.forEach(text => {
+    const p = document.createElement('p');
+    p.textContent = text;
+    aboutMeContent.insertBefore(p, certSection);
   });
   
-  console.log('Language set to:', lang);
+  const certTitle = aboutMeContent.querySelector('.certifications-title');
+  if (certTitle) certTitle.textContent = translations[lang].certificationsTitle;
+  const certList = aboutMeContent.querySelector('.certifications-list');
+  if (certList) {
+    certList.innerHTML = '';
+    translations[lang].certifications.forEach(cert => {
+      certList.innerHTML += `<div class="certification-item"><img src="${cert.img}" alt="${cert.title}"><span class="cert-title">${cert.title}</span></div>`;
+    });
+  }
+
+  document.querySelectorAll('.project-skills h4').forEach(title => {
+    title.textContent = translations[lang].skillsUsedTitle;
+  });
+
+  document.querySelectorAll('.lang-link').forEach(link => {
+    link.classList.toggle('active', link.dataset.lang === lang);
+  });
 }
 
-// Fix for language switcher event listeners
 function initLanguageSwitcher() {
-  console.log('Initializing language switcher...');
-  
-  const langLinks = document.querySelectorAll('.lang-link');
-  console.log('Found language links:', langLinks.length);
-  
-  if (langLinks.length === 0) {
-    console.error('No language links found!');
-    return;
-  }
-  
-  langLinks.forEach(link => {
-    // Remove any existing event listeners to prevent duplicates
-    const newLink = link.cloneNode(true);
-    link.parentNode.replaceChild(newLink, link);
-  });
-  
-  // Re-select the links after cloning
-  const freshLinks = document.querySelectorAll('.lang-link');
-  
-  freshLinks.forEach(link => {
+  document.querySelectorAll('.lang-link').forEach(link => {
     link.addEventListener('click', function(e) {
       e.preventDefault();
-      e.stopPropagation();
-      
-      const lang = this.dataset.lang;
-      console.log('Language link clicked:', lang);
-      
-      if (translations[lang]) {
-        setLanguage(lang);
-      } else {
-        console.error('Language not found in translations:', lang);
-      }
-      
-      return false;
+      setLanguage(this.dataset.lang);
     });
-    
-    console.log('Added event listener to:', link.dataset.lang);
   });
+  setLanguage('en');
 }
 
-// Initialize when DOM is fully loaded
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded, initializing language switcher');
-    initLanguageSwitcher();
-    setLanguage('en'); // Set default language
-  });
-} else {
-  // DOM is already ready
-  console.log('DOM already ready, initializing language switcher');
-  initLanguageSwitcher();
-  setLanguage('en'); // Set default language
-}
-
-// Fallback initialization in case DOMContentLoaded doesn't fire
-setTimeout(function() {
-  if (!document.querySelector('.lang-link.active')) {
-    console.log('Fallback initialization');
-    initLanguageSwitcher();
-    setLanguage('en');
-  }
-}, 1000);
+document.addEventListener('DOMContentLoaded', initLanguageSwitcher);

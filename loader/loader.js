@@ -1,170 +1,168 @@
-// loader/loader.js - Final revision with enhanced "Done !" animation
-// Vibrant color palette
-const COLORS = [
-  "#FF5252", "#FFB300", "#00E676", "#40C4FF", "#7C4DFF",
-  "#FF4081", "#FFD600", "#69F0AE", "#536DFE", "#FF6E40"
-];
-// Symbols to use
-const SYMBOLS = [
-  "⏾", // Wake
-  "⏏", // Eject
-  "⏻", // Power
-  "⎌", // Clear
-  "⎈", // Command
-  "⎇", // Alt
-  "⎙", // Print
-  "⎋", // Escape
-  "⇦", // Left Arrow
-  "⇨", // Right Arrow
-  "⇧", // Up Arrow
-  "⇩", // Down Arrow
-  "⌫", // Backspace
-  "⌦", // Delete
-  "⎉", // Tab
-  "⎆", // Insert
-  "⎄", // Control
-  "⎗", // Page Up
-  "⎘", // Page Down
-  "⎚", // End
-  "•",  // Bullet
-  "∙",  // Bullet Operator
-  "§",  // Section
-  "¤",  // Currency Sign
-  "⌁"   // Electric Arrow
-];
+// loader/loader.js - Merged with "Click to Begin" functionality
 
-// Status messages to display
-const STATUS_MESSAGES = [
-  "Loading Header",
-  "Loading Content", 
-  "Loading Languages",
-  "Loading Interactive Elements",
-  "Loading Animations",
-  "Generating Flashcards",
-  "Loading PDFs",
-  "Done !"
-];
+// Vibrant color palette from your original code
+const COLORS = [ "#FF5252", "#FFB300", "#00E676", "#40C4FF", "#7C4DFF", "#FF4081", "#FFD600", "#69F0AE", "#536DFE", "#FF6E40" ];
+// Symbols to use from your original code
+const SYMBOLS = [ "⏾", "⏏", "⏻", "⎌", "⎈", "⎇", "⎙", "⎋", "⇦", "⇨", "⇧", "⇩", "⌫", "⌦", "⎉", "⎆", "⎄", "⎗", "⎘", "⎚", "•", "∙", "§", "¤", "⌁" ];
+// Status messages to display from your original code
+const STATUS_MESSAGES = [ "Loading Header", "Loading Content", "Loading Languages", "Loading Interactive Elements", "Loading Animations", "Generating Flashcards", "Loading PDFs", "Done !" ];
 
-function randomColor() {
-  return COLORS[Math.floor(Math.random() * COLORS.length)];
-}
-function randomSymbol() {
-  return SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
-}
+function randomColor() { return COLORS[Math.floor(Math.random() * COLORS.length)]; }
+function randomSymbol() { return SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]; }
 
-// Create the loader symbols
-function createLoaderSymbols(count = 8) {
-  const container = document.querySelector('.loader-symbols');
-  container.innerHTML = '';
-  for (let i = 0; i < count; i++) {
-    const span = document.createElement('span');
-    span.className = 'loader-symbol';
-    span.textContent = randomSymbol();
-    span.style.color = randomColor();
-    container.appendChild(span);
-  }
-}
-
-// Create status text element
-function createStatusText() {
-  const statusContainer = document.createElement('div');
-  statusContainer.className = 'loader-status';
-  statusContainer.innerHTML = '<div class="status-text"></div>';
-  document.getElementById('loader-overlay').appendChild(statusContainer);
-}
-
-// Update status text
-function updateStatus(message) {
-  const statusText = document.querySelector('.status-text');
-  if (statusText) {
-    statusText.textContent = message;
-    
-    // Special animation for "Done !" message
-    if (message === "Done !") {
-      statusText.classList.add('done-animation');
-    } else {
-      statusText.classList.remove('done-animation');
+function createLoaderSymbols(count = 12) {
+    const container = document.querySelector('.loader-symbols');
+    if (!container) return;
+    container.innerHTML = '';
+    for (let i = 0; i < count; i++) {
+        const span = document.createElement('span');
+        span.className = 'loader-symbol';
+        span.textContent = randomSymbol();
+        span.style.color = randomColor();
+        container.appendChild(span);
     }
-  }
 }
 
-// Animate the jumping effect
+function createStatusText() {
+    const overlay = document.getElementById('loader-overlay');
+    if (!overlay || overlay.querySelector('.loader-status')) return;
+    const statusContainer = document.createElement('div');
+    statusContainer.className = 'loader-status';
+    statusContainer.innerHTML = '<div class="status-text"></div>';
+    overlay.appendChild(statusContainer);
+}
+
+function updateStatus(message) {
+    const statusText = document.querySelector('.status-text');
+    if (statusText) {
+        statusText.textContent = message;
+        if (message === "Done !") {
+            statusText.classList.add('done-animation');
+        } else {
+            statusText.classList.remove('done-animation');
+        }
+    }
+}
+
 function animateSymbols() {
-  const symbols = document.querySelectorAll('.loader-symbol');
-  let idx = 0;
-  setInterval(() => {
-    symbols.forEach(s => s.classList.remove('jumping'));
-    symbols[idx].classList.add('jumping');
-    idx = (idx + 1) % symbols.length;
-  }, 120);
-}
-
-// Loader logic
-function startLoader() {
-  createLoaderSymbols(12);
-  createStatusText();
-  animateSymbols();
-
-  // Random duration between 700ms and 2000ms
-  const duration = 1500 + Math.random() * 3000;
-  console.log("Loader duration: " + duration + "ms");
-  
-  // Calculate random timing for each message with max 100ms between messages
-  const messageCount = STATUS_MESSAGES.length;
-  let totalTimeUsed = 0;
-  const messageTimings = [];
-  
-  // Generate random intervals (max 100ms) for all but the last message
-  for (let i = 0; i < messageCount - 1; i++) {
-    const randomInterval = 50 + Math.random() * 50; // 50-100ms
-    messageTimings.push(randomInterval);
-    totalTimeUsed += randomInterval;
-  }
-  
-  // Calculate time for the last message (Done !)
-  const timeForDone = Math.max(250, duration - totalTimeUsed);
-  messageTimings.push(timeForDone);
-  
-  console.log("Message timings:", messageTimings);
-  
-  // Show status messages with random timing
-  let cumulativeTime = 0;
-  
-  for (let i = 0; i < messageCount; i++) {
-    setTimeout(() => {
-      updateStatus(STATUS_MESSAGES[i]);
-      
-      // If this is the last message, set the final timeout
-      if (i === messageCount - 1) {
-        setTimeout(() => {
-          // Fade out loader
-          const overlay = document.getElementById('loader-overlay');
-          overlay.style.opacity = 0;
-          setTimeout(() => {
-            overlay.style.display = 'none';
-            // Fade in header
-            const header = document.querySelector('header');
-            if (header) {
-              header.style.opacity = 0;
-              header.style.transition = "opacity 1s";
-              setTimeout(() => { header.style.opacity = 1; }, 100);
+    const symbols = document.querySelectorAll('.loader-symbol');
+    if (symbols.length === 0) return;
+    let idx = 0;
+    // Set an interval that can be cleared later if needed
+    const animationInterval = setInterval(() => {
+        if (document.body.classList.contains('loading')) {
+            symbols.forEach(s => s.classList.remove('jumping'));
+            if (symbols[idx]) {
+                symbols[idx].classList.add('jumping');
             }
-            // Show rest of site
-            document.body.classList.remove('loading');
-          }, 700);
-        }, 250); // Ensure "Done !" is displayed for at least 250ms
-      }
-    }, cumulativeTime);
-    
-    cumulativeTime += messageTimings[i];
-  }
+            idx = (idx + 1) % symbols.length;
+        } else {
+            clearInterval(animationInterval);
+        }
+    }, 120);
 }
 
-// Only run loader if overlay exists
-window.addEventListener('DOMContentLoaded', () => {
-  if (document.getElementById('loader-overlay')) {
-    // Hide rest of site while loading
-    document.body.classList.add('loading');
-    startLoader();
-  }
+// This is your original loader logic, now it calls a function when it's done.
+function startLoader(onLoaderFinished) {
+    createLoaderSymbols();
+    createStatusText();
+    animateSymbols();
+
+    const duration = 2500;
+    const messageCount = STATUS_MESSAGES.length;
+    
+    STATUS_MESSAGES.forEach((message, i) => {
+        const messageTime = (duration / messageCount) * (i);
+        setTimeout(() => {
+            updateStatus(message);
+            
+            if (i === messageCount - 1) { // When "Done !" is shown
+                setTimeout(onLoaderFinished, 750); // Wait a bit after "Done !" then call the next step
+            }
+        }, messageTime);
+    });
+}
+
+// Main logic execution
+document.addEventListener('DOMContentLoaded', () => {
+    const loaderOverlay = document.getElementById('loader-overlay');
+    const clickPrompt = document.getElementById('click-prompt');
+    const mainContent = document.getElementById('main-website-content');
+    const loaderSymbols = document.querySelector('.loader-symbols');
+    const statusContainer = document.querySelector('.loader-status');
+    const promptText = document.querySelector('.prompt-text');
+
+    // This function is called after the loading animation finishes
+    const showClickPrompt = () => {
+        if (loaderSymbols) loaderSymbols.style.opacity = '0';
+        if (statusContainer) statusContainer.style.opacity = '0';
+        
+        setTimeout(() => {
+            if (loaderSymbols) loaderSymbols.style.display = 'none';
+            if (statusContainer) statusContainer.style.display = 'none';
+            if (clickPrompt) clickPrompt.classList.remove('hidden');
+        }, 500);
+    };
+    
+    // Only run the loader if the overlay exists
+    if (loaderOverlay) {
+        startLoader(showClickPrompt); // Run your animation, then show the prompt
+    }
+
+    // This handles the 3D button and directional glint
+    if (promptText) {
+        const glint = document.createElement('div');
+        glint.className = 'glint';
+        promptText.appendChild(glint);
+
+        promptText.addEventListener('mousemove', (e) => {
+            const rect = promptText.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 8;
+            const rotateY = (centerX - x) / 16;
+            promptText.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
+            promptText.style.boxShadow = '0 20px 40px rgba(0,0,0,0.4)';
+        });
+
+        promptText.addEventListener('mouseenter', (e) => {
+            const rect = promptText.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const isTop = y < rect.height / 2;
+            const isLeft = x < rect.width / 2;
+            
+            glint.className = 'glint';
+            if (isTop && isLeft) glint.classList.add('glint-from-bottom-right');
+            else if (isTop && !isLeft) glint.classList.add('glint-from-bottom-left');
+            else if (!isTop && isLeft) glint.classList.add('glint-from-top-right');
+            else glint.classList.add('glint-from-top-left');
+        });
+
+        promptText.addEventListener('mouseleave', () => {
+            promptText.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+            promptText.style.boxShadow = '0 5px 20px rgba(0,0,0,0.2)';
+            glint.className = 'glint';
+        });
+    }
+
+    // This handles what happens AFTER the user clicks "Click to Begin"
+    if (clickPrompt) {
+        clickPrompt.addEventListener('click', () => {
+            initAudioSystem();
+            if (loaderOverlay) loaderOverlay.style.opacity = '0';
+            if (mainContent) {
+                mainContent.style.display = 'block';
+                setTimeout(() => {
+                    document.body.classList.remove('loading');
+                    mainContent.classList.remove('hidden');
+                }, 20);
+            }
+            setTimeout(() => {
+                if (loaderOverlay) loaderOverlay.remove();
+            }, 1000);
+        }, { once: true });
+    }
 });

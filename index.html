@@ -3,185 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
+    <meta name="description" content="Portfolio for Alexandre S. Fedala, an undergraduate civil engineering student at University College London.">
+    <title>Alexandre S. Fedala | Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="loader/loader.css">
     <link rel="icon" type="image/x-icon" href="images/favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:700,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
 </head>
-<body>
-<div id="loader-overlay">
+<body class="loading"> <div id="loader-overlay">
   <div class="loader-symbols"></div>
-</div>
-<nav id="navbar">
-  <div class="logo-container">
-    <div class="nav-blue-circle"></div>
-    <a href="#" class="logo">
-      <img src="images/logo.png" alt="AF Portfolio" class="nav-logo">
-    </a>
+  <div id="click-prompt" class="hidden">
+      <div class="prompt-text">Click to Begin</div>
   </div>
-    <!-- Language Switcher -->
-    <div class="language-switcher">
-      <a href="#" data-lang="en" class="lang-link active">English</a> |
-      <a href="#" data-lang="fr" class="lang-link">Français</a>
-    </div>
-    <!-- Social Links - Using original image references -->
-    <div class="social-links">
-        <a href="https://wa.me/447927708325" target="_blank" aria-label="WhatsApp">
-            <img src="images/whatsapp-white-icon.png" alt="WhatsApp" width="20" height="20">
-        </a>
-        <a href="https://www.linkedin.com/in/afedala/" target="_blank" aria-label="LinkedIn">
-            <img src="images/linkedin-app-white-icon.png" alt="LinkedIn" width="20" height="20">
-        </a>
-        <a href="mailto:alexandrefedala.afedala@gmail.com" aria-label="Email">
-            <img src="images/email-envelope-white-icon.png" alt="Email" width="20" height="20">
-        </a>
-    </div>
-</nav>
-
-<!-- Header -->
-<header>
-    <div id="particles-js" aria-hidden="true"></div>
-    <h1>An Undergraduate Portfolio</h1>
-    <p>by Alexandre S. Fedala</p>
-</header>
-
-<!-- Scroll down indicator -->
-<div class="scroll-down-indicator">
-    <span class="scroll-text">Scroll Down</span>
-    <a href="#main-columns" class="scroll-arrow">&#x2193;</a>
 </div>
 
-<div class="main-columns" id="main-columns">
-<div class="column aboutme">
-  <h2>About Me</h2>
-  <div class="column-content">
-    <p>I am a second-year undergraduate civil engineering student at University College London with a diverse international background, having completed my secondary education in France through a BFI pathway.</p>
-    <p>My goal as a civil engineer is to create tangible, positive change in the built environment — developing solutions that serve clients, end-users, and local communities alike. I have a particular interest in vernacular design, ensuring that buildings and infrastructure respond to local needs and integrate seamlessly into their surroundings.</p>
-    <p>Sustainability is central to my approach. Recognising the construction industry's significant environmental impact, I am committed to delivering projects that meet and exceed current climate regulations, aiming for carbon neutrality — or even a net-negative footprint — throughout my future work.</p>
-    <p>My experience collaborating in a university environment has strengthened my ability to explain complex ideas clearly, and I am aiming to continue doing so in professional environments via internships.</p>
-    <div class="certifications-section">
-      <h3 class="certifications-title">Certifications</h3>
-      <div class="certifications-list">
-        <div class="certification-item">
-          <img src="images/CAA-Approved-drone.jpg" alt="Certified Civil Aviation Authority (CAA) Drone Pilot">
-          <span class="cert-title">Certified Civil Aviation Authority (CAA) Drone Pilot</span>
+<div id="main-website-content" class="hidden">
+    <nav id="navbar">
+      <div class="nav-left">
+        <div class="logo-container">
+          <div class="nav-blue-circle"></div>
+          <a href="#" class="logo"><img src="images/logo.png" alt="Alexandre S. Fedala Portfolio Logo" class="nav-logo"></a>
+        </div>
+        <div id="music-player-container">
+            <button id="play-pause-btn" aria-label="Play Music">
+                <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="pause-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+            <canvas id="audio-visualizer"></canvas>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-    <!-- Skills Column -->
-    <div class="column skills">
-        <h2>Skills</h2>
-        <div class="column-content">
-            <div class="skill">
-                <div class="skill-name">
-                    <span>AutoCAD</span>
-                    <span>58%</span>
-                </div>
-                <div class="skill-bar"><div class="skill-bar-fill" style="width: 58%;"></div></div>
-            </div>
-            <div class="skill">
-                <div class="skill-name">
-                    <span>Structural Analysis</span>
-                    <span>60%</span>
-                </div>
-                <div class="skill-bar"><div class="skill-bar-fill" style="width: 60%;"></div></div>
-            </div>
-            <div class="skill">
-                <div class="skill-name">
-                    <span>Project Management</span>
-                    <span>87%</span>
-                </div>
-                <div class="skill-bar"><div class="skill-bar-fill" style="width: 87%;"></div></div>
-            </div>
-            <div class="skill">
-                <div class="skill-name">
-                    <span>Office Software</span>
-                    <span>80%</span>
-                </div>
-                <div class="skill-bar"><div class="skill-bar-fill" style="width: 80%;"></div></div>
-            </div>
-            <div class="skill">
-                <div class="skill-name">
-                    <span>Revit</span>
-                    <span>65%</span>
-                </div>
-                <div class="skill-bar"><div class="skill-bar-fill" style="width: 65%;"></div></div>
-            </div>
-            <div class="skill">
-                <div class="skill-name">
-                    <span>MatLab</span>
-                    <span>60%</span>
-                </div>
-                <div class="skill-bar"><div class="skill-bar-fill" style="width: 60%;"></div></div>
-            </div>
-            <div class="skill">
-                <div class="skill-name">
-                    <span>HTML</span>
-                    <span>40%</span>
-                </div>
-                <div class="skill-bar"><div class="skill-bar-fill" style="width: 40%;"></div></div>
-            </div>
+      <div class="nav-right">
+        <div class="language-switcher">
+          <a href="#" data-lang="en" class="lang-link active">English</a> |
+          <a href="#" data-lang="fr" class="lang-link">Français</a>
         </div>
+        <div class="social-links">
+            <a href="https://wa.me/447927708325" target="_blank" aria-label="WhatsApp"><img src="images/whatsapp-white-icon.png" alt="WhatsApp Icon" width="20" height="20"></a>
+            <a href="https://www.linkedin.com/in/afedala/" target="_blank" aria-label="LinkedIn"><img src="images/linkedin-app-white-icon.png" alt="LinkedIn Icon" width="20" height="20"></a>
+            <a href="mailto:alexandrefedala.afedala@gmail.com" aria-label="Email"><img src="images/email-envelope-white-icon.png" alt="Email Icon" width="20" height="20"></a>
+        </div>
+      </div>
+    </nav>
+
+    <header>
+        <div id="particles-js" aria-hidden="true"></div>
+        <h1>An Undergraduate Portfolio</h1>
+        <p>by Alexandre S. Fedala</p>
+        <div id="cv-cta-container">
+            <a href="pdfs/CV.pdf" target="_blank" class="cv-arrow">See CV <span>&rarr;</span></a>
+        </div>
+    </header>
+
+    <div class="scroll-down-indicator">
+        <span class="scroll-text">Scroll Down</span>
+        <a href="#main-content" class="scroll-arrow">&#x2193;</a>
     </div>
 
-    <!-- Projects Column -->
-    <div class="column projects">
-        <h2>Projects</h2>
+    <main class="main-columns" id="main-content">
+        <section class="column aboutme">
+          <h2>About Me</h2>
+          <div class="column-content">
+            <div class="certifications-section">
+              <h3 class="certifications-title">Certifications</h3>
+              <div class="certifications-list"></div>
+            </div>
+          </div>
+        </section>
 
-        <!-- Subpages cards -->
-        <div class="subpages">
-            <div class="subpage" data-target="project1">
-                <div class="subpage-title">UCL East Extension Design</div>
-                <img src="images/ucl_east.jpg" alt="UCL East Marshgate">
+        <section class="column skills">
+            <h2>Skills</h2>
+            <div class="column-content">
+                <div class="skill" data-level="Intermediate"><div class="skill-name"><span>AutoCAD</span><span class="skill-level-text">Intermediate</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+                <div class="skill" data-level="Intermediate"><div class="skill-name"><span>Structural Analysis</span><span class="skill-level-text">Intermediate</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+                <div class="skill" data-level="Proficient"><div class="skill-name"><span>Project Management</span><span class="skill-level-text">Proficient</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+                <div class="skill" data-level="Proficient"><div class="skill-name"><span>Office Software</span><span class="skill-level-text">Proficient</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+                <div class="skill" data-level="Intermediate"><div class="skill-name"><span>Revit</span><span class="skill-level-text">Intermediate</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+                <div class="skill" data-level="Intermediate"><div class="skill-name"><span>MatLab</span><span class="skill-level-text">Intermediate</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
+                <div class="skill" data-level="Basic"><div class="skill-name"><span>HTML</span><span class="skill-level-text">Basic</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
             </div>
-            <div class="subpage" data-target="project2">
-                <div class="subpage-title">Revit - Point Cloud</div>
-                <img src="images/revitbox.jpg" alt="Revit">
-            </div>
-            <div class="subpage" data-target="project3">
-                <div class="subpage-title">Land Surveying</div>
-                <img src="images/landsurveyingbox.jpg" alt="Lampeter Surveying">
-            </div>
-        </div>
+        </section>
 
-        <!-- Project Details -->
-        <div class="project-detail" id="project1">
-            <p>This is a placeholder project that demonstrates the functionality of the portfolio website.</p>
-            <p>You can replace this with your actual project details, descriptions, and download links.</p>
-            <a href="pdf-viewer/pdf-viewer.html?file=../pdfs/UclEastDesign.pdf&title=Ucl East Design (1st phase)" 
-           class="download-button" target="_blank">View PDF in Browser</a>
-            <a href="#" class="download-button" download>Download Project Files</a>
-            <img src="images/artistimpression.jpg" alt="Artistic Impression of the Designed Building">
-        </div>
-        <div class="project-detail" id="project2">
-                  <p>This project, whilst being one of the shortest ones I have had, has demonstrated immensely useful for the future of my career, as it introduced me to 3D Modelling in civil engineering.</p>
-      <p>Within the span of a few hours, I was tasked with the remodelling of a historical building, necessitating me to master the tool as soon as possible.</p>
-      <p>However, it must be conceded that the work is not perfectly neat, due to the constraints mentionned before.</p>
-            <a href="pdfs/mainbuildingmodel.rvt" class="download-button" download>Download the model (Revit 2026)</a>
-        </div>
-        <div class="project-detail" id="project3">
-<p>This project consolidated the knowledge I gained during my first year at UCL, culminating in a detailed technical report (see PDF viewer below). Our task was to produce an accurate AutoCAD map of a designated area using professional surveying instruments such as Total Stations and Automatic Levels.</p>
-      <p>As team leader for this group project, I was responsible for coordinating workloads, maintaining efficiency, and ensuring accurate data collection. This experience deepened my understanding of the importance of precise land surveying and strengthened my leadership and project management skills.</p>
+        <section class="column projects">
+            <h2>Projects</h2>
+            <div class="subpages">
+                <div class="subpage" data-target="project1"><div class="subpage-title">UCL East Extension Design</div><img src="images/ucl_east.jpg" alt="Architectural render of UCL East Marshgate"></div>
+                <div class="subpage" data-target="project2"><div class="subpage-title">Revit - Point Cloud</div><img src="images/revitbox.jpg" alt="A 3D model created in Revit software"></div>
+                <div class="subpage" data-target="project3"><div class="subpage-title">Land Surveying</div><img src="images/landsurveyingbox.jpg" alt="A person using land surveying equipment outdoors"></div>
+            </div>
+
+            <div class="project-detail" id="project1">
+                <div class="project-description">
+                    <div class="project-text-content"></div>
                     <div class="pdf-buttons-container">
-        <a href="pdf-viewer/pdf-viewer.html?file=../pdfs/lamp_survey.pdf&title=Land Surveying Report" 
-           class="download-button" target="_blank">View PDF in Browser</a>
-        <a href="pdfs/lamp_survey.pdf" class="download-button" download>Download Full Report</a>
-                        <img src="images/AutoCAD.jpg" alt="Final AutoCAD Render">
-    </div>
+                        <a href="pdf-viewer/pdf-viewer.html?file=../pdfs/UclEastDesign.pdf" class="download-button" target="_blank">View PDF in Browser</a>
+                        <a href="#" class="download-button" download>Download Project Files</a>
+                    </div>
+                    <img src="images/artistimpression.jpg" alt="Artistic Impression of the Designed Building">
+                </div>
+                <div class="project-skills"><h4>Skills Used</h4><ul></ul></div>
+            </div>
+            <div class="project-detail" id="project2">
+                <div class="project-description">
+                    <div class="project-text-content"></div>
+                    <a href="pdfs/mainbuildingmodel.rvt" class="download-button" download>Download the model (Revit 2026)</a>
+                </div>
+                <div class="project-skills"><h4>Skills Used</h4><ul></ul></div>
+            </div>
+            <div class="project-detail" id="project3">
+                <div class="project-description">
+                    <div class="project-text-content"></div>
+                    <div class="pdf-buttons-container">
+                        <a href="pdf-viewer/pdf-viewer.html?file=../pdfs/lamp_survey.pdf" class="download-button" target="_blank">View PDF in Browser</a>
+                        <a href="pdfs/lamp_survey.pdf" class="download-button" download>Download Full Report</a>
+                    </div>
+                    <img src="images/AutoCAD.jpg" alt="Final AutoCAD rendering of the land survey">
+                </div>
+                <div class="project-skills"><h4>Skills Used</h4><ul></ul></div>
+            </div>
+        </section>
+    </main>
 </div>
-</div>
+
+<audio id="background-audio" src="sounds/background-music.mp3" loop></audio>
 
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script src="particles-init.js"></script>
 <script src="texts.js"></script>
-<script src="script.js"></script>
 <script src="loader/loader.js"></script>
+<script src="script.js"></script>
+<script src="visualizer.js"></script>
 
 </body>
 </html>
-
