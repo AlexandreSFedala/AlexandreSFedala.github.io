@@ -137,7 +137,6 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
 @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
 
 /* 13. Responsive Design */
-@media (max-width: 1200px) { #cv-cta-container { display: none; } }
 @media (max-width: 1024px) { .subpage { width: calc(50% - 2rem); } .project-detail { flex-direction: column; } .project-skills { width: 100%; min-width: 0; margin-top: 2rem; } }
 @media (max-width: 900px) { .column h2, h3, .certifications-title { font-size: 2.5rem; } .column h3 { font-size: 1.4rem; } body { font-size: 1.1rem; } .certification-item { width: 45%; } }
 @media (max-width: 768px) {
@@ -165,25 +164,63 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
         position: static;
         transform: none;
     }
+    #audio-visualizer {
+        display: none;
+    }
+
+    /* Keep navbar padding consistent on scroll for mobile */
+    nav.shrink {
+        padding: 0.5rem 1rem;
+    }
     /* END: NAVBAR FIX */
     
     .main-columns { flex-direction: column; height: auto; overflow-x: hidden; }
-    .column { flex: none; width: 100%; min-height: 80px; border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+    .column {
+        display: block; /* Use block layout on mobile to fix title wrapping */
+        flex: none;
+        width: 100%;
+        min-height: 80px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
     
     /* START: OVERFLOW FIX */
-    .column h2, .column:not(.active) h2 { 
-    position: relative; 
-    transform: none !important; 
-    margin: 1rem 0; 
-    font-size: 2rem; 
-    white-space: normal; /* This is the critical fix for text wrapping */
-}
+    /*
+      This rule uses a high-specificity selector to override desktop styles.
+      It resets the positioning and transforms applied to the h2 elements on larger screens,
+      ensuring they behave as normal block elements within the mobile layout.
+    */
+    main.main-columns > section.column > h2 {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none !important; /* Important to override the rotate transform */
+        margin: 1rem 0;
+        padding: 0 1rem; /* Add padding for spacing */
+        font-size: 2rem;
+        white-space: normal; /* Allow text to wrap */
+        width: 100%;
+        text-align: center;
+    }
     /* END: OVERFLOW FIX */
 
     .column.active { min-height: 500px; }
     header h1 { font-size: 2.5rem; }
     header p { font-size: 1.5rem; }
     .subpage { width: 100%; max-width: 350px; }
+
+    #cv-cta-container {
+        position: relative;
+        top: auto;
+        right: auto;
+        transform: none;
+        margin-top: 2rem;
+    }
+
+    .cv-arrow {
+        font-size: 1.2rem;
+        padding: 0.8rem 1.5rem;
+    }
 }
 @media (max-width: 600px) {
     .certification-item { width: 100%; }
@@ -192,6 +229,13 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
     header p { font-size: 1.2rem; }
     .loader-symbols { transform: scale(0.8); }
     .status-text { font-size: 0.9rem; }
+}
+
+@media (max-height: 500px) {
+    .column:not(.active) h2 {
+        font-size: 1.5rem;
+        padding: 0.5rem 0;
+    }
 }
 
 /* 14. Helper Classes */
