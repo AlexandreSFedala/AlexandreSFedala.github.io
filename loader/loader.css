@@ -13,11 +13,14 @@
 
 .loader-symbols {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1rem;
   font-size: 4rem;
   font-family: 'Montserrat', 'Consolas', 'Menlo', monospace;
   user-select: none;
   margin-bottom: 2rem;
+  padding: 0 1rem;
 }
 
 .loader-symbol {
@@ -79,4 +82,16 @@
 /* Ensure the Done animation lasts for the full duration */
 .status-text.done-animation {
   animation-fill-mode: forwards;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+  .loader-symbols {
+    font-size: 2.5rem; /* Reduce symbol size */
+    gap: 0.8rem; /* Reduce gap between symbols */
+  }
+
+  .status-text {
+    font-size: 1rem; /* Adjust status text size */
+  }
 }

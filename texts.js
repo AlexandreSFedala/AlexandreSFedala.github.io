@@ -35,17 +35,20 @@ const translations = {
     ],
     project3ViewPDF: "View PDF in Browser",
     project3Download: "Download Full Report",
+    // --- SKILL NAMES REORDERED ---
     skillNames: [
-      "AutoCAD", "Structural Analysis", "Project Management", "Office Software", "Revit", "MatLab", "HTML"
+      "AutoCAD", "Structural Analysis", "Revit", "MatLab", "HTML", // Technical
+      "Project Management", "Office Software" // Soft
     ],
     certificationsTitle: "Certifications",
     certifications: [ { img: "images/CAA-Approved-drone.jpg", title: "Certified Civil Aviation Authority (CAA) Drone Pilot" } ],
-    // *** ADDITIONS START HERE ***
     skillBasic: "Basic",
     skillIntermediate: "Intermediate",
     skillProficient: "Proficient",
     skillsUsedTitle: "Skills Used",
     seeCV: "See CV",
+    technicalSkills: "Technical Skills",
+    softSkills: "Soft Skills",
     project1Skills: [ "Structural Design", "Architectural Concepts", "CAD Drafting", "Project Planning", "Sustainability Analysis" ],
     project2Skills: [ "3D Modelling", "Revit", "Point Cloud Data", "Rapid Prototyping", "Time Management" ],
     project3Skills: [ "Land Surveying", "AutoCAD", "Data Collection & Analysis", "Team Leadership", "Project Management", "Technical Reporting" ]
@@ -86,15 +89,20 @@ const translations = {
     ],
     project3ViewPDF: "Voir le PDF dans le navigateur",
     project3Download: "Télécharger le rapport complet",
-    skillNames: [ "AutoCAD", "Analyse Structurelle", "Gestion de Projet", "Logiciels Bureautiques", "Revit", "MatLab", "HTML" ],
+    // --- SKILL NAMES REORDERED ---
+    skillNames: [ 
+        "AutoCAD", "Analyse Structurelle", "Revit", "MatLab", "HTML", // Technique
+        "Gestion de Projet", "Logiciels Bureautiques" // Interpersonnelles
+    ],
     certificationsTitle: "Certifications",
     certifications: [ { img: "images/CAA-Approved-drone.jpg", title: "Pilote de drone certifié de la Civil Aviation Authority (CAA)" } ],
-    // *** ADDITIONS START HERE ***
     skillBasic: "Basique",
     skillIntermediate: "Intermédiaire",
     skillProficient: "Compétent",
     skillsUsedTitle: "Compétences Utilisées",
     seeCV: "Voir CV",
+    technicalSkills: "Compétences Techniques",
+    softSkills: "Compétences Interpersonnelles",
     project1Skills: [ "Conception Structurelle", "Concepts Architecturaux", "Dessin CAO", "Planification de Projet", "Analyse de Durabilité" ],
     project2Skills: [ "Modélisation 3D", "Revit", "Données de Nuage de Points", "Prototypage Rapide", "Gestion du Temps" ],
     project3Skills: [ "Arpentage", "AutoCAD", "Collecte et Analyse de Données", "Leadership d'Équipe", "Gestion de Projet", "Rapport Technique" ]
@@ -104,6 +112,7 @@ const translations = {
 function setLanguage(lang) {
   if (!translations[lang]) return;
 
+  // Static Text
   document.querySelector('.column.aboutme h2').textContent = translations[lang].aboutMe;
   document.querySelector('.column.skills h2').textContent = translations[lang].skills;
   document.querySelector('.column.projects h2').textContent = translations[lang].projects;
@@ -112,19 +121,51 @@ function setLanguage(lang) {
   document.querySelector('.scroll-text').textContent = translations[lang].scrollDown;
   document.querySelector('.cv-arrow').firstChild.textContent = translations[lang].seeCV + ' ';
 
-  document.querySelectorAll('.column.skills .skill').forEach((skill, i) => {
-    skill.querySelector('.skill-name span:first-child').textContent = translations[lang].skillNames[i];
-    const level = skill.dataset.level;
-    let key = `skill${level}`;
-    if (translations[lang][key]) {
-      skill.querySelector('.skill-level-text').textContent = translations[lang][key];
-    }
+  // Skill Section Titles
+  document.querySelectorAll('.skills-subtitle').forEach(elem => {
+      const key = elem.dataset.langKey;
+      if (translations[lang][key]) {
+          elem.textContent = translations[lang][key];
+      }
   });
 
+  // Dynamic Skill Names & Levels
+  const technicalSkillsContainer = document.querySelector('.skills-category:first-of-type');
+  const softSkillsContainer = document.querySelector('.skills-category:last-of-type');
+  
+  if (technicalSkillsContainer) {
+    technicalSkillsContainer.querySelectorAll('.skill').forEach((skill, i) => {
+        const skillName = translations[lang].skillNames[i]; // Assumes order matches
+        if(skillName) skill.querySelector('.skill-name span:first-child').textContent = skillName;
+
+        const level = skill.dataset.level;
+        const key = `skill${level}`;
+        if (translations[lang][key]) {
+            skill.querySelector('.skill-level-text').textContent = translations[lang][key];
+        }
+    });
+  }
+  if (softSkillsContainer) {
+    softSkillsContainer.querySelectorAll('.skill').forEach((skill, i) => {
+        // Adjust index based on number of technical skills
+        const skillName = translations[lang].skillNames[i + 5]; 
+        if(skillName) skill.querySelector('.skill-name span:first-child').textContent = skillName;
+        
+        const level = skill.dataset.level;
+        const key = `skill${level}`;
+        if (translations[lang][key]) {
+            skill.querySelector('.skill-level-text').textContent = translations[lang][key];
+        }
+    });
+  }
+
+
+  // Project Card Titles
   document.querySelectorAll('.subpage-title').forEach((el, i) => {
     el.textContent = translations[lang][`project${i + 1}Title`];
   });
   
+  // Function to populate multi-paragraph content and skills
   function populateContent(container, paragraphKey, skillsKey) {
       const textContainer = container.querySelector('.project-text-content');
       if (textContainer && translations[lang][paragraphKey]) {
@@ -142,6 +183,7 @@ function setLanguage(lang) {
       }
   }
 
+  // Populate all project details
   const project1 = document.getElementById('project1');
   if (project1) {
     populateContent(project1, 'project1Detail', 'project1Skills');
@@ -160,6 +202,7 @@ function setLanguage(lang) {
     project3.querySelector('.download-button[download]').textContent = translations[lang].project3Download;
   }
 
+  // About Me Section
   const aboutMeContent = document.querySelector('.column.aboutme .column-content');
   const certSection = aboutMeContent.querySelector('.certifications-section');
   aboutMeContent.querySelectorAll('p').forEach(p => p.remove());

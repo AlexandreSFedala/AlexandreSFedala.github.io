@@ -6,12 +6,12 @@
 4.  Navbar & Music Player
 5.  Header & CV Button
 6.  Main Content Columns
-7.  Subpages & Project Details (3D Effect)
+7.  Subpages & Project Details
 8.  Typography
 9.  Skills Section
 10. Certifications Section
 11. PDF Viewer & Language Switcher
-12. Animations & Effects (Fades)
+12. Animations & Effects
 13. Responsive Design
 14. Helper Classes
 ------------------- */
@@ -22,7 +22,7 @@
 /* 2. Basic Reset & Global Styles */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-padding-top: var(--navbar-height); }
-body { font-family: var(--font-primary); font-size: 1.25rem; line-height: 1.7; background: var(--primary-bg); color: var(--text-color); scroll-behavior: smooth; }
+body { font-family: var(--font-primary); font-size: 1.25rem; line-height: 1.7; background: var(--primary-bg); color: var(--text-color); scroll-behavior: smooth; overflow-x: hidden; /* Prevents horizontal scroll */ }
 #main-website-content { transition: opacity 1s ease; opacity: 1; }
 #main-website-content.hidden { opacity: 0; pointer-events: none; display: block !important; }
 body.loading #main-website-content { display: none; }
@@ -33,20 +33,14 @@ body.loading #main-website-content { display: none; }
 #click-prompt { position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; cursor: pointer; opacity: 0; transition: opacity 0.5s ease; z-index: 1002; perspective: 800px; }
 #click-prompt:not(.hidden) { opacity: 1; }
 .prompt-text { font-family: var(--font-secondary); font-size: 2rem; color: var(--primary-bg); background: white; padding: 1rem 3rem; border: none; border-radius: 50px; position: relative; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 5px 20px rgba(0,0,0,0.2); will-change: transform; transform-style: preserve-3d; }
-.prompt-text .glint { position: absolute; width: 20px; height: 250%; background: rgba(142, 68, 173, 0.6); filter: blur(15px); transform-origin: center; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); pointer-events: none; }
-.glint-from-top-left { top: -125%; left: -100%; transform: rotate(45deg) scaleY(0); }
-.glint-from-top-right { top: -125%; right: -100%; transform: rotate(-45deg) scaleY(0); }
-.glint-from-bottom-left { bottom: -125%; left: -100%; transform: rotate(-45deg) scaleY(0); }
-.glint-from-bottom-right { bottom: -125%; right: -100%; transform: rotate(45deg) scaleY(0); }
-.prompt-text:hover .glint { transform: rotate(45deg) scaleY(1); }
-.prompt-text:hover .glint.glint-from-top-right { transform: rotate(-45deg) scaleY(1); }
-.prompt-text:hover .glint.glint-from-bottom-left { transform: rotate(-45deg) scaleY(1); }
+.prompt-text .glint, .download-button .glint { position: absolute; top: 0; left: -150%; width: 40%; height: 100%; background: linear-gradient(90deg, transparent, rgba(142, 68, 173, 0.5), transparent); transform: skewX(-25deg); transition: left 0.7s ease-in-out; pointer-events: none; }
+.prompt-text:hover .glint, .download-button:hover .glint { left: 150%; }
 
 /* 4. Navbar & Music Player */
 nav { background: rgba(255,255,255,0.15); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 2rem; position: fixed; top: 0; width: 100%; z-index: 100; transition: all 0.3s ease; border-bottom: 1.5px solid rgba(255,255,255,0.18); box-shadow: 0 4px 24px rgba(44,62,80,0.08); }
 nav.shrink { padding: 0.25rem 1.5rem; }
-.nav-left { flex: 1; display: flex; align-items: center; gap: 1.5rem; }
-.nav-right { flex: 1; display: flex; align-items: center; justify-content: flex-end; gap: 1.5rem; }
+.nav-left { flex: 1 0 0; display: flex; align-items: center; gap: 1.5rem; }
+.nav-right { flex: 1 0 0; display: flex; align-items: center; justify-content: flex-end; gap: 1.5rem; }
 .language-switcher { position: absolute; left: 50%; transform: translateX(-50%); }
 nav .logo-container { position: relative; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; }
 nav .nav-blue-circle { position: absolute; top: 50%; left: 50%; width: 50px; height: 50px; background: var(--primary-bg); border-radius: 50%; transform: translate(-50%, -50%); z-index: 1; box-shadow: 0 2px 8px rgba(52,152,219,0.18); }
@@ -89,22 +83,24 @@ body:not(.loading) .scroll-down-indicator.scrolled { opacity: 0; }
 .column.active .column-content, .column.active .subpages, .column.active .project-detail { opacity: 1; height: auto; overflow: visible; visibility: visible; }
 .column-content { padding: 20px; }
 
-/* 7. Subpages & Project Details (3D Effect) */
+/* 7. Subpages & Project Details */
 .subpages { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; padding: 2rem; perspective: 1000px; }
 .subpage { background: var(--primary-bg); border-radius: 12px; width: calc(33.333% - 2rem); min-width: 280px; text-align: center; transition: transform 0.4s ease, box-shadow 0.4s ease; cursor: pointer; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); will-change: transform; transform-style: preserve-3d; }
 .subpage:hover { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); }
 .subpage-title { font-weight: bold; font-size: 1.3rem; padding: 1.2rem; color: var(--text-color); background: var(--primary-bg); margin: 0; }
 .subpage img { width: 100%; height: 220px; object-fit: cover; display: block; margin: 0; border-radius: 0 0 12px 12px; }
 .project-detail { padding: 2rem; text-align: left; display: flex; gap: 2rem; align-items: flex-start; }
-.project-description { flex: 3; display: block; }
+.project-description { flex: 3; display: block; perspective: 800px; }
 .project-description p { margin-bottom: 1.2rem; }
+.project-description img { max-width: 100%; height: auto; }
 .project-skills { flex: 1; background: var(--skills-box-bg); padding: 1.5rem; border-radius: 12px; min-width: 250px; }
 .project-skills h4 { font-family: var(--font-secondary); font-size: 1.5rem; margin-bottom: 1rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 0.5rem; }
 .project-skills ul { list-style-type: none; padding-left: 0; }
 .project-skills ul li { margin-bottom: 0.75rem; font-size: 1.1rem; }
 .back-arrow { display: inline-block; font-size: 2rem; cursor: pointer; color: var(--text-color); margin-bottom: 1rem; user-select: none; transition: transform 0.2s; }
 .back-arrow:hover { transform: translateX(-5px); }
-.pdf-buttons-container { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin: 2rem 0; text-align: center; }
+.pdf-buttons-container { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin: 2rem 0; text-align: center; }
+.download-button { font-family: var(--font-secondary); font-size: 1.1rem; color: var(--primary-bg); background: white; padding: 0.8rem 2rem; border: none; border-radius: 50px; position: relative; overflow: hidden; transition: transform 0.2s ease, box-shadow 0.3s ease; box-shadow: 0 5px 15px rgba(0,0,0,0.2); will-change: transform; transform-style: preserve-3d; text-decoration: none; display: inline-block; }
 
 /* 8. Typography */
 .column h2 { font-family: var(--font-secondary); font-size: 3rem; font-weight: bold; text-align: center; transition: all 0.5s ease; white-space: nowrap; z-index: 2; margin: 0; position: absolute; top: 50%; left: 50%; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
@@ -114,6 +110,8 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
 
 /* 9. Skills Section */
 .skills .column-content { max-width: 700px; margin: 0 auto; }
+.skills-category { margin-bottom: 2.5rem; }
+.skills-subtitle { font-family: var(--font-secondary); font-size: 1.8rem; color: var(--accent-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem; }
 .skill { margin-bottom: 1.5rem; width: 100%; }
 .skill-name { margin-bottom: 0.5rem; font-weight: bold; display: flex; justify-content: space-between; align-items: center; }
 .skill-level-text { font-size: 0.9rem; font-weight: normal; opacity: 0.8; }
@@ -131,7 +129,7 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
 .language-switcher .lang-link { color: var(--text-color); text-decoration: none; font-weight: bold; padding: 0 0.3em; opacity: 0.7; transition: opacity 0.2s; }
 .language-switcher .lang-link.active, .language-switcher .lang-link:hover { opacity: 1; text-decoration: underline; }
 
-/* 12. Animations & Effects (Fades) */
+/* 12. Animations & Effects */
 @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-7px); } }
 .fade-in { animation: fadeIn 0.5s forwards; }
 .fade-out { animation: fadeOut 0.3s forwards; }
@@ -139,11 +137,106 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
 @keyframes fadeOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-20px); } }
 
 /* 13. Responsive Design */
-@media (max-width: 1200px) { #cv-cta-container { display: none; } }
 @media (max-width: 1024px) { .subpage { width: calc(50% - 2rem); } .project-detail { flex-direction: column; } .project-skills { width: 100%; min-width: 0; margin-top: 2rem; } }
 @media (max-width: 900px) { .column h2, h3, .certifications-title { font-size: 2.5rem; } .column h3 { font-size: 1.4rem; } body { font-size: 1.1rem; } .certification-item { width: 45%; } }
-@media (max-width: 768px) { nav { flex-direction: column; align-items: center; } .language-switcher { position: static; transform: none; margin: 0.5rem 0; } .nav-left, .nav-right { flex-basis: 100%; justify-content: center; } #music-player-container { display: none; } .main-columns { flex-direction: column; height: auto; } .column { flex: none; width: 100%; min-height: 80px; border-right: none; border-bottom: 1px solid rgba(255, 255, 255, 0.1); } .column h2, .column:not(.active) h2 { position: relative; transform: none !important; margin: 1rem 0; } .column.active { min-height: 500px; } header h1 { font-size: 2.5rem; } header p { font-size: 1.5rem; } .subpage { width: 100%; max-width: 350px; } }
-@media (max-width: 600px) { .certification-item { width: 100%; } }
+@media (max-width: 768px) {
+    /* START: NAVBAR FIX */
+    nav {
+        flex-wrap: wrap;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+    }
+    .nav-left {
+        display: flex;
+        flex-grow: 1;
+        flex-basis: auto; /* reset flex-basis */
+        justify-content: flex-start; /* align items to the start */
+    }
+    .nav-right {
+        flex-basis: auto; /* reset flex-basis */
+        justify-content: flex-end; /* align items to the end */
+    }
+    .language-switcher {
+        flex-basis: 100%;
+        order: 3;
+        text-align: center;
+        margin-top: 0.5rem;
+        position: static;
+        transform: none;
+    }
+    #audio-visualizer {
+        display: none;
+    }
+
+    /* Keep navbar padding consistent on scroll for mobile */
+    nav.shrink {
+        padding: 0.5rem 1rem;
+    }
+    /* END: NAVBAR FIX */
+    
+    .main-columns { flex-direction: column; height: auto; overflow-x: hidden; }
+    .column {
+        display: block; /* Use block layout on mobile to fix title wrapping */
+        flex: none;
+        width: 100%;
+        min-height: 80px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* START: OVERFLOW FIX */
+    /*
+      This rule uses a high-specificity selector to override desktop styles.
+      It resets the positioning and transforms applied to the h2 elements on larger screens,
+      ensuring they behave as normal block elements within the mobile layout.
+    */
+    main.main-columns > section.column > h2 {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none !important; /* Important to override the rotate transform */
+        margin: 1rem 0;
+        padding: 0 1rem; /* Add padding for spacing */
+        font-size: 2rem;
+        white-space: normal; /* Allow text to wrap */
+        width: 100%;
+        text-align: center;
+    }
+    /* END: OVERFLOW FIX */
+
+    .column.active { min-height: 500px; }
+    header h1 { font-size: 2.5rem; }
+    header p { font-size: 1.5rem; }
+    .subpage { width: 100%; max-width: 350px; }
+
+    #cv-cta-container {
+        position: relative;
+        top: auto;
+        right: auto;
+        transform: none;
+        margin-top: 2rem;
+    }
+
+    .cv-arrow {
+        font-size: 1.2rem;
+        padding: 0.8rem 1.5rem;
+    }
+}
+@media (max-width: 600px) {
+    .certification-item { width: 100%; }
+    .prompt-text { font-size: 1.5rem; padding: 0.8rem 1.5rem; }
+    header h1 { font-size: 2.2rem; }
+    header p { font-size: 1.2rem; }
+    .loader-symbols { transform: scale(0.8); }
+    .status-text { font-size: 0.9rem; }
+}
+
+@media (max-height: 500px) {
+    .column:not(.active) h2 {
+        font-size: 1.5rem;
+        padding: 0.5rem 0;
+    }
+}
 
 /* 14. Helper Classes */
 .hidden { display: none !important; }
