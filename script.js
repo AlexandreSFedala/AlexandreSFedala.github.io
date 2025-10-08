@@ -1,201 +1,234 @@
-// -----------------------------
-// 1. Shrinking Navbar on Scroll
-// -----------------------------
-const navbar = document.getElementById('navbar');
-let hasScrolledToColumns = false;
-let touchStartY = 0;
+// This function must be defined globally to be accessible from loader.js
+function initAudioSystem() {
+    const audio = document.getElementById('background-audio');
+    const playPauseBtn = document.getElementById('play-pause-btn');
+    const playIcon = document.getElementById('play-icon');
+    const pauseIcon = document.getElementById('pause-icon');
+    
+    if (!audio) return;
 
-// Single scroll event listener to avoid conflicts
-window.addEventListener('scroll', () => {
-    // Navbar shrink functionality
-    if (window.scrollY > 100) {
-        navbar.classList.add('shrink');
-    } else {
-        navbar.classList.remove('shrink');
-    }
+    let isAudioInitialized = false;
+
+    if (isAudioInitialized) return;
+
+    audio.volume = 0;
+    const targetVolume = 0.15;
     
-    // Add scrolled class for CSS effects
-    if (window.scrollY > 20) {
-        document.body.classList.add('scrolled');
-    } else {
-        document.body.classList.remove('scrolled');
-    }
-    
-    // Auto-scroll to columns - QUICK TRIGGER
-    if (!hasScrolledToColumns && window.scrollY > 10 && window.scrollY < 50) {
-        hasScrolledToColumns = true;
-        const target = document.querySelector('#main-columns');
-        if (target) {
-            const navbarHeight = navbar.offsetHeight;
-            window.scrollTo({
-                top: target.offsetTop - navbarHeight,
-                behavior: 'smooth'
-            });
+    const fadeAudioIn = setInterval(() => {
+        if (audio.paused) {
+            clearInterval(fadeAudioIn);
+            return;
         }
-    }
-    
-    // Reset if user scrolls back to top
-    if (window.scrollY < 5) {
-        hasScrolledToColumns = false;
-    }
-});
-
-// Touch events for mobile
-document.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-}, { passive: true });
-
-document.addEventListener('touchmove', (e) => {
-    if (hasScrolledToColumns) return;
-    
-    const touchY = e.touches[0].clientY;
-    const diff = touchStartY - touchY;
-    
-    // If scrolling down significantly
-    if (diff > 15 && window.scrollY < 30) {
-        hasScrolledToColumns = true;
-        const target = document.querySelector('#main-columns');
-        if (target) {
-            const navbarHeight = navbar.offsetHeight;
-            window.scrollTo({
-                top: target.offsetTop - navbarHeight,
-                behavior: 'smooth'
-            });
+        if (audio.volume < targetVolume) {
+            audio.volume = Math.min(targetVolume, audio.volume + 0.01);
+        } else {
+            audio.volume = targetVolume;
+            clearInterval(fadeAudioIn);
         }
+    }, 80);
+
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const analyser = audioContext.createAnalyser();
+    const source = audioContext.createMediaElementSource(audio);
+
+    source.connect(analyser);
+    analyser.connect(audioContext.destination);
+
+    audio.muted = false;
+    const playPromise = audio.play();
+
+    if (playPromise !== undefined) {
+        playPromise.then(() => {
+            playIcon.classList.add('hidden');
+            pauseIcon.classList.remove('hidden');
+            startVisualizer(analyser);
+        }).catch(error => {
+            console.error("Audio playback failed:", error);
+            playIcon.classList.remove('hidden');
+            pauseIcon.classList.add('hidden');
+        });
     }
-}, { passive: true });
+    isAudioInitialized = true;
+
+    if (playPauseBtn) {
+        playPauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isPlaying = !audio.paused;
+            if (isPlaying) {
+                audio.pause();
+                playIcon.classList.remove('hidden');
+                pauseIcon.classList.add('hidden');
+            } else {
+                audio.play();
+                playIcon.classList.add('hidden');
+                pauseIcon.classList.remove('hidden');
+            }
+        });
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Smooth scroll for header arrow
+    const navbar = document.getElementById('navbar');
+    const mainContent = document.getElementById('main-content');
     const scrollArrow = document.querySelector('.scroll-arrow');
-    if (scrollArrow) {
-        scrollArrow.addEventListener('click', (e) => {
-            e.preventDefault();
-            const target = document.querySelector('#main-columns');
-            if (target) {
-                const navbarHeight = navbar.offsetHeight;
-                window.scrollTo({
-                    top: target.offsetTop - navbarHeight,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    }
-
-    // Make columns "selectable" with toggle functionality
     const columns = document.querySelectorAll('.main-columns .column');
+    const projectsColumn = document.querySelector('.column.projects');
+    let hasScrolledToColumns = false;
+    let touchStartY = 0;
 
-    columns.forEach(column => {
-        column.addEventListener('click', () => {
-            // Check if the clicked column is already active
-            const isAlreadyActive = column.classList.contains('active');
-            
-            // Remove 'active' from all columns first
-            columns.forEach(c => c.classList.remove('active'));
-            
-            // If the column wasn't already active, activate it
-            if (!isAlreadyActive) {
-                column.classList.add('active');
-                
-                // Scroll to make sure column is visible below navbar
-                setTimeout(() => {
-                    const navbarHeight = navbar.offsetHeight;
-                    window.scrollTo({
-                        top: column.offsetTop - navbarHeight,
-                        behavior: 'smooth'
-                    });
-                }, 50);
-                
-                // Special handling for projects column
-                if (column.classList.contains('projects')) {
-                    const subpagesContainer = column.querySelector('.subpages');
-                    const projectDetails = column.querySelectorAll('.project-detail');
-                    
-                    subpagesContainer.classList.remove('hidden');
-                    subpagesContainer.classList.add('flex-visible');
-                    projectDetails.forEach(p => {
-                        p.classList.remove('visible');
-                        p.classList.add('hidden');
-                    });
-                } else if (column.classList.contains('aboutme')) {
-                  setTimeout(() => {
-                    const certSection = column.querySelector('.certifications-section');
-                    if (certSection) certSection.style.display = 'block';
-                  }, 300);
-                } else {
-                  // Hide certifications if About Me is not active
-                  const aboutMeCol = document.querySelector('.column.aboutme');
-                  if (aboutMeCol) {
-                    const certSection = aboutMeCol.querySelector('.certifications-section');
-                    if (certSection) certSection.style.display = 'none';
-                  }
-                }
+    const scrollToElement = (targetElement) => {
+        if (!targetElement) return;
+        const navbarHeight = navbar.offsetHeight;
+        window.scrollTo({ top: targetElement.offsetTop - navbarHeight, behavior: 'smooth' });
+    };
+
+    const handleScroll = () => {
+        const scrollPosition = window.scrollY;
+        navbar.classList.toggle('shrink', scrollPosition > 100);
+        const scrollIndicator = document.querySelector('.scroll-down-indicator');
+        if (scrollIndicator) {
+            scrollIndicator.classList.toggle('scrolled', scrollPosition > 20);
+        }
+        if (!hasScrolledToColumns && scrollPosition > 10 && scrollPosition < 50) {
+            hasScrolledToColumns = true;
+            scrollToElement(mainContent);
+        }
+        if (scrollPosition < 5) hasScrolledToColumns = false;
+    };
+    
+    const handleTouchStart = (e) => { touchStartY = e.touches[0].clientY; };
+    const handleTouchMove = (e) => {
+        if (hasScrolledToColumns) return;
+        if (touchStartY - e.touches[0].clientY > 15 && window.scrollY < 30) {
+            hasScrolledToColumns = true;
+            scrollToElement(mainContent);
+        }
+    };
+
+    const handleColumnClick = (event) => {
+        const clickedColumn = event.target.closest('.column');
+        if (!clickedColumn) return;
+        const isAlreadyActive = clickedColumn.classList.contains('active');
+        const activeColumn = document.querySelector('.column.active');
+        if (activeColumn && !isAlreadyActive) {
+            const contentToFade = activeColumn.querySelector('.column-content, .subpages, .project-detail.visible');
+            if (contentToFade) {
+                contentToFade.classList.add('fade-out');
             }
-        });
-    });
+        }
+        setTimeout(() => {
+            columns.forEach(col => col.classList.remove('active'));
+            if (!isAlreadyActive) {
+                clickedColumn.classList.add('active');
+                const contentToFadeIn = clickedColumn.querySelector('.column-content, .subpages');
+                if (contentToFadeIn) {
+                    contentToFadeIn.classList.remove('fade-out');
+                    contentToFadeIn.classList.add('fade-in');
+                }
+                setTimeout(() => scrollToElement(clickedColumn), 50);
+                if (clickedColumn.classList.contains('projects')) resetProjectsView();
+                if (clickedColumn.classList.contains('skills')) animateSkillBars();
+            }
+        }, isAlreadyActive ? 0 : 150);
+    };
 
-    // Projects subpage click behavior
-    const projectsColumn = document.querySelector('.projects');
-    if (projectsColumn) {
+    const animateSkillBars = () => {
+        const skillLevelMap = { 'None': '5%', 'Basic': '25%', 'Intermediate': '50%', 'Proficient': '75%', 'Expert': '100%' };
+        setTimeout(() => {
+            document.querySelectorAll('.skill').forEach(skill => {
+                const level = skill.dataset.level;
+                const targetWidth = skillLevelMap[level] || '0%';
+                const barFill = skill.querySelector('.skill-bar-fill');
+                barFill.style.width = '0%';
+                setTimeout(() => { barFill.style.width = targetWidth; }, 100);
+            });
+        }, 300);
+    };
+
+    const toggleVisibility = (element, show, useFlex = false) => {
+        if (!element) return;
+        if (show) {
+            element.classList.remove('hidden', 'fade-out');
+            element.classList.add(useFlex ? 'flex-visible' : 'visible', 'fade-in');
+        } else {
+            element.classList.remove('visible', 'flex-visible', 'fade-in');
+            element.classList.add('hidden', 'fade-out');
+        }
+    };
+
+    const resetProjectsView = () => {
         const subpagesContainer = projectsColumn.querySelector('.subpages');
         const projectDetails = projectsColumn.querySelectorAll('.project-detail');
-        const subpages = projectsColumn.querySelectorAll('.subpage');
+        toggleVisibility(subpagesContainer, true, true);
+        projectDetails.forEach(detail => toggleVisibility(detail, false));
+    };
 
-        // Initialize display states using classes
-        subpagesContainer.classList.add('flex-visible');
-        projectDetails.forEach(p => p.classList.add('hidden'));
+    const handleProjectSubpageClick = (event) => {
+        const subpage = event.target.closest('.subpage');
+        if (!subpage) return;
+        event.stopPropagation();
+        const targetId = subpage.dataset.target;
+        const targetProject = document.getElementById(targetId);
+        const subpagesContainer = projectsColumn.querySelector('.subpages');
+        toggleVisibility(subpagesContainer, false);
+        toggleVisibility(targetProject, true);
+    };
+    
+    const handleProjectBackArrowClick = (event) => {
+        const backArrow = event.target.closest('.back-arrow');
+        if (!backArrow) return;
+        event.stopPropagation();
+        const projectDetail = backArrow.closest('.project-detail');
+        toggleVisibility(projectDetail, false);
+        const subpagesContainer = projectsColumn.querySelector('.subpages');
+        toggleVisibility(subpagesContainer, true, true);
+    };
 
-        subpages.forEach(subpage => {
-            subpage.addEventListener('click', e => {
-                e.stopPropagation();
-                const targetId = subpage.dataset.target;
-
-                // Hide subpages and other details using classes
-                subpagesContainer.classList.remove('flex-visible');
-                subpagesContainer.classList.add('hidden');
-                projectDetails.forEach(p => {
-                    p.classList.remove('visible');
-                    p.classList.add('hidden');
-                });
-
-                // Show selected project detail
-                const targetProject = document.getElementById(targetId);
-                if(targetProject) {
-                    targetProject.classList.remove('hidden');
-                    targetProject.classList.add('visible');
-                }
-            });
-        });
-
-        // Back arrow inside project detail
-        projectDetails.forEach(detail => {
+    const createBackArrows = () => {
+        if (!projectsColumn) return;
+        projectsColumn.querySelectorAll('.project-detail').forEach(detail => {
+            if (detail.querySelector('.back-arrow')) return;
             const backBtn = document.createElement('span');
             backBtn.textContent = '←';
             backBtn.classList.add('back-arrow');
-            backBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                detail.classList.remove('visible');
-                detail.classList.add('hidden');
-                subpagesContainer.classList.remove('hidden');
-                subpagesContainer.classList.add('flex-visible');
+            backBtn.setAttribute('aria-label', 'Back to projects');
+            detail.querySelector('.project-description').prepend(backBtn);
+        });
+    };
+    
+    const init3dCards = () => {
+        const cards = document.querySelectorAll('.subpage');
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const rotateX = (y - centerY) / 20;
+                const rotateY = (centerX - x) / 20;
+                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
             });
-            detail.prepend(backBtn);
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+            });
         });
-    }
+    };
 
-    // Animate skill bars when skills column is activated
-    const skillsColumn = document.querySelector('.skills');
-    if (skillsColumn) {
-        skillsColumn.addEventListener('click', () => {
-            setTimeout(() => {
-                document.querySelectorAll('.skill-bar-fill').forEach(bar => {
-                    const width = bar.style.width;
-                    bar.style.width = '0';
-                    setTimeout(() => {
-                        bar.style.width = width;
-                    }, 100);
-                });
-            }, 500);
-        });
-    }
+    const attachEventListeners = () => {
+        window.addEventListener('scroll', handleScroll);
+        document.addEventListener('touchstart', handleTouchStart, { passive: true });
+        document.addEventListener('touchmove', handleTouchMove, { passive: true });
+        if (scrollArrow) scrollArrow.addEventListener('click', (e) => { e.preventDefault(); scrollToElement(mainContent); });
+        if (mainContent) mainContent.addEventListener('click', handleColumnClick);
+        if (projectsColumn) {
+            projectsColumn.addEventListener('click', handleProjectSubpageClick);
+            projectsColumn.addEventListener('click', handleProjectBackArrowClick);
+        }
+    };
+
+    attachEventListeners();
+    createBackArrows();
+    init3dCards();
 });
