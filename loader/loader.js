@@ -86,6 +86,21 @@ function startLoader(onLoaderFinished) {
 // Main logic execution
 document.addEventListener('DOMContentLoaded', () => {
     const loaderOverlay = document.getElementById('loader-overlay');
+
+    // Preload the aureole animation by briefly adding and removing a hidden aureole element.
+    // This forces the browser to cache the keyframes, preventing stutter on first run.
+    if (loaderOverlay) {
+        const preloadAureole = document.createElement('div');
+        preloadAureole.className = 'aureole';
+        preloadAureole.style.position = 'absolute';
+        preloadAureole.style.opacity = '0';
+        preloadAureole.style.pointerEvents = 'none';
+        loaderOverlay.appendChild(preloadAureole);
+        setTimeout(() => {
+            preloadAureole.remove();
+        }, 50);
+    }
+
     const clickPrompt = document.getElementById('click-prompt');
     const mainContent = document.getElementById('main-website-content');
     const loaderSymbols = document.querySelector('.loader-symbols');
@@ -110,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const languageButtons = document.querySelectorAll('.language-button');
+    const buttonListeners = new Map();
 
     // Handle 3D hover effect and click for language buttons
     languageButtons.forEach(button => {
@@ -117,21 +133,26 @@ document.addEventListener('DOMContentLoaded', () => {
         glint.className = 'glint';
         button.appendChild(glint);
 
-        button.addEventListener('mousemove', (e) => {
+        // Define named handlers for the hover effect so they can be removed later
+        const handleMouseMove = (e) => {
             const rect = button.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            // Match the rotation effect of the project cards
             const rotateX = (y - centerY) / 20;
             const rotateY = (centerX - x) / 20;
             button.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-        });
+        };
 
-        button.addEventListener('mouseleave', () => {
+        const handleMouseLeave = () => {
             button.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-        });
+        };
+
+        buttonListeners.set(button, { handleMouseMove, handleMouseLeave });
+
+        button.addEventListener('mousemove', handleMouseMove);
+        button.addEventListener('mouseleave', handleMouseLeave);
 
         button.addEventListener('click', () => {
             const lang = button.dataset.lang;
@@ -139,8 +160,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 setLanguage(lang);
             }
 
-            // 1. Disable pointer events and identify buttons
-            languageButtons.forEach(btn => btn.style.pointerEvents = 'none');
+            // 1. Disable all hover effects and pointer events to prevent conflicts
+            languageButtons.forEach(btn => {
+                btn.style.pointerEvents = 'none';
+                const listeners = buttonListeners.get(btn);
+                if (listeners) {
+                    btn.removeEventListener('mousemove', listeners.handleMouseMove);
+                    btn.removeEventListener('mouseleave', listeners.handleMouseLeave);
+                }
+            });
+
             const selectedButton = button;
             const unselectedButton = Array.from(languageButtons).find(btn => btn !== selectedButton);
 
