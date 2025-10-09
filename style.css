@@ -193,11 +193,11 @@ nav .social-links img { filter: var(--social-icon-filter); transition: filter 0.
     transition: transform 0.3s ease;
 }
 
-.theme-icon {
+#theme-switcher .theme-icon {
     width: 22px;
     height: 22px;
-    transition: transform 0.3s ease, opacity 0.3s ease, filter 0.3s;
-    filter: invert(1);
+    stroke: var(--play-btn-icon);
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 #theme-switcher .moon-icon {
@@ -205,7 +205,6 @@ nav .social-links img { filter: var(--social-icon-filter); transition: filter 0.
     transform: scale(0.9);
 }
 
-/* Dark Theme Adjustments for Switcher */
 [data-theme='dark'] #theme-switcher .lever {
     transform: translateX(24px);
 }
@@ -220,10 +219,14 @@ nav .social-links img { filter: var(--social-icon-filter); transition: filter 0.
     transform: scale(1);
 }
 
-[data-theme='dark'] .theme-icon {
-    filter: invert(0);
+/* Explicitly set icon colors for dark theme to fix rendering bug */
+[data-theme='dark'] #theme-switcher .theme-icon {
+    stroke: var(--play-btn-icon);
 }
 
+[data-theme='dark'] .social-links img {
+    filter: var(--social-icon-filter);
+}
 
 /* 5. Header & CV Button */
 header { position: relative; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem; background-image: url('images/portico_welcome_sized.jpg'); background-size: cover; background-position: center; overflow: hidden; }
@@ -315,10 +318,15 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
         justify-content: space-between;
         padding: 0.5rem 1rem;
     }
-    .nav-left, .nav-right {
+    .nav-left {
         display: flex;
-        align-items: center;
-        gap: 0.75rem;
+        flex-grow: 1;
+        flex-basis: auto; /* reset flex-basis */
+        justify-content: flex-start; /* align items to the start */
+    }
+    .nav-right {
+        flex-basis: auto; /* reset flex-basis */
+        justify-content: flex-end; /* align items to the end */
     }
     #audio-visualizer {
         display: none;
@@ -327,46 +335,6 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
     /* Keep navbar padding consistent on scroll for mobile */
     nav.shrink {
         padding: 0.5rem 1rem;
-    }
-
-    #theme-switcher {
-        border: 2px solid var(--play-btn-border);
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        padding: 0;
-        background: none;
-        position: relative;
-        overflow: hidden;
-    }
-
-    #theme-switcher .switch {
-        display: none; /* Hide toggle on mobile */
-    }
-
-    #theme-switcher .theme-icon {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-        width: 20px;
-        height: 20px;
-    }
-
-    #theme-switcher .moon-icon {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0);
-    }
-
-    [data-theme='dark'] #theme-switcher .sun-icon {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0);
-    }
-
-    [data-theme='dark'] #theme-switcher .moon-icon {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
     }
     /* END: NAVBAR FIX */
     
