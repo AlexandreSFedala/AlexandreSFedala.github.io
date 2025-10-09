@@ -94,7 +94,7 @@ const projectsData = {
       pdf: "pdfs/lamp_survey.pdf",
       pdfButtonText: "Voir le PDF dans le navigateur",
       downloadText: "Télécharger le rapport complet",
-      skills: [ "Analyse de Terrain", "AutoCAD", "Collecte et Analyse de Données", "Leadership d'Équipe", "Gestion de Projet", "Rapport Technique" ],
+      skills: [ "Arpentage", "AutoCAD", "Collecte et Analyse de Données", "Leadership d'Équipe", "Gestion de Projet", "Rapport Technique" ],
       detailImage: "images/AutoCAD.jpg",
       detailImageAlt: "Final AutoCAD rendering of the land survey"
     }

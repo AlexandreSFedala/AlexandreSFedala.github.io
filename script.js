@@ -10,7 +10,7 @@ function initAudioSystem() {
     if (isAudioInitialized) return;
 
     audio.volume = 0;
-    const targetVolume = 0.10; // Music volume set to 10%
+    const targetVolume = 0.05; // Music volume reduced to 5%
     
     const fadeAudioIn = setInterval(() => {
         if (audio.paused) { clearInterval(fadeAudioIn); return; }
@@ -56,34 +56,14 @@ function initAudioSystem() {
     }
 }
 
-// Reusable function for applying interactive 3D tilt effects - now on window
+// OPTIMIZED: Removed performance-intensive JS animations. This will be replaced by CSS transitions.
 window.applyInteractiveEffects = function(element) {
     if (!element) return;
-
-    // Prevent adding multiple glint elements
     if (element.querySelector('.glint')) return;
-
     const glint = document.createElement('div');
     glint.className = 'glint';
     element.appendChild(glint);
-
-    element.addEventListener('mousemove', (e) => {
-        const rect = element.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 20;
-        element.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-        element.style.boxShadow = '0 15px 30px rgba(0,0,0,0.3)';
-    });
-
-    element.addEventListener('mouseleave', () => {
-        element.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-        element.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
-    });
-}
+};
 
 window.createBackArrows = function() {
     const projectsColumn = document.querySelector('.column.projects');
@@ -98,23 +78,9 @@ window.createBackArrows = function() {
     });
 };
 
+// OPTIMIZED: Removed performance-intensive JS animations. This will be replaced by CSS transitions.
 window.init3dCards = function() {
-    const cards = document.querySelectorAll('.subpage');
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-        });
-    });
+    // The 3D effect is now handled by CSS for better performance.
 };
 
 document.addEventListener('DOMContentLoaded', () => {
