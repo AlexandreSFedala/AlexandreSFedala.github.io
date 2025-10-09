@@ -10,7 +10,7 @@ function initAudioSystem() {
     if (isAudioInitialized) return;
 
     audio.volume = 0;
-    const targetVolume = 0.10; // Music volume set to 10%
+    const targetVolume = 0.05; // Music volume reduced to 5%
     
     const fadeAudioIn = setInterval(() => {
         if (audio.paused) { clearInterval(fadeAudioIn); return; }
@@ -56,36 +56,34 @@ function initAudioSystem() {
     }
 }
 
-// Reusable function for applying interactive 3D tilt effects
-function applyInteractiveEffects(element) {
+// OPTIMIZED: Removed performance-intensive JS animations. This will be replaced by CSS transitions.
+window.applyInteractiveEffects = function(element) {
     if (!element) return;
-
+    if (element.querySelector('.glint')) return;
     const glint = document.createElement('div');
     glint.className = 'glint';
     element.appendChild(glint);
+};
 
-    element.addEventListener('mousemove', (e) => {
-        const rect = element.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 20;
-        element.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-        element.style.boxShadow = '0 15px 30px rgba(0,0,0,0.3)';
+window.createBackArrows = function() {
+    const projectsColumn = document.querySelector('.column.projects');
+    if (!projectsColumn) return;
+    projectsColumn.querySelectorAll('.project-detail').forEach(detail => {
+        if (detail.querySelector('.back-arrow')) return;
+        const backBtn = document.createElement('span');
+        backBtn.textContent = '←';
+        backBtn.classList.add('back-arrow');
+        backBtn.setAttribute('aria-label', 'Back to projects');
+        detail.querySelector('.project-description').prepend(backBtn);
     });
+};
 
-    element.addEventListener('mouseleave', () => {
-        element.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-        element.style.boxShadow = '0 5px 15px rgba(0,0,0,0.2)';
-    });
-}
+// OPTIMIZED: Removed performance-intensive JS animations. This will be replaced by CSS transitions.
+window.init3dCards = function() {
+    // The 3D effect is now handled by CSS for better performance.
+};
 
 document.addEventListener('DOMContentLoaded', () => {
-    applyInteractiveEffects(document.querySelector('.prompt-text'));
-    document.querySelectorAll('.download-button').forEach(button => applyInteractiveEffects(button));
-
     const navbar = document.getElementById('navbar');
     const mainContent = document.getElementById('main-content');
     const scrollArrow = document.querySelector('.scroll-arrow');
@@ -202,37 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleVisibility(subpagesContainer, true, true);
     };
 
-    const createBackArrows = () => {
-        if (!projectsColumn) return;
-        projectsColumn.querySelectorAll('.project-detail').forEach(detail => {
-            if (detail.querySelector('.back-arrow')) return;
-            const backBtn = document.createElement('span');
-            backBtn.textContent = '←';
-            backBtn.classList.add('back-arrow');
-            backBtn.setAttribute('aria-label', 'Back to projects');
-            detail.querySelector('.project-description').prepend(backBtn);
-        });
-    };
-    
-    const init3dCards = () => {
-        const cards = document.querySelectorAll('.subpage');
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-            });
-        });
-    };
-
     const attachEventListeners = () => {
         window.addEventListener('scroll', handleScroll);
         document.addEventListener('touchstart', handleTouchStart, { passive: true });
@@ -246,6 +213,4 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     attachEventListeners();
-    createBackArrows();
-    init3dCards();
 });
