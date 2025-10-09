@@ -56,12 +56,21 @@
           <div class="nav-blue-circle"></div>
           <a href="#" class="logo"><img src="images/logo.png" alt="Alexandre S. Fedala Portfolio Logo" class="nav-logo"></a>
         </div>
-        <div id="music-player-container">
-            <button id="play-pause-btn" aria-label="Play Music">
-                <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                <svg id="pause-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-            </button>
-            <canvas id="audio-visualizer"></canvas>
+        <div class="left-controls">
+            <div id="music-player-container">
+                <button id="play-pause-btn" aria-label="Play Music">
+                    <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    <svg id="pause-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                </button>
+                <canvas id="audio-visualizer"></canvas>
+            </div>
+            <div id="theme-switcher" role="button" aria-label="Toggle theme" tabindex="0">
+                <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zm-9-7c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1zm0 12c.55 0 1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1zM5.64 7.05c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L5.64 4.22c-.39-.39-1.02-.39-1.41 0s-.39 1.02 0 1.41l1.41 1.42zm12.73 12.73c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41l-1.41-1.41c-.39-.39-1.02-.39-1.41 0s-.39 1.02 0 1.41l1.41 1.41zM4.22 18.36c.39.39 1.02.39 1.41 0l1.41-1.41c.39-.39.39-1.02 0-1.41s-1.02-.39-1.41 0l-1.41 1.41c-.39.39-.39 1.02 0 1.41zm14.14-14.14c.39-.39.39-1.02 0-1.41s-1.02-.39-1.41 0l-1.41 1.41c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0z"/></svg>
+                <div class="switch">
+                    <div class="lever"></div>
+                </div>
+                <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.1 2.05c-1.12.35-2.09 1.05-2.85 1.95C4.95 7.82 7.01 13 11.5 13c.46 0 .91-.04 1.35-.12-1.22 1.9-3.32 3.12-5.65 3.12-3.53 0-6.42-2.89-6.42-6.42 0-2.33 1.22-4.43 3.12-5.65.9-1.08 2.1-1.89 3.47-2.34-.23.55-.37 1.15-.37 1.78 0 2.76 2.24 5 5 5 .63 0 1.23-.14 1.78-.37-.45-1.37-1.26-2.57-2.34-3.47z"/></svg>
+            </div>
         </div>
       </div>
       <div class="nav-right">
@@ -70,10 +79,6 @@
             <a href="https://www.linkedin.com/in/afedala/" target="_blank" aria-label="LinkedIn"><img src="images/linkedin-app-white-icon.png" alt="LinkedIn Icon" width="20" height="20"></a>
             <a href="mailto:alexandrefedala.afedala@gmail.com" aria-label="Email"><img src="images/email-envelope-white-icon.png" alt="Email Icon" width="20" height="20"></a>
         </div>
-        <button id="theme-switcher" aria-label="Toggle theme">
-            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zm-9-7c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1zm0 12c.55 0 1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1v2c0 .55.45 1 1 1zM5.64 7.05c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41L5.64 4.22c-.39-.39-1.02-.39-1.41 0s-.39 1.02 0 1.41l1.41 1.42zm12.73 12.73c.39.39 1.02.39 1.41 0s.39-1.02 0-1.41l-1.41-1.41c-.39-.39-1.02-.39-1.41 0s-.39 1.02 0 1.41l1.41 1.41zM4.22 18.36c.39.39 1.02.39 1.41 0l1.41-1.41c.39-.39.39-1.02 0-1.41s-1.02-.39-1.41 0l-1.41 1.41c-.39.39-.39 1.02 0 1.41zm14.14-14.14c.39-.39.39-1.02 0-1.41s-1.02-.39-1.41 0l-1.41 1.41c-.39.39-.39 1.02 0 1.41s1.02.39 1.41 0z"/></svg>
-            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M11.1 2.05c-1.12.35-2.09 1.05-2.85 1.95C4.95 7.82 7.01 13 11.5 13c.46 0 .91-.04 1.35-.12-1.22 1.9-3.32 3.12-5.65 3.12-3.53 0-6.42-2.89-6.42-6.42 0-2.33 1.22-4.43 3.12-5.65.9-1.08 2.1-1.89 3.47-2.34-.23.55-.37 1.15-.37 1.78 0 2.76 2.24 5 5 5 .63 0 1.23-.14 1.78-.37-.45-1.37-1.26-2.57-2.34-3.47z"/></svg>
-        </button>
       </div>
     </nav>
 
