@@ -29,7 +29,7 @@
   --font-primary: 'Open Sans', Arial, sans-serif;
   --font-secondary: 'Montserrat', Arial, sans-serif;
   --navbar-height: 80px;
-  --navbar-bg: rgba(255, 255, 255, 0.85);
+  --navbar-bg: rgba(240, 245, 255, 0.75); /* Light blue tint, more transparent */
   --navbar-border-color: rgba(0, 0, 0, 0.1);
   --header-overlay: rgba(248, 249, 250, 0.7);
   --social-links-bg: rgba(0, 0, 0, 0.05);
@@ -50,8 +50,8 @@
   --download-btn-shadow: rgba(0,123,255,0.25);
   --language-btn-color: #007bff;
   --language-btn-bg: #fff;
-  --nav-blue-circle-bg: #007bff;
-  --social-icon-filter: invert(0);
+  --nav-blue-circle-bg: #2c3e50; /* Darker blue to match logo */
+  --social-icon-filter: invert(1); /* Black icons for light theme */
   --loader-bg: #2c3e50; /* Loader is always dark */
 }
 
@@ -62,7 +62,7 @@
   --skills-box-bg: #283747;
   --text-color: #ffffff;
   --accent-color: #3498db;
-  --navbar-bg: rgba(44, 62, 80, 0.85);
+  --navbar-bg: rgba(44, 62, 80, 0.75); /* More transparent */
   --navbar-border-color: rgba(255, 255, 255, 0.18);
   --header-overlay: rgba(22, 36, 59, 0.75);
   --social-links-bg: rgba(255, 255, 255, 0.1);
@@ -83,8 +83,8 @@
   --download-btn-shadow: rgba(0,0,0,0.2);
   --language-btn-color: #2c3e50;
   --language-btn-bg: #fff;
-  --nav-blue-circle-bg: #2c3e50;
-  --social-icon-filter: invert(1);
+  --nav-blue-circle-bg: #2c3e50; /* Darker blue to match logo */
+  --social-icon-filter: invert(0); /* White icons for dark theme */
 }
 
 /* 2. Basic Reset & Global Styles */
@@ -148,6 +148,7 @@ body.loading #main-website-content { display: none; }
 nav { background: var(--navbar-bg); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 2rem; position: fixed; top: 0; width: 100%; z-index: 100; transition: all 0.3s ease; border-bottom: 1.5px solid var(--navbar-border-color); box-shadow: 0 4px 24px rgba(44,62,80,0.08); }
 nav.shrink { padding: 0.25rem 1.5rem; }
 .nav-left { flex: 1 0 0; display: flex; align-items: center; gap: 1.5rem; }
+.left-controls { display: flex; align-items: center; gap: 1.5rem; }
 .nav-right { flex: 1 0 0; display: flex; align-items: center; justify-content: flex-end; gap: 1.5rem; }
 nav .logo-container { position: relative; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; }
 nav .nav-blue-circle { position: absolute; top: 50%; left: 50%; width: 50px; height: 50px; background: var(--nav-blue-circle-bg); border-radius: 50%; transform: translate(-50%, -50%); z-index: 1; box-shadow: 0 2px 8px rgba(52,152,219,0.18); transition: background 0.3s; }
@@ -163,53 +164,60 @@ nav .social-links img { filter: var(--social-icon-filter); transition: filter 0.
 #play-pause-btn svg { width: 20px; height: 20px; fill: var(--play-btn-icon); transition: fill 0.3s; }
 #audio-visualizer { width: 100px; height: 30px; }
 
+/* New Theme Switcher Styles */
 #theme-switcher {
-    background: none;
-    border: 2px solid var(--play-btn-border);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
     display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 0;
-    transition: background 0.3s, border-color 0.3s;
-    position: relative;
-    overflow: hidden;
+    gap: 0.75rem;
+    cursor: pointer;
 }
 
-#theme-switcher:hover {
-    background: var(--play-btn-bg-hover);
-    border-color: var(--play-btn-border-hover);
+#theme-switcher .switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    background-color: var(--tertiary-bg);
+    border-radius: 13px;
+    transition: background-color 0.3s;
+}
+
+#theme-switcher .lever {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--primary-bg);
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
 }
 
 #theme-switcher svg {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     fill: var(--play-btn-icon);
-    transition: transform 0.4s ease-out, opacity 0.4s ease-out;
-    position: absolute;
-}
-
-#theme-switcher .sun-icon {
-    transform: scale(1) rotate(0deg);
-    opacity: 1;
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 #theme-switcher .moon-icon {
-    transform: scale(0) rotate(-90deg);
-    opacity: 0;
+    opacity: 0.5;
+    transform: scale(0.9);
+}
+
+/* Dark Theme Adjustments for Switcher */
+[data-theme='dark'] #theme-switcher .lever {
+    transform: translateX(24px);
 }
 
 [data-theme='dark'] #theme-switcher .sun-icon {
-    transform: scale(0) rotate(90deg);
-    opacity: 0;
+    opacity: 0.5;
+    transform: scale(0.9);
 }
 
 [data-theme='dark'] #theme-switcher .moon-icon {
-    transform: scale(1) rotate(0deg);
     opacity: 1;
+    transform: scale(1);
 }
 
 /* 5. Header & CV Button */
