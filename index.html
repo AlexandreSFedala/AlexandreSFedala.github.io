@@ -72,7 +72,9 @@
             <div id="about-me-text"></div>
             <div class="certifications-section">
               <h3 class="certifications-title" data-lang-key="certificationsTitle">Certifications</h3>
-              <div class="certifications-list"></div>
+              <div class="certifications-list">
+                <!-- Certifications will be dynamically loaded here -->
+              </div>
             </div>
           </div>
         </section>
@@ -80,59 +82,16 @@
         <section class="column skills">
             <h2 data-lang-key="skills">Skills</h2>
             <div class="column-content">
-                <div class="skills-category">
-                    <h3 class="skills-subtitle" data-lang-key="technicalSkills">Technical Skills</h3>
-                    <div class="skill" data-level="Intermediate"><div class="skill-name"><span>AutoCAD</span><span class="skill-level-text" data-lang-key="skillIntermediate">Intermediate</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
-                    <div class="skill" data-level="Intermediate"><div class="skill-name"><span>Structural Analysis</span><span class="skill-level-text" data-lang-key="skillIntermediate">Intermediate</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
-                    <div class="skill" data-level="Intermediate"><div class="skill-name"><span>Revit</span><span class="skill-level-text" data-lang-key="skillIntermediate">Intermediate</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
-                    <div class="skill" data-level="Intermediate"><div class="skill-name"><span>MatLab</span><span class="skill-level-text" data-lang-key="skillIntermediate">Intermediate</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
-                    <div class="skill" data-level="Basic"><div class="skill-name"><span>HTML</span><span class="skill-level-text" data-lang-key="skillBasic">Basic</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
-                </div>
-                <div class="skills-category">
-                    <h3 class="skills-subtitle" data-lang-key="softSkills">Soft Skills</h3>
-                    <div class="skill" data-level="Proficient"><div class="skill-name"><span>Project Management</span><span class="skill-level-text" data-lang-key="skillProficient">Proficient</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
-                    <div class="skill" data-level="Proficient"><div class="skill-name"><span>Office Software</span><span class="skill-level-text" data-lang-key="skillProficient">Proficient</span></div><div class="skill-bar"><div class="skill-bar-fill"></div></div></div>
-                </div>
+                <!-- Skills will be dynamically loaded here -->
             </div>
         </section>
 
         <section class="column projects">
             <h2 data-lang-key="projects">Projects</h2>
             <div class="subpages">
-                <div class="subpage" data-target="project1"><div class="subpage-title" data-lang-key="project1Title">UCL East Extension Design</div><img src="images/ucl_east.jpg" alt="Architectural render of UCL East Marshgate"></div>
-                <div class="subpage" data-target="project2"><div class="subpage-title" data-lang-key="project2Title">Revit - Point Cloud</div><img src="images/revitbox.jpg" alt="A 3D model created in Revit software"></div>
-                <div class="subpage" data-target="project3"><div class="subpage-title" data-lang-key="project3Title">Land Surveying</div><img src="images/landsurveyingbox.jpg" alt="A person using land surveying equipment outdoors"></div>
+                <!-- Project subpages will be dynamically loaded here -->
             </div>
-
-            <div class="project-detail" id="project1">
-                <div class="project-description">
-                    <div class="project-text-content"></div>
-                    <div class="pdf-buttons-container">
-                        <a href="pdf-viewer/pdf-viewer.html?file=../pdfs/UclEastDesign.pdf" class="download-button" target="_blank" data-lang-key="project1ViewPDF">View PDF in Browser</a>
-                        <a href="#" class="download-button" download data-lang-key="project1Download">Download Project Files</a>
-                    </div>
-                    <img src="images/artistimpression.jpg" alt="Artistic Impression of the Designed Building">
-                </div>
-                <div class="project-skills"><h4>Skills Used</h4><ul></ul></div>
-            </div>
-            <div class="project-detail" id="project2">
-                <div class="project-description">
-                    <div class="project-text-content"></div>
-                    <a href="pdfs/mainbuildingmodel.rvt" class="download-button" download data-lang-key="project2Download">Download the model (Revit 2026)</a>
-                </div>
-                <div class="project-skills"><h4>Skills Used</h4><ul></ul></div>
-            </div>
-            <div class="project-detail" id="project3">
-                <div class="project-description">
-                    <div class="project-text-content"></div>
-                    <div class="pdf-buttons-container">
-                        <a href="pdf-viewer/pdf-viewer.html?file=../pdfs/lamp_survey.pdf" class="download-button" target="_blank" data-lang-key="project3ViewPDF">View PDF in Browser</a>
-                        <a href="pdfs/lamp_survey.pdf" class="download-button" download data-lang-key="project3Download">Download Full Report</a>
-                    </div>
-                    <img src="images/AutoCAD.jpg" alt="Final AutoCAD rendering of the land survey">
-                </div>
-                <div class="project-skills"><h4>Skills Used</h4><ul></ul></div>
-            </div>
+            <!-- Project details will be dynamically loaded here -->
         </section>
     </main>
 </div>
@@ -141,7 +100,11 @@
 
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 <script src="particles-init.js"></script>
+<script src="data/projects.js"></script>
+<script src="data/skills.js"></script>
+<script src="data/certifications.js"></script>
 <script src="texts.js"></script>
+<script src="js/main.js"></script>
 <script src="loader/loader.js"></script>
 <script src="script.js"></script>
 <script src="visualizer.js"></script>

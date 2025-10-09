@@ -56,9 +56,12 @@ function initAudioSystem() {
     }
 }
 
-// Reusable function for applying interactive 3D tilt effects
-function applyInteractiveEffects(element) {
+// Reusable function for applying interactive 3D tilt effects - now on window
+window.applyInteractiveEffects = function(element) {
     if (!element) return;
+
+    // Prevent adding multiple glint elements
+    if (element.querySelector('.glint')) return;
 
     const glint = document.createElement('div');
     glint.className = 'glint';
@@ -82,10 +85,39 @@ function applyInteractiveEffects(element) {
     });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    applyInteractiveEffects(document.querySelector('.prompt-text'));
-    document.querySelectorAll('.download-button').forEach(button => applyInteractiveEffects(button));
+window.createBackArrows = function() {
+    const projectsColumn = document.querySelector('.column.projects');
+    if (!projectsColumn) return;
+    projectsColumn.querySelectorAll('.project-detail').forEach(detail => {
+        if (detail.querySelector('.back-arrow')) return;
+        const backBtn = document.createElement('span');
+        backBtn.textContent = '←';
+        backBtn.classList.add('back-arrow');
+        backBtn.setAttribute('aria-label', 'Back to projects');
+        detail.querySelector('.project-description').prepend(backBtn);
+    });
+};
 
+window.init3dCards = function() {
+    const cards = document.querySelectorAll('.subpage');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
+        });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+        });
+    });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
     const navbar = document.getElementById('navbar');
     const mainContent = document.getElementById('main-content');
     const scrollArrow = document.querySelector('.scroll-arrow');
@@ -202,37 +234,6 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleVisibility(subpagesContainer, true, true);
     };
 
-    const createBackArrows = () => {
-        if (!projectsColumn) return;
-        projectsColumn.querySelectorAll('.project-detail').forEach(detail => {
-            if (detail.querySelector('.back-arrow')) return;
-            const backBtn = document.createElement('span');
-            backBtn.textContent = '←';
-            backBtn.classList.add('back-arrow');
-            backBtn.setAttribute('aria-label', 'Back to projects');
-            detail.querySelector('.project-description').prepend(backBtn);
-        });
-    };
-    
-    const init3dCards = () => {
-        const cards = document.querySelectorAll('.subpage');
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-                card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
-            });
-        });
-    };
-
     const attachEventListeners = () => {
         window.addEventListener('scroll', handleScroll);
         document.addEventListener('touchstart', handleTouchStart, { passive: true });
@@ -246,6 +247,4 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     attachEventListeners();
-    createBackArrows();
-    init3dCards();
 });
