@@ -32,7 +32,7 @@ function renderProjects(lang) {
         subpage.dataset.target = project.id;
         subpage.innerHTML = `
             <div class="subpage-title">${project.title}</div>
-            <img src="${project.image}" alt="${project.alt}">
+            <img src="${project.image}" alt="${project.alt}" loading="lazy">
         `;
         if (subpagesContainer) {
             subpagesContainer.appendChild(subpage);
@@ -139,7 +139,7 @@ function renderCertifications(lang) {
 
     certList.innerHTML = certificationsData[lang].map(cert => `
         <div class="certification-item">
-            <img src="${cert.img}" alt="${cert.title}">
+            <img src="${cert.img}" alt="${cert.title}" loading="lazy">
             <span class="cert-title">${cert.title}</span>
         </div>
     `).join('');
