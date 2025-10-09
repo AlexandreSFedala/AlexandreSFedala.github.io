@@ -47,21 +47,6 @@ const projectsData = {
       skills: [ "Land Surveying", "AutoCAD", "Data Collection & Analysis", "Team Leadership", "Project Management", "Technical Reporting" ],
       detailImage: "images/AutoCAD.jpg",
       detailImageAlt: "Final AutoCAD rendering of the land survey"
-    },
-    {
-      id: "project4",
-      title: "Placeholder Project",
-      image: "images/placeholder.jpg",
-      alt: "a blank image",
-      description: [
-        "Insert Text Here"
-      ],
-      pdf: "pdfs/lamp_survey.pdf",
-      pdfButtonText: "View PDF in Browser",
-      downloadText: "Download Full Report",
-      skills: [ "Skill 1", "Skill 2", "Skill 3", "Skill 4", "Skill 5" ],
-      detailImage: "images/placeholder.jpg",
-      detailImageAlt: "blank"
     }
   ],
   fr: [
@@ -112,21 +97,6 @@ const projectsData = {
       skills: [ "Analyse de Terrain", "AutoCAD", "Collecte et Analyse de Données", "Leadership d'Équipe", "Gestion de Projet", "Rapport Technique" ],
       detailImage: "images/AutoCAD.jpg",
       detailImageAlt: "Final AutoCAD rendering of the land survey"
-    },
-        {
-      id: "project4",
-      title: "Projet Temporaire",
-      image: "images/placeholder.jpg",
-      alt: "a blank image",
-      description: [
-        "Insérer Texte Ici."
-      ],
-      pdf: "pdfs/lamp_survey.pdf",
-      pdfButtonText: "Voir le PDF dans le Navigateur",
-      downloadText: "Télécharger le rapport complet",
-      skills: [ "Attribut 1", "Attribut 2", "Attribut 3", "Attribut 4", "Attribut 5" ],
-      detailImage: "images/placeholder.jpg",
-      detailImageAlt: "blank"
     }
   ]
 };
