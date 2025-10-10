@@ -22,7 +22,13 @@ function renderAboutMe(lang) {
         } else if (slideData.type === 'education_languages') {
             contentHtml += '<div class="education-container">';
             contentHtml += '<h4>Education</h4>';
-            contentHtml += slideData.content.education.map(edu => `<div class="education-item">${edu}</div>`).join('');
+            contentHtml += slideData.content.education.map(edu => `
+                <div class="education-item">
+                    <p class="education-school"><b>${edu.school}</b> - <i>${edu.years}</i></p>
+                    <p class="education-degree">${edu.degree}</p>
+                    <p class="education-grade">${edu.grade}</p>
+                </div>
+            `).join('');
             contentHtml += '</div>';
 
             contentHtml += '<div class="languages-container">';

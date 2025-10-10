@@ -14,8 +14,18 @@ const aboutMeCarouselData = {
             type: "education_languages",
             content: {
                 education: [
-                    "University College London (UCL), Civil Engineering BSc (2024-2027)",
-                    "French Baccalaureate with BFI (British International Section)"
+                    {
+                        school: "University College London (UCL)",
+                        years: "2024-2027",
+                        degree: "Civil Engineering BSc",
+                        grade: "Predicted First-Class Honours"
+                    },
+                    {
+                        school: "Lycée International de Saint-Germain-en-Laye",
+                        years: "2021-2024",
+                        degree: "French Baccalaureate with BFI (British International Section)",
+                        grade: "Mention Très Bien"
+                    }
                 ],
                 languages: [
                     { name: "English", level: "Bilingual", flag: "images/uk_flag.svg" },
@@ -59,8 +69,18 @@ const aboutMeCarouselData = {
             type: "education_languages",
             content: {
                 education: [
-                    "University College London (UCL), Licence en Génie Civil (2024-2027)",
-                    "Baccalauréat français avec BFI (Section Internationale Britannique)"
+                    {
+                        school: "University College London (UCL)",
+                        years: "2024-2027",
+                        degree: "Licence en Génie Civil",
+                        grade: "Prévision : Mention Très Bien (First-Class Honours)"
+                    },
+                    {
+                        school: "Lycée International de Saint-Germain-en-Laye",
+                        years: "2021-2024",
+                        degree: "Baccalauréat français avec BFI (Section Internationale Britannique)",
+                        grade: "Mention Très Bien"
+                    }
                 ],
                 languages: [
                     { name: "Anglais", level: "Bilingue", flag: "images/uk_flag.svg" },
