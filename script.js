@@ -212,11 +212,61 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const mobileMenuTrigger = document.getElementById('mobile-menu-trigger');
+        const mobileDropdown = document.getElementById('mobile-dropdown');
+        const navbar = document.getElementById('navbar');
+
+        const musicPlayer = document.getElementById('music-player-container');
+        const themeSwitcher = document.getElementById('theme-switcher');
+        const socialLinks = document.querySelector('.nav-right .social-links');
+
+        const musicPlayerMobile = document.getElementById('music-player-container-mobile');
+        const themeSwitcherMobile = document.getElementById('theme-switcher-mobile');
+        const socialLinksMobile = document.querySelector('.social-links-mobile');
+
+        const desktopControls = document.querySelector('.desktop-controls');
+        const navRight = document.querySelector('.nav-right');
+
+        const setupMenuLayout = () => {
+            if (window.innerWidth <= 768) {
+                // Move controls to mobile dropdown
+                if (musicPlayer && musicPlayerMobile && !musicPlayerMobile.contains(musicPlayer)) {
+                    musicPlayerMobile.appendChild(musicPlayer);
+                }
+                if (themeSwitcher && themeSwitcherMobile && !themeSwitcherMobile.contains(themeSwitcher)) {
+                    themeSwitcherMobile.appendChild(themeSwitcher);
+                }
+                if (socialLinks && socialLinksMobile && !socialLinksMobile.contains(socialLinks)) {
+                    socialLinksMobile.appendChild(socialLinks);
+                }
+            } else {
+                // Move controls back to desktop view
+                if (musicPlayer && desktopControls && !desktopControls.contains(musicPlayer)) {
+                    desktopControls.insertBefore(musicPlayer, themeSwitcher);
+                }
+                if (themeSwitcher && desktopControls && !desktopControls.contains(themeSwitcher)) {
+                    desktopControls.appendChild(themeSwitcher);
+                }
+                if (socialLinks && navRight && !navRight.contains(socialLinks)) {
+                    navRight.appendChild(socialLinks);
+                }
+                // Ensure dropdown is closed if resizing to desktop
+                if(navbar.classList.contains('dropdown-open')) {
+                    navbar.classList.remove('dropdown-open');
+                    mobileDropdown.classList.add('hidden');
+                }
+            }
+        };
+
         if (mobileMenuTrigger) {
             mobileMenuTrigger.addEventListener('click', () => {
                 navbar.classList.toggle('dropdown-open');
+                mobileDropdown.classList.toggle('hidden');
             });
         }
+
+        // Initial setup and resize handling
+        setupMenuLayout();
+        window.addEventListener('resize', setupMenuLayout);
     };
 
     attachEventListeners();
