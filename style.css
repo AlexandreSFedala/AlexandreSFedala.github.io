@@ -163,8 +163,8 @@ nav {
 }
 nav.shrink { padding: 0.25rem 1.5rem; }
 .nav-left { display: flex; align-items: center; gap: 1.5rem; }
-.nav-controls { display: flex; align-items: center; gap: 1.5rem; }
-.nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 1.5rem; }
+.desktop-controls { display: flex; align-items: center; gap: 1.5rem; }
+.nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 1.5rem; flex-grow: 1; }
 nav .logo-container { position: relative; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; }
 nav .nav-blue-circle { position: absolute; top: 50%; left: 50%; width: 50px; height: 50px; background: var(--nav-blue-circle-bg); border-radius: 50%; transform: translate(-50%, -50%); z-index: 1; box-shadow: 0 2px 8px rgba(52,152,219,0.18); transition: background 0.3s; }
 nav .nav-logo { position: relative; z-index: 2; width: 32px; height: 32px; object-fit: contain; display: block; transition: transform 0.3s ease; }
@@ -179,7 +179,7 @@ nav .social-links img { filter: var(--social-icon-filter); transition: filter 0.
 #play-pause-btn svg { width: 20px; height: 20px; fill: var(--play-btn-icon); transition: fill 0.3s; }
 #audio-visualizer { width: 100px; height: 30px; }
 
-#mobile-menu-trigger { display: none; }
+#mobile-menu { display: none; }
 
 /* New Theme Switcher Styles */
 #theme-switcher {
@@ -325,25 +325,16 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
         position: sticky; /* Ensure navbar stays on top */
     }
     .nav-left {
-        flex-grow: 1; /* Allow logo and trigger to take up space */
         justify-content: space-between;
     }
-    .nav-controls {
+    .desktop-controls, .nav-right {
         display: none;
+    }
+    #mobile-menu {
+        display: flex;
         flex-direction: column;
         width: 100%;
-        background: var(--navbar-bg);
-        padding: 1rem;
-        gap: 1.5rem;
-        border-top: 1px solid var(--navbar-border-color);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        order: 3; /* Ensure it appears below the nav-left */
-    }
-    nav.dropdown-open .nav-controls {
-        display: flex;
-    }
-    .nav-right {
-        display: none; /* Hide desktop social links */
+        order: 3;
     }
     #mobile-menu-trigger {
         display: block;
@@ -351,24 +342,38 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
         border: none;
         cursor: pointer;
         padding: 0.5rem;
+        position: absolute;
+        right: 1rem;
+        top: 0.75rem;
     }
     #mobile-menu-trigger svg {
         stroke: var(--text-color);
         transition: transform 0.3s ease;
     }
-    nav.dropdown-open #mobile-menu-trigger svg {
+    #navbar.dropdown-open #mobile-menu-trigger svg {
         transform: rotate(180deg);
     }
+    #mobile-dropdown {
+        background: var(--navbar-bg);
+        padding: 1rem;
+        border-top: 1.5px solid var(--navbar-border-color);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    #mobile-dropdown > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+    }
     #audio-visualizer {
-        display: block; /* Show visualizer in dropdown */
+        display: block;
     }
-    .nav-controls .social-links {
-        display: flex; /* Show these in the dropdown */
-        width: 100%;
+    .social-links-mobile {
+        display: flex;
         justify-content: space-around;
-        padding: 1rem 0;
+        width: 100%;
+        padding-top: 1rem;
     }
-    
     .main-columns { flex-direction: column; height: auto; overflow-x: hidden; }
     .column {
         display: block; /* Use block layout on mobile to fix title wrapping */
@@ -378,13 +383,6 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
         border-right: none;
         border-bottom: 1px solid var(--column-border);
     }
-    
-    /* START: OVERFLOW FIX */
-    /*
-      This rule uses a high-specificity selector to override desktop styles.
-      It resets the positioning and transforms applied to the h2 elements on larger screens,
-      ensuring they behave as normal block elements within the mobile layout.
-    */
     main.main-columns > section.column > h2 {
         position: relative;
         top: auto;
@@ -397,10 +395,11 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
         width: 100%;
         text-align: center;
     }
-    /* END: OVERFLOW FIX */
-
     .column.active { min-height: 500px; }
-    header h1 { font-size: 2.5rem; }
+    header h1 {
+        font-size: 2.2rem;
+        margin-top: -5vh; /* Adjust title position to avoid overlap */
+    }
     header p { font-size: 1.5rem; }
     .subpage { width: 100%; max-width: 350px; }
 
