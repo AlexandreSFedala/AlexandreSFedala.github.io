@@ -21,10 +21,10 @@ const aboutMeCarouselData = {
                         grade: "Predicted First-Class Honours"
                     },
                     {
-                        school: "Lycée International de Saint-Germain-en-Laye",
+                        school: "Lycée Auguste Renoir (Limoges)",
                         years: "2021-2024",
                         degree: "French Baccalaureate with BFI (British International Section)",
-                        grade: "Mention Très Bien"
+                        grade: "Mention Bien (High Honours)"
                     }
                 ],
                 languages: [
@@ -76,10 +76,10 @@ const aboutMeCarouselData = {
                         grade: "Prévision : Mention Très Bien (First-Class Honours)"
                     },
                     {
-                        school: "Lycée International de Saint-Germain-en-Laye",
+                        school: "Lycée Auguste Renoir (Limoges)",
                         years: "2021-2024",
-                        degree: "Baccalauréat français avec BFI (Section Internationale Britannique)",
-                        grade: "Mention Très Bien"
+                        degree: "Baccalauréat français avec BFI (Baccalauréat Français International)",
+                        grade: "Mention Bien"
                     }
                 ],
                 languages: [
