@@ -14,7 +14,7 @@ const aboutMeCarouselData = {
             type: "education_languages",
             content: {
                 education: [
-                    "University College London (UCL), Civil Engineering BSc (2022-2025)",
+                    "University College London (UCL), Civil Engineering BSc (2024-2027)",
                     "French Baccalaureate with BFI (British International Section)"
                 ],
                 languages: [
@@ -59,7 +59,7 @@ const aboutMeCarouselData = {
             type: "education_languages",
             content: {
                 education: [
-                    "University College London (UCL), Licence en Génie Civil (2022-2025)",
+                    "University College London (UCL), Licence en Génie Civil (2024-2027)",
                     "Baccalauréat français avec BFI (Section Internationale Britannique)"
                 ],
                 languages: [
