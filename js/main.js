@@ -19,6 +19,24 @@ function renderAboutMe(lang) {
 
         if (slideData.type === 'text') {
             contentHtml += slideData.content.map(p => `<p>${p}</p>`).join('');
+        } else if (slideData.type === 'education_languages') {
+            contentHtml += '<div class="education-container">';
+            contentHtml += '<h4>Education</h4>';
+            contentHtml += slideData.content.education.map(edu => `<div class="education-item">${edu}</div>`).join('');
+            contentHtml += '</div>';
+
+            contentHtml += '<div class="languages-container">';
+            contentHtml += '<h4>Languages</h4>';
+            contentHtml += '<ul class="languages-list">';
+            contentHtml += slideData.content.languages.map(lang => `
+                <li class="language-item">
+                    <img src="${lang.flag}" alt="${lang.name} flag" class="language-flag">
+                    <span class="language-name">${lang.name}</span>
+                    <span class="language-level">${lang.level}</span>
+                </li>
+            `).join('');
+            contentHtml += '</ul>';
+            contentHtml += '</div>';
         } else if (slideData.type === 'certifications') {
             contentHtml += '<div class="carousel-certifications-list">';
             contentHtml += slideData.content.map(cert => `
@@ -81,12 +99,14 @@ function setupCarousel() {
         });
     }
 
-    prevButton.addEventListener('click', () => {
+    prevButton.addEventListener('click', (e) => {
+        e.stopPropagation();
         currentSlide = (currentSlide > 0) ? currentSlide - 1 : slides.length - 1;
         showSlide(currentSlide);
     });
 
-    nextButton.addEventListener('click', () => {
+    nextButton.addEventListener('click', (e) => {
+        e.stopPropagation();
         currentSlide = (currentSlide < slides.length - 1) ? currentSlide + 1 : 0;
         showSlide(currentSlide);
     });

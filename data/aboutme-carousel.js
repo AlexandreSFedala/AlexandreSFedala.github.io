@@ -11,11 +11,19 @@ const aboutMeCarouselData = {
         },
         {
             title: "Education & Languages",
-            type: "text",
-            content: [
-                "<b>Education:</b> University College London (UCL), Civil Engineering BSc (2022-2025)",
-                "<b>Languages:</b> English (Native), French (Native), Spanish (Basic)"
-            ]
+            type: "education_languages",
+            content: {
+                education: [
+                    "University College London (UCL), Civil Engineering BSc (2022-2025)",
+                    "French Baccalaureate with BFI (British International Section)"
+                ],
+                languages: [
+                    { name: "English", level: "Bilingual", flag: "images/uk_flag.svg" },
+                    { name: "French", level: "Bilingual", flag: "images/french_flag.svg" },
+                    { name: "Spanish", level: "B1/B2", flag: "images/spanish_flag.svg" },
+                    { name: "Polish", level: "A1", flag: "images/polish_flag.svg" }
+                ]
+            }
         },
         {
             title: "Values & Interests",
@@ -48,11 +56,19 @@ const aboutMeCarouselData = {
         },
         {
             title: "Éducation & Langues",
-            type: "text",
-            content: [
-                "<b>Éducation :</b> University College London (UCL), Licence en Génie Civil (2022-2025)",
-                "<b>Langues :</b> Anglais (Natif), Français (Natif), Espagnol (Basique)"
-            ]
+            type: "education_languages",
+            content: {
+                education: [
+                    "University College London (UCL), Licence en Génie Civil (2022-2025)",
+                    "Baccalauréat français avec BFI (Section Internationale Britannique)"
+                ],
+                languages: [
+                    { name: "Anglais", level: "Bilingue", flag: "images/uk_flag.svg" },
+                    { name: "Français", level: "Bilingue", flag: "images/french_flag.svg" },
+                    { name: "Espagnol", level: "B1/B2", flag: "images/spanish_flag.svg" },
+                    { name: "Polonais", level: "A1", flag: "images/polish_flag.svg" }
+                ]
+            }
         },
         {
             title: "Valeurs & Intérêts",
