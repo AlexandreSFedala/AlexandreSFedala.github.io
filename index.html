@@ -122,12 +122,12 @@
         <section class="column aboutme">
           <h2 data-lang-key="aboutMe">About Me</h2>
           <div class="column-content">
-            <div id="about-me-text"></div>
-            <div class="certifications-section">
-              <h3 class="certifications-title" data-lang-key="certificationsTitle">Certifications</h3>
-              <div class="certifications-list">
-                <!-- Certifications will be dynamically loaded here -->
+            <div id="about-me-carousel" class="carousel-container">
+              <div class="carousel-slides">
+                <!-- Slides will be dynamically loaded here -->
               </div>
+              <button class="carousel-arrow prev" aria-label="Previous slide">&#10094;</button>
+              <button class="carousel-arrow next" aria-label="Next slide">&#10095;</button>
             </div>
           </div>
         </section>
@@ -153,6 +153,7 @@
 
 <!-- <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script> -->
 <!-- <script src="particles-init.js" defer></script> -->
+<script src="data/aboutme-carousel.js" defer></script>
 <script src="data/projects.js" defer></script>
 <script src="data/skills.js" defer></script>
 <script src="data/certifications.js" defer></script>

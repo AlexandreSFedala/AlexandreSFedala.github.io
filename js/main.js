@@ -1,14 +1,102 @@
 function renderAboutMe(lang) {
-    const aboutMeTextContainer = document.getElementById('about-me-text');
-    if (!aboutMeTextContainer) return;
+    const carouselContainer = document.getElementById('about-me-carousel');
+    if (!carouselContainer) return;
 
-    const aboutMeData = translations[lang].aboutMeText;
-    aboutMeTextContainer.innerHTML = '';
-    aboutMeData.forEach(text => {
-        const p = document.createElement('p');
-        p.textContent = text;
-        aboutMeTextContainer.appendChild(p);
+    const slidesContainer = carouselContainer.querySelector('.carousel-slides');
+    slidesContainer.innerHTML = ''; // Clear existing slides
+
+    const slidesData = aboutMeCarouselData[lang];
+    if (!slidesData) return;
+
+    slidesData.forEach((slideData, index) => {
+        const slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        if (index === 0) {
+            slide.classList.add('active');
+        }
+
+        let contentHtml = `<h3>${slideData.title}</h3>`;
+
+        if (slideData.type === 'text') {
+            contentHtml += slideData.content.map(p => `<p>${p}</p>`).join('');
+        } else if (slideData.type === 'certifications') {
+            contentHtml += '<div class="carousel-certifications-list">';
+            contentHtml += slideData.content.map(cert => `
+                <div class="carousel-certification-item">
+                    <img src="${cert.img}" alt="${cert.title}" loading="lazy">
+                    <span class="cert-title">${cert.title}</span>
+                </div>
+            `).join('');
+            contentHtml += '</div>';
+        }
+
+        slide.innerHTML = contentHtml;
+        slidesContainer.appendChild(slide);
     });
+
+    setupCarousel();
+}
+
+function setupCarousel() {
+    const carouselContainer = document.getElementById('about-me-carousel');
+    if (!carouselContainer) return;
+
+    const slidesContainer = carouselContainer.querySelector('.carousel-slides');
+    let prevButton = carouselContainer.querySelector('.carousel-arrow.prev');
+    let nextButton = carouselContainer.querySelector('.carousel-arrow.next');
+    const slides = carouselContainer.querySelectorAll('.carousel-slide');
+    let currentSlide = 0;
+
+    // By cloning and replacing the buttons, we remove any previously attached event listeners.
+    // This prevents multiple event handlers from being attached if renderAboutMe is called more than once.
+    const newPrev = prevButton.cloneNode(true);
+    prevButton.parentNode.replaceChild(newPrev, prevButton);
+    prevButton = newPrev;
+
+    const newNext = nextButton.cloneNode(true);
+    nextButton.parentNode.replaceChild(newNext, nextButton);
+    nextButton = newNext;
+
+    function setContainerHeight() {
+        let maxHeight = 0;
+        // The slides are rendered, but inactive ones have opacity: 0.
+        // Their scrollHeight should still be measurable.
+        slides.forEach(slide => {
+            if (slide.scrollHeight > maxHeight) {
+                maxHeight = slide.scrollHeight;
+            }
+        });
+
+        if (maxHeight > 0) {
+            slidesContainer.style.minHeight = `${maxHeight}px`;
+        }
+    }
+
+    function showSlide(index) {
+        slides.forEach((slide, i) => {
+            slide.classList.remove('active');
+            if (i === index) {
+                slide.classList.add('active');
+            }
+        });
+    }
+
+    prevButton.addEventListener('click', () => {
+        currentSlide = (currentSlide > 0) ? currentSlide - 1 : slides.length - 1;
+        showSlide(currentSlide);
+    });
+
+    nextButton.addEventListener('click', () => {
+        currentSlide = (currentSlide < slides.length - 1) ? currentSlide + 1 : 0;
+        showSlide(currentSlide);
+    });
+
+    // Set height on initial load and recalculate on resize
+    setContainerHeight();
+    window.addEventListener('resize', setContainerHeight);
+
+    // Initialize the first slide
+    showSlide(currentSlide);
 }
 
 function renderProjects(lang) {
@@ -133,18 +221,6 @@ function renderSkills(lang) {
     `;
 }
 
-function renderCertifications(lang) {
-    const certList = document.querySelector('.certifications-list');
-    if (!certList) return;
-
-    certList.innerHTML = certificationsData[lang].map(cert => `
-        <div class="certification-item">
-            <img src="${cert.img}" alt="${cert.title}" loading="lazy">
-            <span class="cert-title">${cert.title}</span>
-        </div>
-    `).join('');
-}
-
 // Make this function globally available so the loader can call it.
 window.renderAllContent = function(lang) {
     // First, set the static text using the function from texts.js
@@ -156,5 +232,4 @@ window.renderAllContent = function(lang) {
     renderAboutMe(lang);
     renderProjects(lang);
     renderSkills(lang);
-    renderCertifications(lang);
 }
