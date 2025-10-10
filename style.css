@@ -50,8 +50,8 @@
   --download-btn-shadow: rgba(0,123,255,0.25);
   --language-btn-color: #007bff;
   --language-btn-bg: #fff;
-  --nav-blue-circle-bg: #2c3e50; /* Darker blue to match logo */
-  --social-icon-filter: invert(1); /* Black icons for light theme */
+  --nav-blue-circle-bg: #007bff;
+  --social-icon-filter: invert(1);
   --loader-bg: #2c3e50; /* Loader is always dark */
 }
 
@@ -83,8 +83,8 @@
   --download-btn-shadow: rgba(0,0,0,0.2);
   --language-btn-color: #2c3e50;
   --language-btn-bg: #fff;
-  --nav-blue-circle-bg: #2c3e50; /* Darker blue to match logo */
-  --social-icon-filter: invert(0); /* White icons for dark theme */
+  --nav-blue-circle-bg: #007bff; /* Unify color */
+  --social-icon-filter: invert(0);
 }
 
 /* 2. Basic Reset & Global Styles */
@@ -148,7 +148,7 @@ body.loading #main-website-content { display: none; }
 nav { background: var(--navbar-bg); backdrop-filter: blur(16px) saturate(180%); -webkit-backdrop-filter: blur(16px) saturate(180%); display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 2rem; position: fixed; top: 0; width: 100%; z-index: 100; transition: all 0.3s ease; border-bottom: 1.5px solid var(--navbar-border-color); box-shadow: 0 4px 24px rgba(44,62,80,0.08); }
 nav.shrink { padding: 0.25rem 1.5rem; }
 .nav-left { flex: 1 0 0; display: flex; align-items: center; gap: 1.5rem; }
-.nav-controls { display: flex; align-items: center; gap: 1.5rem; }
+.left-controls { display: flex; align-items: center; gap: 1.5rem; }
 .nav-right { flex: 1 0 0; display: flex; align-items: center; justify-content: flex-end; gap: 1.5rem; }
 nav .logo-container { position: relative; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; }
 nav .nav-blue-circle { position: absolute; top: 50%; left: 50%; width: 50px; height: 50px; background: var(--nav-blue-circle-bg); border-radius: 50%; transform: translate(-50%, -50%); z-index: 1; box-shadow: 0 2px 8px rgba(52,152,219,0.18); transition: background 0.3s; }
@@ -163,8 +163,6 @@ nav .social-links img { filter: var(--social-icon-filter); transition: filter 0.
 #play-pause-btn:hover { background: var(--play-btn-bg-hover); border-color: var(--play-btn-border-hover); }
 #play-pause-btn svg { width: 20px; height: 20px; fill: var(--play-btn-icon); transition: fill 0.3s; }
 #audio-visualizer { width: 100px; height: 30px; }
-
-#mobile-menu-trigger { display: none; }
 
 /* New Theme Switcher Styles */
 #theme-switcher {
@@ -195,11 +193,11 @@ nav .social-links img { filter: var(--social-icon-filter); transition: filter 0.
     transition: transform 0.3s ease;
 }
 
-#theme-switcher .theme-icon {
+#theme-switcher svg {
     width: 22px;
     height: 22px;
-    stroke: var(--play-btn-icon);
-    transition: transform 0.3s ease, opacity 0.3s ease, stroke 0.3s;
+    fill: var(--play-btn-icon);
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 #theme-switcher .moon-icon {
@@ -207,6 +205,7 @@ nav .social-links img { filter: var(--social-icon-filter); transition: filter 0.
     transform: scale(0.9);
 }
 
+/* Dark Theme Adjustments for Switcher */
 [data-theme='dark'] #theme-switcher .lever {
     transform: translateX(24px);
 }
@@ -219,6 +218,15 @@ nav .social-links img { filter: var(--social-icon-filter); transition: filter 0.
 [data-theme='dark'] #theme-switcher .moon-icon {
     opacity: 1;
     transform: scale(1);
+}
+
+/* Explicitly set icon colors for dark theme to fix rendering bug */
+[data-theme='dark'] #theme-switcher svg {
+    fill: var(--play-btn-icon);
+}
+
+[data-theme='dark'] .social-links img {
+    filter: var(--social-icon-filter);
 }
 
 /* 5. Header & CV Button */
