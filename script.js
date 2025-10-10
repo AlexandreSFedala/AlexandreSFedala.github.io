@@ -210,6 +210,13 @@ document.addEventListener('DOMContentLoaded', () => {
             projectsColumn.addEventListener('click', handleProjectSubpageClick);
             projectsColumn.addEventListener('click', handleProjectBackArrowClick);
         }
+
+        const mobileMenuTrigger = document.getElementById('mobile-menu-trigger');
+        if (mobileMenuTrigger) {
+            mobileMenuTrigger.addEventListener('click', () => {
+                navbar.classList.toggle('dropdown-open');
+            });
+        }
     };
 
     attachEventListeners();
