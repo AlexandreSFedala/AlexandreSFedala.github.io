@@ -16,7 +16,8 @@ const projectsData = {
       downloadText: "Download Project Files",
       skills: [ "Structural Design", "Architectural Concepts", "CAD Drafting", "Project Planning", "Sustainability Analysis" ],
       detailImage: "images/artistimpression.jpg",
-      detailImageAlt: "Artistic Impression of the Designed Building"
+      detailImageAlt: "Artistic Impression of the Designed Building",
+      coordinates: [51.5475, -0.0215]
     },
     {
       id: "project2",
@@ -30,7 +31,8 @@ const projectsData = {
       ],
       downloadFile: "pdfs/mainbuildingmodel.rvt",
       downloadText: "Download the model (Revit 2026)",
-      skills: [ "3D Modelling", "Revit", "Point Cloud Data", "Rapid Prototyping", "Time Management" ]
+      skills: [ "3D Modelling", "Revit", "Point Cloud Data", "Rapid Prototyping", "Time Management" ],
+      coordinates: [51.5246, -0.1340]
     },
     {
       id: "project3",
@@ -46,7 +48,8 @@ const projectsData = {
       downloadText: "Download Full Report",
       skills: [ "Land Surveying", "AutoCAD", "Data Collection & Analysis", "Team Leadership", "Project Management", "Technical Reporting" ],
       detailImage: "images/AutoCAD.jpg",
-      detailImageAlt: "Final AutoCAD rendering of the land survey"
+      detailImageAlt: "Final AutoCAD rendering of the land survey",
+      coordinates: [51.5225, -0.1320]
     }
   ],
   fr: [
@@ -66,7 +69,8 @@ const projectsData = {
       downloadText: "Télécharger le rapport complet",
       skills: [ "Conception Structurelle", "Concepts Architecturaux", "Dessin CAO", "Planification de Projet", "Analyse de Durabilité" ],
       detailImage: "images/artistimpression.jpg",
-      detailImageAlt: "Artistic Impression of the Designed Building"
+      detailImageAlt: "Artistic Impression of the Designed Building",
+      coordinates: [51.5475, -0.0215]
     },
     {
       id: "project2",
@@ -80,7 +84,8 @@ const projectsData = {
       ],
       downloadFile: "pdfs/mainbuildingmodel.rvt",
       downloadText: "Télécharger le modèle (Revit 2026)",
-      skills: [ "Modélisation 3D", "Revit", "Données de Nuage de Points", "Prototypage Rapide", "Gestion du Temps" ]
+      skills: [ "Modélisation 3D", "Revit", "Données de Nuage de Points", "Prototypage Rapide", "Gestion du Temps" ],
+      coordinates: [51.5246, -0.1340]
     },
     {
       id: "project3",
@@ -96,7 +101,8 @@ const projectsData = {
       downloadText: "Télécharger le rapport complet",
       skills: [ "Arpentage", "AutoCAD", "Collecte et Analyse de Données", "Leadership d'Équipe", "Gestion de Projet", "Rapport Technique" ],
       detailImage: "images/AutoCAD.jpg",
-      detailImageAlt: "Final AutoCAD rendering of the land survey"
+      detailImageAlt: "Final AutoCAD rendering of the land survey",
+      coordinates: [51.5225, -0.1320]
     }
   ]
 };

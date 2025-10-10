@@ -240,7 +240,6 @@ nav .social-links img { filter: var(--social-icon-filter); transition: filter 0.
 /* 5. Header & CV Button */
 header { position: relative; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 2rem; background-image: url('images/portico_welcome_sized.jpg'); background-size: cover; background-position: center; overflow: hidden; }
 header::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--header-overlay); z-index: 1; transition: background 0.3s; }
-#particles-js { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; }
 header h1, header p { position: relative; z-index: 3; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
 .scroll-down-indicator { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); text-align: center; z-index: 5; opacity: 1; transition: opacity 0.5s ease; }
 body:not(.loading) .scroll-down-indicator.scrolled { opacity: 0; }

@@ -7,7 +7,8 @@ const translations = {
     portfolioTitle: "An Undergraduate Portfolio",
     portfolioSubtitle: "by Alexandre S. Fedala",
     skillsUsedTitle: "Skills Used",
-    seeCV: "See CV"
+    seeCV: "See CV",
+    seeOnMap: "See on Map"
   },
   fr: {
     aboutMe: "Biographie",
@@ -17,7 +18,8 @@ const translations = {
     portfolioTitle: "Un Portfolio de Licence",
     portfolioSubtitle: "par Alexandre S. Fedala",
     skillsUsedTitle: "Compétences Utilisées",
-    seeCV: "Voir CV"
+    seeCV: "Voir CV",
+    seeOnMap: "Voir sur la carte"
   }
 };
 

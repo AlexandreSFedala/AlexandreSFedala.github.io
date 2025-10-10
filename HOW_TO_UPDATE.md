@@ -80,3 +80,24 @@ All certification information is stored in `data/certifications.js`.
 ---
 
 After saving your changes to the files, the website will automatically update with the new content the next time you load it. No other changes are needed!
+
+---
+
+## 4. How to Add a Project to the Map
+
+To make a project appear on the interactive map, you need to add a `coordinates` property to its object in the `data/projects.js` file.
+
+The `coordinates` property is an array of two numbers: `[latitude, longitude]`.
+
+**Example:**
+
+```javascript
+{
+  id: "project4",
+  title: "New Project",
+  // ... other properties
+  coordinates: [51.5074, -0.1278] // Coordinates for London
+}
+```
+
+You can use an online tool like [Google Maps](https://www.google.com/maps) to find the latitude and longitude for a specific location. Simply right-click on the map to get the coordinates.
