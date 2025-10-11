@@ -21,11 +21,13 @@
 :root {
   /* Light Theme (Default) */
   --primary-bg: #ffffff;
+  --primary-bg-transparent: rgba(255, 255, 255, 0.8);
   --secondary-bg: #f8f9fa;
   --tertiary-bg: #e9ecef;
   --skills-box-bg: #f1f3f5;
   --text-color: #212529;
   --accent-color: #007bff;
+  --accent-color-rgb: 0, 123, 255;
   --dark-text: #000;
   --font-primary: 'Open Sans', Arial, sans-serif;
   --font-secondary: 'Montserrat', Arial, sans-serif;
@@ -58,11 +60,13 @@
 
 [data-theme='dark'] {
   --primary-bg: #2c3e50;
+  --primary-bg-transparent: rgba(44, 62, 80, 0.8);
   --secondary-bg: #243240;
   --tertiary-bg: #3d5670;
   --skills-box-bg: #283747;
   --text-color: #ffffff;
   --accent-color: #3498db;
+  --accent-color-rgb: 52, 152, 219;
   --navbar-bg: rgba(44, 62, 80, 0.75); /* More transparent */
   --navbar-border-color: rgba(255, 255, 255, 0.18);
   --header-overlay: rgba(22, 36, 59, 0.75);
