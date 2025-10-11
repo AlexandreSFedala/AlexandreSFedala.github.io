@@ -17,7 +17,7 @@ const projectsData = {
       skills: [ "Structural Design", "Architectural Concepts", "CAD Drafting", "Project Planning", "Sustainability Analysis" ],
       detailImage: "images/artistimpression.jpg",
       detailImageAlt: "Artistic Impression of the Designed Building",
-      coordinates: [51.5475, -0.0215]
+      coordinates: [51.53841699371736, -0.00971509180345794]
     },
     {
       id: "project2",
@@ -32,7 +32,7 @@ const projectsData = {
       downloadFile: "pdfs/mainbuildingmodel.rvt",
       downloadText: "Download the model (Revit 2026)",
       skills: [ "3D Modelling", "Revit", "Point Cloud Data", "Rapid Prototyping", "Time Management" ],
-      coordinates: [51.5246, -0.1340]
+      coordinates: [52.11399775847239, -4.076460506988568]
     },
     {
       id: "project3",
@@ -49,7 +49,7 @@ const projectsData = {
       skills: [ "Land Surveying", "AutoCAD", "Data Collection & Analysis", "Team Leadership", "Project Management", "Technical Reporting" ],
       detailImage: "images/AutoCAD.jpg",
       detailImageAlt: "Final AutoCAD rendering of the land survey",
-      coordinates: [51.5225, -0.1320]
+      coordinates: [52.11316850884063, -4.07379805570239]
     }
   ],
   fr: [
@@ -70,7 +70,7 @@ const projectsData = {
       skills: [ "Conception Structurelle", "Concepts Architecturaux", "Dessin CAO", "Planification de Projet", "Analyse de Durabilité" ],
       detailImage: "images/artistimpression.jpg",
       detailImageAlt: "Artistic Impression of the Designed Building",
-      coordinates: [51.5475, -0.0215]
+      coordinates: [51.53841699371736, -0.00971509180345794]
     },
     {
       id: "project2",
@@ -85,7 +85,7 @@ const projectsData = {
       downloadFile: "pdfs/mainbuildingmodel.rvt",
       downloadText: "Télécharger le modèle (Revit 2026)",
       skills: [ "Modélisation 3D", "Revit", "Données de Nuage de Points", "Prototypage Rapide", "Gestion du Temps" ],
-      coordinates: [51.5246, -0.1340]
+      coordinates: [52.11399775847239, -4.076460506988568]
     },
     {
       id: "project3",
@@ -102,7 +102,7 @@ const projectsData = {
       skills: [ "Arpentage", "AutoCAD", "Collecte et Analyse de Données", "Leadership d'Équipe", "Gestion de Projet", "Rapport Technique" ],
       detailImage: "images/AutoCAD.jpg",
       detailImageAlt: "Final AutoCAD rendering of the land survey",
-      coordinates: [51.5225, -0.1320]
+      coordinates: [52.11316850884063, -4.07379805570239]
     }
   ]
 };
