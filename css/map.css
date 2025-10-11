@@ -26,6 +26,7 @@
     width: 90%;
     height: 90%;
     border-radius: 10px;
+    background-color: var(--background-color);
 }
 
 #close-map-btn {

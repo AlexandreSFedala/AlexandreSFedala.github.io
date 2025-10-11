@@ -18,11 +18,21 @@ document.addEventListener('DOMContentLoaded', () => {
     function initializeMap() {
         map = L.map('map').setView([54.5, -2.5], 6);
 
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 19
-        }).addTo(map);
+        fetch('https://raw.githubusercontent.com/martinjc/UK-GeoJSON/master/json/administrative/gb/lad.json')
+            .then(response => response.json())
+            .then(geojson => {
+                const geoJsonLayer = L.geoJson(geojson, {
+                    style: function(feature) {
+                        const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+                        return {
+                            color: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
+                            weight: 1,
+                            fillColor: getComputedStyle(document.documentElement).getPropertyValue('--card-background').trim(),
+                            fillOpacity: 1
+                        };
+                    }
+                }).addTo(map);
+            });
 
         const markers = L.markerClusterGroup();
         const currentLang = document.documentElement.lang || 'en';
