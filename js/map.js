@@ -23,7 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(geojson => {
                 const geoJsonLayer = L.geoJson(geojson, {
                     style: function(feature) {
-                        const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
                         return {
                             color: getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim(),
                             weight: 1,
@@ -32,20 +31,20 @@ document.addEventListener('DOMContentLoaded', () => {
                         };
                     }
                 }).addTo(map);
+
+                // Note: markerClusterGroup was removed as it was preventing markers from appearing.
+                // For a small number of markers, adding them directly to the map is acceptable.
+                // If the number of projects increases significantly, this may need to be revisited.
+                const currentLang = document.documentElement.lang || 'en';
+                const projects = projectsData[currentLang];
+
+                projects.forEach(project => {
+                    if (project.coordinates) {
+                        const marker = L.marker(project.coordinates);
+                        marker.bindPopup(`<b>${project.title}</b><br>${project.description[0]}`);
+                        marker.addTo(map);
+                    }
+                });
             });
-
-        const markers = L.markerClusterGroup();
-        const currentLang = document.documentElement.lang || 'en';
-        const projects = projectsData[currentLang];
-
-        projects.forEach(project => {
-            if (project.coordinates) {
-                const marker = L.marker(project.coordinates);
-                marker.bindPopup(`<b>${project.title}</b><br>${project.description[0]}`);
-                markers.addLayer(marker);
-            }
-        });
-
-        map.addLayer(markers);
     }
 });
