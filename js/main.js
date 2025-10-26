@@ -1,4 +1,6 @@
-function renderAboutMe(lang) {
+// js/main.js
+
+function renderAboutMe(lang, aboutMeCarouselData, certificationsData) {
     const carouselContainer = document.getElementById('about-me-carousel');
     if (!carouselContainer) return;
 
@@ -45,7 +47,7 @@ function renderAboutMe(lang) {
             contentHtml += '</div>';
         } else if (slideData.type === 'certifications') {
             contentHtml += '<div class="carousel-certifications-list">';
-            contentHtml += slideData.content.map(cert => `
+            contentHtml += certificationsData[lang].map(cert => `
                 <div class="carousel-certification-item">
                     <img src="${cert.img}" alt="${cert.title}" loading="lazy">
                     <span class="cert-title">${cert.title}</span>
@@ -125,7 +127,7 @@ function setupCarousel() {
     showSlide(currentSlide);
 }
 
-function renderProjects(lang) {
+function renderProjects(lang, projectsData) {
     const projectsContainer = document.querySelector('.column.projects');
     if (!projectsContainer) return;
 
@@ -212,7 +214,7 @@ function renderProjects(lang) {
     }
 }
 
-function renderSkills(lang) {
+function renderSkills(lang, skillsData) {
     const skillsContent = document.querySelector('.column.skills .column-content');
     if (!skillsContent) return;
 
@@ -248,14 +250,15 @@ function renderSkills(lang) {
 }
 
 // Make this function globally available so the loader can call it.
-window.renderAllContent = function(lang) {
+window.renderAllContent = async function(lang) {
     // First, set the static text using the function from texts.js
     if (window.setLanguage) {
         window.setLanguage(lang);
     }
 
     // Then, render the dynamic sections
-    renderAboutMe(lang);
-    renderProjects(lang);
-    renderSkills(lang);
+    const { aboutMeCarouselData, projectsData, skillsData, certificationsData } = await getAllData();
+    renderAboutMe(lang, aboutMeCarouselData, certificationsData);
+    renderProjects(lang, projectsData);
+    renderSkills(lang, skillsData);
 }
