@@ -39,121 +39,149 @@
 </head>
 <body class="loading">
 
+<!-- Loader Overlay (Preserved) -->
 <div id="loader-overlay">
   <div class="loader-symbols"></div>
   <div id="click-prompt" class="hidden">
     <div class="language-selection">
         <button class="language-button" data-lang="en">
-    <img src="images/uk_flag.svg" alt="UK Flag" class="flag-icon"> English
+            <img src="images/uk_flag.svg" alt="UK Flag" class="flag-icon"> English
         </button>
         <button class="language-button" data-lang="fr">
-    <img src="images/french_flag.svg" alt="French Flag" class="flag-icon"> Français
+            <img src="images/french_flag.svg" alt="French Flag" class="flag-icon"> Français
         </button>
     </div>
   </div>
 </div>
 
+<!-- New Main Website Content Structure -->
 <div id="main-website-content" class="hidden">
-    <nav id="navbar">
-        <div class="nav-left">
-            <div class="logo-container">
-                <div class="nav-blue-circle"></div>
-                <a href="#" class="logo"><img src="images/logo.png" alt="Alexandre S. Fedala Portfolio Logo" class="nav-logo"></a>
+
+    <!-- Mobile Header -->
+    <header id="mobile-header">
+        <div class="logo-container">
+            <img src="images/logo.png" alt="Alexandre S. Fedala Portfolio Logo" class="nav-logo">
+        </div>
+        <button id="mobile-menu-trigger" aria-label="Open menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+    </header>
+
+    <div id="app-container">
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar">
+            <div class="sidebar-top">
+                <div class="sidebar-logo">
+                    <div class="nav-blue-circle"></div>
+                    <img src="images/logo.png" alt="Logo" class="nav-logo">
+                </div>
+                <h1 class="sidebar-title">Alexandre S. Fedala</h1>
+                <p class="sidebar-subtitle">Civil Engineering Student</p>
             </div>
-            <div class="desktop-controls">
+
+            <nav class="sidebar-nav">
+                <a href="#hero" class="nav-link active" data-lang-key="home">Home</a>
+                <a href="#about" class="nav-link" data-lang-key="aboutMe">About Me</a>
+                <a href="#skills" class="nav-link" data-lang-key="skills">Skills</a>
+                <a href="#projects" class="nav-link" data-lang-key="projects">Projects</a>
+                <a href="pdfs/CV.pdf" target="_blank" class="nav-link cv-link" data-lang-key="seeCV">Curriculum Vitae</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div id="theme-switcher" role="button" aria-label="Toggle theme" tabindex="0">
+                    <svg class="sun-icon theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    <div class="switch"><div class="lever"></div></div>
+                    <svg class="moon-icon theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                </div>
+
                 <div id="music-player-container">
                     <button id="play-pause-btn" aria-label="Play Music">
                         <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                         <svg id="pause-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
                     </button>
-                    <canvas id="audio-visualizer"></canvas>
+                    <!-- Visualizer canvas removed for cleaner look, or can be re-added if desired -->
                 </div>
-                <div id="theme-switcher" role="button" aria-label="Toggle theme" tabindex="0">
-                    <svg class="sun-icon theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                    <div class="switch">
-                        <div class="lever"></div>
+
+                <div class="social-links">
+                    <a href="https://wa.me/447927708325" target="_blank" aria-label="WhatsApp"><img src="images/whatsapp-white-icon.png" alt="WhatsApp Icon" width="20" height="20"></a>
+                    <a href="https://www.linkedin.com/in/afedala/" target="_blank" aria-label="LinkedIn"><img src="images/linkedin-app-white-icon.png" alt="LinkedIn Icon" width="20" height="20"></a>
+                    <a href="mailto:alexandrefedala.afedala@gmail.com" aria-label="Email"><img src="images/email-envelope-white-icon.png" alt="Email Icon" width="20" height="20"></a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Scrollable Content -->
+        <main id="main-content-area">
+
+            <section id="hero">
+                <div class="hero-overlay"></div>
+                <div class="hero-text">
+                    <h1>An Undergraduate Portfolio</h1>
+                    <p>by Alexandre S. Fedala</p>
+                    <a href="#about" class="scroll-down-arrow" aria-label="Scroll Down">&#x2193;</a>
+                </div>
+            </section>
+
+            <section id="about" class="content-section">
+                <div class="section-header">
+                    <h2 data-lang-key="aboutMe">About Me</h2>
+                    <div class="section-line"></div>
+                </div>
+                <!-- Reusing carousel structure for data compatibility, but styled differently -->
+                <div id="about-me-carousel" class="carousel-container">
+                    <div class="carousel-slides">
+                        <!-- Dynamic Slides -->
                     </div>
-                    <svg class="moon-icon theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
+                    <div class="carousel-controls">
+                        <button class="carousel-arrow prev" aria-label="Previous">&#10094;</button>
+                        <button class="carousel-arrow next" aria-label="Next">&#10095;</button>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="nav-right">
-            <div class="social-links">
-                <a href="https://wa.me/447927708325" target="_blank" aria-label="WhatsApp"><img src="images/whatsapp-white-icon.png" alt="WhatsApp Icon" width="20" height="20"></a>
-                <a href="https://www.linkedin.com/in/afedala/" target="_blank" aria-label="LinkedIn"><img src="images/linkedin-app-white-icon.png" alt="LinkedIn Icon" width="20" height="20"></a>
-                <a href="mailto:alexandrefedala.afedala@gmail.com" aria-label="Email"><img src="images/email-envelope-white-icon.png" alt="Email Icon" width="20" height="20"></a>
-            </div>
-        </div>
-        <div id="mobile-menu">
-            <button id="mobile-menu-trigger" aria-label="Open menu">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
-            <div id="mobile-dropdown" class="hidden">
-                <div id="music-player-container-mobile"></div>
-                <div id="theme-switcher-mobile"></div>
-                <div class="social-links-mobile"></div>
-            </div>
-        </div>
-    </nav>
+            </section>
 
-    <header>
-        <div id="lava-lamp"></div>
-        <h1>An Undergraduate Portfolio</h1>
-        <p>by Alexandre S. Fedala</p>
-        <div id="cv-cta-container">
-            <a href="pdfs/CV.pdf" target="_blank" class="cv-arrow" data-lang-key="seeCV">See CV <span>&rarr;</span></a>
-        </div>
-    </header>
+            <section id="skills" class="content-section">
+                <div class="section-header">
+                    <h2 data-lang-key="skills">Skills</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="skills-grid-container">
+                    <!-- Dynamic Skills -->
+                </div>
+            </section>
 
-    <div class="scroll-down-indicator">
-        <span class="scroll-text" data-lang-key="scrollDown">Scroll Down</span>
-        <a href="#main-content" class="scroll-arrow">&#x2193;</a>
+            <section id="projects" class="content-section">
+                <div class="section-header">
+                    <h2 data-lang-key="projects">Projects</h2>
+                    <div class="section-line"></div>
+                </div>
+                <div class="projects-grid">
+                    <!-- Dynamic Project Cards -->
+                </div>
+                <div class="projects-footer">
+                    <button id="map-cta-btn" class="map-button" data-lang-key="seeOnMap">See on Map</button>
+                </div>
+            </section>
+
+            <footer id="main-footer">
+                <p>&copy; 2024 Alexandre S. Fedala. All Rights Reserved.</p>
+            </footer>
+
+        </main>
     </div>
+</div>
 
-    <main class="main-columns" id="main-content">
-        <section class="column aboutme">
-          <h2 data-lang-key="aboutMe">About Me</h2>
-          <div class="column-content">
-            <div id="about-me-carousel" class="carousel-container">
-              <div class="carousel-slides">
-                <!-- Slides will be dynamically loaded here -->
-              </div>
-              <button class="carousel-arrow prev" aria-label="Previous slide">&#10094;</button>
-              <button class="carousel-arrow next" aria-label="Next slide">&#10095;</button>
-            </div>
-          </div>
-        </section>
+<div id="project-modal" class="modal-overlay hidden">
+    <div class="modal-container">
+        <button id="close-modal-btn">&times;</button>
+        <div id="modal-content-body">
+            <!-- Dynamic Project Details -->
+        </div>
+    </div>
+</div>
 
-        <section class="column skills">
-            <h2 data-lang-key="skills">Skills</h2>
-            <div class="column-content">
-                <!-- Skills will be dynamically loaded here -->
-            </div>
-        </section>
-
-        <section class="column projects">
-            <h2 data-lang-key="projects">Projects</h2>
-            <div class="subpages">
-                <!-- Project subpages will be dynamically loaded here -->
-            </div>
-            <!-- Project details will be dynamically loaded here -->
-            <div class="column-footer">
-                <button id="map-cta-btn" class="map-button" data-lang-key="seeOnMap">See on Map</button>
-            </div>
-        </section>
-    </main>
+<div id="map-modal" class="hidden">
+    <button id="close-map-btn">&times;</button>
+    <div id="map"></div>
 </div>
 
 <audio id="background-audio" src="sounds/background-music.mp3" loop></audio>
@@ -163,16 +191,11 @@
 <script src="js/main.js" defer></script>
 <script src="loader/loader.js" defer></script>
 <script src="script.js" defer></script>
-<script src="visualizer.js" defer></script>
+<!-- visualizer.js removed as it might not be used or needs update -->
 <script src="js/theme-switcher.js" defer></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 <script src="js/map.js" defer></script>
-
-<div id="map-modal" class="hidden">
-    <button id="close-map-btn">&times;</button>
-    <div id="map"></div>
-</div>
 
 </body>
 </html>

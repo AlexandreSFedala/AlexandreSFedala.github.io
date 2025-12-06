@@ -1,5 +1,6 @@
 const translations = {
   en: {
+    home: "Home",
     aboutMe: "About Me",
     skills: "Skills",
     projects: "Projects",
@@ -7,10 +8,11 @@ const translations = {
     portfolioTitle: "An Undergraduate Portfolio",
     portfolioSubtitle: "by Alexandre S. Fedala",
     skillsUsedTitle: "Skills Used",
-    seeCV: "See CV",
+    seeCV: "Curriculum Vitae",
     seeOnMap: "See on Map"
   },
   fr: {
+    home: "Accueil",
     aboutMe: "Biographie",
     skills: "Compétences",
     projects: "Projets",
@@ -18,21 +20,33 @@ const translations = {
     portfolioTitle: "Un Portfolio de Licence",
     portfolioSubtitle: "par Alexandre S. Fedala",
     skillsUsedTitle: "Compétences Utilisées",
-    seeCV: "Voir CV",
+    seeCV: "Curriculum Vitae",
     seeOnMap: "Voir sur la carte"
   }
 };
 
-function setLanguage(lang) {
+window.setLanguage = function(lang) {
   if (!translations[lang]) return;
 
-  // This function now only updates static text content that is always present on the page.
-  // The dynamic content sections are rendered by functions in js/main.js.
-  document.querySelector('.column.aboutme h2').textContent = translations[lang].aboutMe;
-  document.querySelector('.column.skills h2').textContent = translations[lang].skills;
-  document.querySelector('.column.projects h2').textContent = translations[lang].projects;
-  document.querySelector('header h1').textContent = translations[lang].portfolioTitle;
-  document.querySelector('header p').textContent = translations[lang].portfolioSubtitle;
-  document.querySelector('.scroll-text').textContent = translations[lang].scrollDown;
-  document.querySelector('.cv-arrow').firstChild.textContent = translations[lang].seeCV + ' ';
-}
+  // Set the lang attribute on html for CSS specificity if needed
+  document.documentElement.lang = lang;
+
+  // Update elements with data-lang-key attribute
+  document.querySelectorAll('[data-lang-key]').forEach(element => {
+    const key = element.getAttribute('data-lang-key');
+    if (translations[lang][key]) {
+        // Handle text nodes specially if element has children
+        if (element.children.length > 0 && element.lastChild.nodeType === 3) {
+             // If mixed content, replace only text (simple heuristic, might need refinement for complex nodes)
+             // For now, most of our keys are simple text.
+             // The CV link has a span arrow maybe? In new design it is simple text.
+             element.textContent = translations[lang][key];
+        } else {
+             element.textContent = translations[lang][key];
+        }
+    }
+  });
+
+  // Update header title/subtitle explicitly if needed, but data-lang-key should cover it.
+  // The new HTML uses static text initially, so this function updates them.
+};

@@ -1,4 +1,6 @@
-// This function must be defined globally to be accessible from loader.js
+// script.js - Main Application Logic for New Layout
+
+// Audio System
 function initAudioSystem() {
     const audio = document.getElementById('background-audio');
     const playPauseBtn = document.getElementById('play-pause-btn');
@@ -6,12 +8,10 @@ function initAudioSystem() {
     const pauseIcon = document.getElementById('pause-icon');
     
     if (!audio) return;
-    let isAudioInitialized = false;
-    if (isAudioInitialized) return;
 
+    // Fade in
     audio.volume = 0;
-    const targetVolume = 0.05; // Music volume reduced to 5%
-    
+    const targetVolume = 0.05;
     const fadeAudioIn = setInterval(() => {
         if (audio.paused) { clearInterval(fadeAudioIn); return; }
         if (audio.volume < targetVolume) {
@@ -22,252 +22,123 @@ function initAudioSystem() {
         }
     }, 80);
 
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const analyser = audioContext.createAnalyser();
-    const source = audioContext.createMediaElementSource(audio);
-    source.connect(analyser);
-    analyser.connect(audioContext.destination);
-    audio.muted = false;
-    const playPromise = audio.play();
-
-    if (playPromise !== undefined) {
-        playPromise.then(() => {
+    const playAudio = () => {
+        audio.play().then(() => {
             playIcon.classList.add('hidden');
             pauseIcon.classList.remove('hidden');
-            startVisualizer(analyser);
-        }).catch(error => console.error("Audio playback failed:", error));
-    }
-    isAudioInitialized = true;
+        }).catch(err => console.error("Audio playback failed:", err));
+    };
+
+    // User interaction required to play audio usually, handled by initial click in loader
+    playAudio();
 
     if (playPauseBtn) {
-        playPauseBtn.addEventListener('click', (e) => {
+        // Clone to remove old listeners
+        const newBtn = playPauseBtn.cloneNode(true);
+        playPauseBtn.parentNode.replaceChild(newBtn, playPauseBtn);
+
+        newBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            const isPlaying = !audio.paused;
-            if (isPlaying) {
+            if (audio.paused) {
+                playAudio();
+            } else {
                 audio.pause();
                 playIcon.classList.remove('hidden');
                 pauseIcon.classList.add('hidden');
-            } else {
-                audio.play();
-                playIcon.classList.add('hidden');
-                pauseIcon.classList.remove('hidden');
             }
         });
     }
 }
 
-// OPTIMIZED: Removed performance-intensive JS animations. This will be replaced by CSS transitions.
-window.applyInteractiveEffects = function(element) {
-    if (!element) return;
-    if (element.querySelector('.glint')) return;
-    const glint = document.createElement('div');
-    glint.className = 'glint';
-    element.appendChild(glint);
-};
+// Scroll Spy & Sidebar Interaction
+function initNavigation() {
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('.sidebar-nav .nav-link:not(.cv-link)');
+    const sidebar = document.getElementById('sidebar');
+    const mobileTrigger = document.getElementById('mobile-menu-trigger');
+    const mobileHeader = document.getElementById('mobile-header');
 
-window.createBackArrows = function() {
-    const projectsColumn = document.querySelector('.column.projects');
-    if (!projectsColumn) return;
-    projectsColumn.querySelectorAll('.project-detail').forEach(detail => {
-        if (detail.querySelector('.back-arrow')) return;
-        const backBtn = document.createElement('span');
-        backBtn.textContent = '←';
-        backBtn.classList.add('back-arrow');
-        backBtn.setAttribute('aria-label', 'Back to projects');
-        detail.querySelector('.project-description').prepend(backBtn);
+    // Scroll Spy
+    window.addEventListener('scroll', () => {
+        let current = '';
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            // -100 offset for better triggering
+            if (pageYOffset >= (sectionTop - 200)) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
     });
-};
 
-// OPTIMIZED: Removed performance-intensive JS animations. This will be replaced by CSS transitions.
-window.init3dCards = function() {
-    // The 3D effect is now handled by CSS for better performance.
-};
+    // Smooth Scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                // Close mobile sidebar if open
+                sidebar.classList.remove('active');
+
+                // Account for mobile header height if on mobile
+                const headerOffset = window.innerWidth <= 900 ? 60 : 0;
+                const elementPosition = targetElement.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        });
+    });
+
+    // Mobile Menu Toggle
+    if (mobileTrigger) {
+        mobileTrigger.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 900 &&
+                sidebar.classList.contains('active') &&
+                !sidebar.contains(e.target) &&
+                !mobileTrigger.contains(e.target)) {
+                sidebar.classList.remove('active');
+            }
+        });
+    }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-    const navbar = document.getElementById('navbar');
-    const mainContent = document.getElementById('main-content');
-    const scrollArrow = document.querySelector('.scroll-arrow');
-    const columns = document.querySelectorAll('.main-columns .column');
-    const projectsColumn = document.querySelector('.column.projects');
-    let hasScrolledToColumns = false;
-    let touchStartY = 0;
-
-    const scrollToElement = (targetElement) => {
-        if (!targetElement) return;
-        const navbarHeight = navbar.offsetHeight;
-        window.scrollTo({ top: targetElement.offsetTop - navbarHeight, behavior: 'smooth' });
-    };
-
-    const handleScroll = () => {
-        const scrollPosition = window.scrollY;
-        navbar.classList.toggle('shrink', scrollPosition > 100);
-        const scrollIndicator = document.querySelector('.scroll-down-indicator');
-        if (scrollIndicator) {
-            scrollIndicator.classList.toggle('scrolled', scrollPosition > 20);
-        }
-        if (!hasScrolledToColumns && scrollPosition > 10 && scrollPosition < 50) {
-            hasScrolledToColumns = true;
-            scrollToElement(mainContent);
-        }
-        if (scrollPosition < 5) hasScrolledToColumns = false;
-    };
+    initNavigation();
     
-    const handleTouchStart = (e) => { touchStartY = e.touches[0].clientY; };
-    const handleTouchMove = (e) => {
-        if (hasScrolledToColumns) return;
-        if (touchStartY - e.touches[0].clientY > 15 && window.scrollY < 30) {
-            hasScrolledToColumns = true;
-            scrollToElement(mainContent);
-        }
-    };
-
-    const handleColumnClick = (event) => {
-        const clickedColumn = event.target.closest('.column');
-        if (!clickedColumn) return;
-        const isAlreadyActive = clickedColumn.classList.contains('active');
-        const activeColumn = document.querySelector('.column.active');
-        if (activeColumn && !isAlreadyActive) {
-            const contentToFade = activeColumn.querySelector('.column-content, .subpages, .project-detail.visible');
-            if (contentToFade) {
-                contentToFade.classList.add('fade-out');
+    // Map CTA button listener (needs to be attached dynamically or delegated)
+    document.body.addEventListener('click', (e) => {
+        if (e.target.id === 'map-cta-btn') {
+            const mapModal = document.getElementById('map-modal');
+            if (mapModal) {
+                mapModal.classList.remove('hidden');
+                // Trigger map resize event to ensure it renders correctly after being hidden
+                setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                    // Dispatch custom event to tell map.js to re-center if needed
+                }, 100);
             }
         }
-        setTimeout(() => {
-            columns.forEach(col => col.classList.remove('active'));
-            if (!isAlreadyActive) {
-                clickedColumn.classList.add('active');
-                const contentToFadeIn = clickedColumn.querySelector('.column-content, .subpages');
-                if (contentToFadeIn) {
-                    contentToFadeIn.classList.remove('fade-out');
-                    contentToFadeIn.classList.add('fade-in');
-                }
-                setTimeout(() => scrollToElement(clickedColumn), 50);
-                if (clickedColumn.classList.contains('projects')) resetProjectsView();
-                if (clickedColumn.classList.contains('skills')) animateSkillBars();
-            }
-        }, isAlreadyActive ? 0 : 150);
-    };
-
-    const animateSkillBars = () => {
-        const skillLevelMap = { 'None': '5%', 'Basic': '25%', 'Intermediate': '50%', 'Proficient': '75%', 'Expert': '100%' };
-        setTimeout(() => {
-            document.querySelectorAll('.skill').forEach(skill => {
-                const level = skill.dataset.level;
-                const targetWidth = skillLevelMap[level] || '0%';
-                const barFill = skill.querySelector('.skill-bar-fill');
-                barFill.style.width = '0%';
-                setTimeout(() => { barFill.style.width = targetWidth; }, 100);
-            });
-        }, 300);
-    };
-
-    const toggleVisibility = (element, show, useFlex = false) => {
-        if (!element) return;
-        if (show) {
-            element.classList.remove('hidden', 'fade-out');
-            element.classList.add(useFlex ? 'flex-visible' : 'visible', 'fade-in');
-        } else {
-            element.classList.remove('visible', 'flex-visible', 'fade-in');
-            element.classList.add('hidden', 'fade-out');
-        }
-    };
-
-    const resetProjectsView = () => {
-        const subpagesContainer = projectsColumn.querySelector('.subpages');
-        const projectDetails = projectsColumn.querySelectorAll('.project-detail');
-        toggleVisibility(subpagesContainer, true, true);
-        projectDetails.forEach(detail => toggleVisibility(detail, false));
-    };
-
-    const handleProjectSubpageClick = (event) => {
-        const subpage = event.target.closest('.subpage');
-        if (!subpage) return;
-        event.stopPropagation();
-        const targetId = subpage.dataset.target;
-        const targetProject = document.getElementById(targetId);
-        const subpagesContainer = projectsColumn.querySelector('.subpages');
-        toggleVisibility(subpagesContainer, false);
-        toggleVisibility(targetProject, true);
-    };
-    
-    const handleProjectBackArrowClick = (event) => {
-        const backArrow = event.target.closest('.back-arrow');
-        if (!backArrow) return;
-        event.stopPropagation();
-        const projectDetail = backArrow.closest('.project-detail');
-        toggleVisibility(projectDetail, false);
-        const subpagesContainer = projectsColumn.querySelector('.subpages');
-        toggleVisibility(subpagesContainer, true, true);
-    };
-
-    const attachEventListeners = () => {
-        window.addEventListener('scroll', handleScroll);
-        document.addEventListener('touchstart', handleTouchStart, { passive: true });
-        document.addEventListener('touchmove', handleTouchMove, { passive: true });
-        if (scrollArrow) scrollArrow.addEventListener('click', (e) => { e.preventDefault(); scrollToElement(mainContent); });
-        if (mainContent) mainContent.addEventListener('click', handleColumnClick);
-        if (projectsColumn) {
-            projectsColumn.addEventListener('click', handleProjectSubpageClick);
-            projectsColumn.addEventListener('click', handleProjectBackArrowClick);
-        }
-
-        const mobileMenuTrigger = document.getElementById('mobile-menu-trigger');
-        const mobileDropdown = document.getElementById('mobile-dropdown');
-        const navbar = document.getElementById('navbar');
-
-        const musicPlayer = document.getElementById('music-player-container');
-        const themeSwitcher = document.getElementById('theme-switcher');
-        const socialLinks = document.querySelector('.nav-right .social-links');
-
-        const musicPlayerMobile = document.getElementById('music-player-container-mobile');
-        const themeSwitcherMobile = document.getElementById('theme-switcher-mobile');
-        const socialLinksMobile = document.querySelector('.social-links-mobile');
-
-        const desktopControls = document.querySelector('.desktop-controls');
-        const navRight = document.querySelector('.nav-right');
-
-        const setupMenuLayout = () => {
-            if (window.innerWidth <= 768) {
-                // Move controls to mobile dropdown
-                if (musicPlayer && musicPlayerMobile && !musicPlayerMobile.contains(musicPlayer)) {
-                    musicPlayerMobile.appendChild(musicPlayer);
-                }
-                if (themeSwitcher && themeSwitcherMobile && !themeSwitcherMobile.contains(themeSwitcher)) {
-                    themeSwitcherMobile.appendChild(themeSwitcher);
-                }
-                if (socialLinks && socialLinksMobile && !socialLinksMobile.contains(socialLinks)) {
-                    socialLinksMobile.appendChild(socialLinks);
-                }
-            } else {
-                // Move controls back to desktop view
-                if (musicPlayer && desktopControls && !desktopControls.contains(musicPlayer)) {
-                    desktopControls.insertBefore(musicPlayer, themeSwitcher);
-                }
-                if (themeSwitcher && desktopControls && !desktopControls.contains(themeSwitcher)) {
-                    desktopControls.appendChild(themeSwitcher);
-                }
-                if (socialLinks && navRight && !navRight.contains(socialLinks)) {
-                    navRight.appendChild(socialLinks);
-                }
-                // Ensure dropdown is closed if resizing to desktop
-                if(navbar.classList.contains('dropdown-open')) {
-                    navbar.classList.remove('dropdown-open');
-                    mobileDropdown.classList.add('hidden');
-                }
-            }
-        };
-
-        if (mobileMenuTrigger) {
-            mobileMenuTrigger.addEventListener('click', () => {
-                navbar.classList.toggle('dropdown-open');
-                mobileDropdown.classList.toggle('hidden');
-            });
-        }
-
-        // Initial setup and resize handling
-        setupMenuLayout();
-        window.addEventListener('resize', setupMenuLayout);
-    };
-
-    attachEventListeners();
+    });
 });
+
+// Expose initAudioSystem for loader
+window.initAudioSystem = initAudioSystem;
