@@ -8,7 +8,12 @@ const translations = {
     portfolioSubtitle: "by Alexandre S. Fedala",
     skillsUsedTitle: "Skills Used",
     seeCV: "See CV",
-    seeOnMap: "See on Map"
+    seeOnMap: "See on Map",
+    contactMe: "Contact Me",
+    location: "Location",
+    heroIntro: "Welcome to my portfolio.",
+    jobTitle: "Undergraduate Civil Engineering Student",
+    name: "Alexandre S. Fedala"
   },
   fr: {
     aboutMe: "Biographie",
@@ -19,7 +24,12 @@ const translations = {
     portfolioSubtitle: "par Alexandre S. Fedala",
     skillsUsedTitle: "Compétences Utilisées",
     seeCV: "Voir CV",
-    seeOnMap: "Voir sur la carte"
+    seeOnMap: "Voir sur la carte",
+    contactMe: "Me Contacter",
+    location: "Localisation",
+    heroIntro: "Bienvenue sur mon portfolio.",
+    jobTitle: "Étudiant en Licence de Génie Civil",
+    name: "Alexandre S. Fedala"
   }
 };
 
