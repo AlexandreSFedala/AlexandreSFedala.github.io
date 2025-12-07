@@ -14,7 +14,9 @@ const translations = {
     heroIntro: "Welcome to my portfolio.",
     jobTitle: "Undergraduate Civil Engineering Student",
     name: "Alexandre S. Fedala",
-    languages: "Languages"
+    languages: "Languages",
+    education: "Education",
+    certifications: "Certifications"
   },
   fr: {
     aboutMe: "Biographie",
@@ -31,7 +33,9 @@ const translations = {
     heroIntro: "Bienvenue sur mon portfolio.",
     jobTitle: "Étudiant en Licence de Génie Civil",
     name: "Alexandre S. Fedala",
-    languages: "Langues"
+    languages: "Langues",
+    education: "Éducation",
+    certifications: "Certifications"
   }
 };
 

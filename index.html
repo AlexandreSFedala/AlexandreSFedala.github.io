@@ -9,7 +9,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,700&display=swap" rel="stylesheet">
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -21,87 +21,101 @@
 </head>
 <body data-theme="light">
 
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-brand" data-key="name">Alexandre S. Fedala</div>
-        <div class="nav-controls">
-            <button id="theme-toggle" aria-label="Toggle Theme">
-                <span class="icon">◑</span>
-            </button>
-            <div class="lang-switch">
-                <button data-lang="en" class="active">EN</button>
-                <button data-lang="fr">FR</button>
-            </div>
-        </div>
-    </nav>
+    <div class="split-layout">
 
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-inner">
-                <h1 class="hero-title" data-key="name">Alexandre S. Fedala</h1>
-                <p class="hero-subtitle" data-key="jobTitle">Undergraduate Civil Engineering Student</p>
-                <div class="hero-actions">
-                    <a href="pdfs/CV.pdf" target="_blank" class="btn-text" data-key="seeCV">See CV &rarr;</a>
+        <!-- Left Panel: Identity & Nav -->
+        <aside class="left-panel">
+            <div class="identity-container">
+                <div class="logo-area">
+                    <img src="images/logo.png" alt="Profile" class="profile-img">
+                </div>
+                <h1 class="name" data-key="name">Alexandre S. Fedala</h1>
+                <h2 class="role" data-key="jobTitle">Undergraduate Civil Engineering Student</h2>
+                <p class="tagline" data-key="heroIntro">Welcome to my portfolio.</p>
+
+                <nav class="main-nav">
+                    <a href="#about" class="nav-item active" data-key="aboutMe">About Me</a>
+                    <a href="#timeline" class="nav-item" data-key="education">Education</a>
+                    <a href="#projects" class="nav-item" data-key="projects">Projects</a>
+                    <a href="#skills" class="nav-item" data-key="skills">Skills</a>
+                </nav>
+
+                <div class="left-footer">
+                    <div class="social-row">
+                        <a href="mailto:alexandrefedala.afedala@gmail.com" aria-label="Email"><img src="images/email-envelope-white-icon.png" class="social-icon"></a>
+                        <a href="https://www.linkedin.com/in/afedala/" target="_blank" aria-label="LinkedIn"><img src="images/linkedin-app-white-icon.png" class="social-icon"></a>
+                        <a href="https://wa.me/447927708325" target="_blank" aria-label="WhatsApp"><img src="images/whatsapp-white-icon.png" class="social-icon"></a>
+                    </div>
+                    <div class="controls-row">
+                        <button id="theme-toggle" class="control-btn" aria-label="Toggle Theme">
+                            <span class="icon">◑</span>
+                        </button>
+                        <div class="lang-switch">
+                            <button data-lang="en" class="active">EN</button>
+                            <button data-lang="fr">FR</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="scroll-indicator">
-                <span data-key="scrollDown">Scroll Down</span>
-                <div class="line"></div>
-            </div>
-        </section>
+        </aside>
 
-        <!-- About Section -->
-        <section class="section about" id="about">
-            <div class="section-header">
-                <h2 data-key="aboutMe">About Me</h2>
-                <div class="header-line"></div>
-            </div>
-            <div class="about-content" id="about-content">
-                <!-- Dynamic Content -->
-            </div>
-        </section>
+        <!-- Right Panel: Content Stream -->
+        <main class="right-panel">
 
-        <!-- Projects Section -->
-        <section class="section projects" id="projects">
-            <div class="section-header">
-                <h2 data-key="projects">Projects</h2>
-                <div class="header-line"></div>
-            </div>
-            <div id="projects-list" class="projects-list">
-                <!-- Dynamic Content (Alternating Rows) -->
-            </div>
-            <div class="map-cta-container">
-                <button id="open-map-btn" class="btn-outline" data-key="seeOnMap">View Project Locations</button>
-            </div>
-        </section>
+            <!-- About Section -->
+            <section id="about" class="content-section">
+                <h3 class="section-title" data-key="aboutMe">About Me</h3>
+                <div id="about-content" class="text-block">
+                    <!-- Dynamic Bio -->
+                </div>
+                <div class="cv-container">
+                    <a href="pdfs/CV.pdf" target="_blank" class="primary-btn" data-key="seeCV">Download CV</a>
+                </div>
+            </section>
 
-        <!-- Skills Section -->
-        <section class="section skills" id="skills">
-            <div class="section-header">
-                <h2 data-key="skills">Skills</h2>
-                <div class="header-line"></div>
-            </div>
-            <div id="skills-container" class="skills-grid">
-                <!-- Dynamic Content -->
-            </div>
-        </section>
+            <!-- Timeline / Education -->
+            <section id="timeline" class="content-section">
+                <h3 class="section-title" data-key="education">Education</h3>
+                <div id="timeline-content" class="timeline-container">
+                    <!-- Dynamic Education/Exp -->
+                </div>
+            </section>
 
-        <!-- Footer / Contact -->
-        <footer class="footer">
-            <h2 data-key="contactMe">Contact Me</h2>
-            <div class="footer-links">
-                <a href="mailto:alexandrefedala.afedala@gmail.com" class="footer-link">Email</a>
-                <a href="https://www.linkedin.com/in/afedala/" target="_blank" class="footer-link">LinkedIn</a>
-                <a href="https://wa.me/447927708325" target="_blank" class="footer-link">WhatsApp</a>
-            </div>
-            <div class="copyright">
-                &copy; <span id="year"></span> Alexandre S. Fedala
-            </div>
-        </footer>
-    </main>
+            <!-- Projects Section -->
+            <section id="projects" class="content-section">
+                <h3 class="section-title" data-key="projects">Projects</h3>
+                <div id="projects-list" class="projects-grid">
+                    <!-- Dynamic Projects -->
+                </div>
+                <div class="map-cta">
+                    <button id="open-map-btn" class="secondary-btn" data-key="seeOnMap">View Locations Map</button>
+                </div>
+            </section>
 
-    <!-- Project Modal -->
+            <!-- Skills Section -->
+            <section id="skills" class="content-section">
+                <h3 class="section-title" data-key="skills">Skills</h3>
+                <div id="skills-container" class="skills-wrapper">
+                    <!-- Dynamic Skills -->
+                </div>
+            </section>
+
+            <!-- Certifications (appended to bottom) -->
+             <section id="certs" class="content-section">
+                <h3 class="section-title" data-key="certifications">Certifications</h3>
+                <div id="certs-container" class="certs-grid">
+                    <!-- Dynamic Certs -->
+                </div>
+            </section>
+
+            <footer class="stream-footer">
+                <p>&copy; <span id="year"></span> Alexandre S. Fedala</p>
+            </footer>
+
+        </main>
+    </div>
+
+    <!-- Modals -->
     <dialog id="project-modal" class="modal">
         <div class="modal-content">
             <button class="close-modal">&times;</button>
@@ -109,7 +123,6 @@
         </div>
     </dialog>
 
-    <!-- Map Modal -->
     <dialog id="map-modal" class="modal full-screen">
         <button class="close-modal">&times;</button>
         <div id="map-container"></div>
