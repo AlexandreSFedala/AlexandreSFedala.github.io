@@ -10,13 +10,10 @@ const state = {
 };
 
 // --- Localization ---
-// translations is global from texts.js
-
 function t(key) {
     if (typeof translations !== 'undefined' && translations[state.lang] && translations[state.lang][key]) {
         return translations[state.lang][key];
     }
-    // Fallback if texts.js isn't loaded yet or key missing
     return key;
 }
 
@@ -71,26 +68,61 @@ function renderAll() {
     renderProjects();
     renderSkills();
     renderAbout();
+
+    // Trigger scroll reveal observer after rendering
+    setupScrollReveal();
+
+    // Update Copyright Year
+    document.getElementById('year').textContent = new Date().getFullYear();
 }
 
 function renderProjects() {
     const container = document.getElementById('projects-list');
     container.innerHTML = '';
 
-    // Get projects for current language
     const projects = state.data.projects[state.lang] || [];
 
-    // Take first 4 projects for the grid
-    const featured = projects.slice(0, 4);
+    projects.forEach((project, index) => {
+        const row = document.createElement('div');
+        row.className = 'project-row';
 
-    featured.forEach(project => {
-        const div = document.createElement('div');
-        div.className = 'mini-project-card';
-        div.innerHTML = `<strong>${project.title}</strong>`;
-        div.onclick = () => openProjectModal(project);
-        container.appendChild(div);
+        // Pad number with zero
+        const num = (index + 1).toString().padStart(2, '0');
+
+        const description = Array.isArray(project.description) ? project.description[0] : project.description;
+        // Truncate description for the list view
+        const shortDesc = description.length > 150 ? description.substring(0, 150) + '...' : description;
+
+        const infoHtml = `
+            <div class="project-info">
+                <div class="project-number">${num}</div>
+                <h3 class="project-title" onclick="window.openProjectModal('${project.id}')">${project.title}</h3>
+                <p class="project-desc">${shortDesc}</p>
+                <button class="btn-outline" onclick="window.openProjectModal('${project.id}')">View Project</button>
+            </div>
+        `;
+
+        const imageHtml = `
+            <div class="project-image-container" onclick="window.openProjectModal('${project.id}')">
+                <img src="${project.image || 'images/placeholder.jpg'}" alt="${project.alt || 'Project Image'}" class="project-image" loading="lazy">
+            </div>
+        `;
+
+        // Order is handled by CSS (flex/grid order or direction: rtl for even rows)
+        // But in grid, we just dump them. CSS grid-template-columns handles 1fr 1fr.
+        // We will just append them in standard order (Info, Image) and let CSS swap them visually using direction:rtl or order.
+        // Actually, CSS :nth-child(even) { direction: rtl } works best if we keep DOM order consistent.
+
+        row.innerHTML = infoHtml + imageHtml;
+        container.appendChild(row);
     });
 }
+
+// Global helper for onclick
+window.openProjectModal = (projectId) => {
+    const project = (state.data.projects[state.lang] || []).find(p => p.id === projectId);
+    if (project) openProjectModal(project);
+};
 
 function renderSkills() {
     const container = document.getElementById('skills-container');
@@ -99,17 +131,25 @@ function renderSkills() {
     const skillsData = state.data.skills[state.lang];
     if (!skillsData) return;
 
-    const technical = skillsData.technical || [];
-    const soft = skillsData.soft || [];
+    // We can render categories separately
+    const categories = [
+        { key: 'technical', title: skillsData.technicalTitle || 'Technical' },
+        { key: 'soft', title: skillsData.softTitle || 'Soft Skills' }
+    ];
 
-    // Merge and show
-    const allSkills = [...technical, ...soft];
-
-    allSkills.slice(0, 15).forEach(skill => {
-        const span = document.createElement('span');
-        span.className = 'tag';
-        span.textContent = skill.name;
-        container.appendChild(span);
+    categories.forEach(cat => {
+        const items = skillsData[cat.key];
+        if (items && items.length > 0) {
+            const div = document.createElement('div');
+            div.className = 'skill-category';
+            div.innerHTML = `
+                <h4>${cat.title}</h4>
+                <ul class="skill-list">
+                    ${items.map(item => `<li class="skill-item">${item.name} <small style="opacity:0.6">(${item.level})</small></li>`).join('')}
+                </ul>
+            `;
+            container.appendChild(div);
+        }
     });
 }
 
@@ -119,23 +159,85 @@ function renderAbout() {
 
     const aboutData = state.data.about[state.lang] || [];
 
-    // We want to show a summary in the bento card.
-    // Let's grab the first "text" type content.
-    const bioSlide = aboutData.find(s => s.type === 'text');
+    aboutData.forEach(slide => {
+        // Create a wrapper for each section
+        const sectionWrapper = document.createElement('div');
+        sectionWrapper.className = 'about-subsection';
 
-    if (bioSlide) {
-        const text = Array.isArray(bioSlide.content) ? bioSlide.content[0] : bioSlide.content;
-        container.innerHTML = `<p>${text}</p>`;
-    }
+        // Add Title if exists
+        if (slide.title) {
+            const h3 = document.createElement('h3');
+            h3.textContent = slide.title;
+            h3.style.marginTop = "40px";
+            h3.style.marginBottom = "20px";
+            sectionWrapper.appendChild(h3);
+        }
 
-    // We could add a "Read More" button that opens a modal with the full Education/Certifications info
-    // For now, let's append a small Education summary if available
-    const eduSlide = aboutData.find(s => s.type === 'education_languages');
-    if (eduSlide && eduSlide.content.education.length > 0) {
-        const school = eduSlide.content.education[0].school;
-        const degree = eduSlide.content.education[0].degree;
-        container.innerHTML += `<hr style="margin: 10px 0; border:0; border-top:1px solid var(--text-secondary); opacity: 0.3"><p><small>🎓 ${degree}<br>${school}</small></p>`;
-    }
+        if (slide.type === 'text') {
+            const content = Array.isArray(slide.content) ? slide.content : [slide.content];
+            content.forEach(p => {
+                const pEl = document.createElement('p');
+                pEl.textContent = p;
+                sectionWrapper.appendChild(pEl);
+            });
+        }
+        else if (slide.type === 'education_languages') {
+            // Render Education
+            if (slide.content.education) {
+                const eduList = document.createElement('div');
+                eduList.className = 'education-list';
+                slide.content.education.forEach(edu => {
+                    const div = document.createElement('div');
+                    div.className = 'education-item';
+                    div.innerHTML = `
+                        <strong>${edu.school}</strong> <span style="opacity:0.7">(${edu.years})</span><br>
+                        <em>${edu.degree}</em><br>
+                        <small>${edu.grade}</small>
+                    `;
+                    eduList.appendChild(div);
+                });
+                sectionWrapper.appendChild(eduList);
+            }
+            // Render Languages
+            if (slide.content.languages) {
+                const langTitle = document.createElement('h4');
+                langTitle.textContent = t('languages') || "Languages";
+                langTitle.style.marginTop = "20px";
+                sectionWrapper.appendChild(langTitle);
+
+                const langList = document.createElement('div');
+                langList.className = 'languages-list';
+                slide.content.languages.forEach(lang => {
+                    const span = document.createElement('span');
+                    span.className = 'tag';
+                    span.style.display = 'inline-flex';
+                    span.style.alignItems = 'center';
+                    span.style.gap = '8px';
+                    span.style.marginRight = '10px';
+                    span.style.marginBottom = '10px';
+                    span.innerHTML = `<img src="${lang.flag}" alt="${lang.name}" width="20"> ${lang.name} (${lang.level})`;
+                    langList.appendChild(span);
+                });
+                sectionWrapper.appendChild(langList);
+            }
+        }
+        else if (slide.type === 'certifications') {
+            const certGrid = document.createElement('div');
+            certGrid.className = 'cert-grid';
+            slide.content.forEach(cert => {
+                const div = document.createElement('div');
+                div.className = 'cert-item';
+                div.innerHTML = `
+                    <img src="${cert.img}" alt="${cert.title}" style="width: 100%; max-width: 300px; border-radius: 8px; margin-bottom: 10px;">
+                    <p><strong>${cert.title}</strong></p>
+                `;
+                certGrid.appendChild(div);
+            });
+            sectionWrapper.appendChild(certGrid);
+        }
+
+        container.appendChild(sectionWrapper);
+    });
 }
 
 // --- Modals ---
@@ -145,33 +247,32 @@ function openProjectModal(project) {
 
     let descriptionHtml = '';
     if (Array.isArray(project.description)) {
-        descriptionHtml = project.description.map(p => `<p>${p}</p>`).join('');
+        descriptionHtml = project.description.map(p => `<p style="margin-bottom:1em">${p}</p>`).join('');
     } else {
         descriptionHtml = `<p>${project.description}</p>`;
     }
 
     let linksHtml = '';
     if (project.pdf) {
-        linksHtml += `<a href="${project.pdf}" target="_blank" class="btn">${project.pdfButtonText || 'View PDF'}</a> `;
+        linksHtml += `<a href="${project.pdf}" target="_blank" class="btn-outline" style="margin-right:10px">${project.pdfButtonText || 'View PDF'}</a> `;
     }
     if (project.downloadFile) {
-        linksHtml += `<a href="${project.downloadFile}" class="btn secondary">${project.downloadText || 'Download'}</a>`;
+        linksHtml += `<a href="${project.downloadFile}" class="btn-outline">${project.downloadText || 'Download'}</a>`;
     }
 
     body.innerHTML = `
-        <h2>${project.title}</h2>
-        <div class="tech-stack">
-            ${(project.skills || []).map(t => `<span class="tag">${t}</span>`).join('')}
+        <h2 style="margin-bottom:10px">${project.title}</h2>
+        <div class="tech-stack" style="margin-bottom:20px; font-family:var(--font-sans); font-size:0.9rem; color:var(--text-secondary)">
+            ${(project.skills || []).join(' • ')}
         </div>
-        ${project.image ? `<img src="${project.image}" class="project-detail-img" alt="${project.alt}">` : ''}
-        <div class="project-description">
+        ${project.image ? `<img src="${project.image}" style="width:100%; margin-bottom:20px; border-radius:4px" alt="${project.alt}">` : ''}
+        <div class="project-description" style="line-height:1.8; margin-bottom:30px">
             ${descriptionHtml}
         </div>
-        <br>
         <div class="modal-actions">
             ${linksHtml}
         </div>
-        ${project.detailImage ? `<br><img src="${project.detailImage}" class="project-detail-img" alt="${project.detailImageAlt}">` : ''}
+        ${project.detailImage ? `<br><img src="${project.detailImage}" style="width:100%; margin-top:20px" alt="${project.detailImageAlt}">` : ''}
     `;
 
     modal.showModal();
@@ -186,24 +287,24 @@ let mapInstance = null;
 function initMap() {
     if (mapInstance) return;
 
-    mapInstance = L.map('map-container').setView([51.505, -0.09], 4); // Zoom level 4 for world view
+    mapInstance = L.map('map-container').setView([51.505, -0.09], 3);
 
+    // Use a cleaner tile layer (e.g., CartoDB Positron for Light, Dark Matter for Dark)
+    // For simplicity, sticking to OSM but we could switch based on theme.
+    // Let's use a standard OSM for now.
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
+        attribution: '&copy; OpenStreetMap'
     }).addTo(mapInstance);
 
     const markers = L.markerClusterGroup();
 
-    // Use 'en' projects for coordinates, as coordinates don't change by language
     const projects = state.data.projects['en'] || [];
 
     projects.forEach(p => {
         if (p.coordinates) {
              const marker = L.marker(p.coordinates);
-             // Find localized title
              const currentLangProject = (state.data.projects[state.lang] || []).find(proj => proj.id === p.id) || p;
-
-             marker.bindPopup(`<b>${currentLangProject.title}</b>`);
+             marker.bindPopup(`<b>${currentLangProject.title}</b><br><small>${currentLangProject.skills ? currentLangProject.skills[0] : ''}</small>`);
              markers.addLayer(marker);
         }
     });
@@ -222,9 +323,23 @@ function openMap() {
     setTimeout(() => mapInstance.invalidateSize(), 200);
 
     modal.querySelector('.close-modal').onclick = () => modal.close();
-    modal.onclick = (e) => { if(e.target === modal) modal.close(); };
 }
 
+// --- Scroll Reveal ---
+function setupScrollReveal() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.project-row').forEach(row => {
+        observer.observe(row);
+    });
+}
 
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -241,10 +356,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Map Click
-    document.getElementById('card-map').onclick = openMap;
+    document.getElementById('open-map-btn').onclick = openMap;
 
     // Load Content
-    // We need 'texts' variable. If texts.js loads before app.js, it's there.
     loadData().then(() => {
         updateLanguage();
     });

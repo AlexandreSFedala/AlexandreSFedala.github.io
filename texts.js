@@ -13,7 +13,8 @@ const translations = {
     location: "Location",
     heroIntro: "Welcome to my portfolio.",
     jobTitle: "Undergraduate Civil Engineering Student",
-    name: "Alexandre S. Fedala"
+    name: "Alexandre S. Fedala",
+    languages: "Languages"
   },
   fr: {
     aboutMe: "Biographie",
@@ -29,7 +30,8 @@ const translations = {
     location: "Localisation",
     heroIntro: "Bienvenue sur mon portfolio.",
     jobTitle: "Étudiant en Licence de Génie Civil",
-    name: "Alexandre S. Fedala"
+    name: "Alexandre S. Fedala",
+    languages: "Langues"
   }
 };
 

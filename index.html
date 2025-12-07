@@ -9,7 +9,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -21,84 +21,87 @@
 </head>
 <body data-theme="light">
 
-    <!-- Language & Theme Controls (Floating or Fixed) -->
-    <div class="controls">
-        <button id="theme-toggle" aria-label="Toggle Theme">
-            <span class="icon sun">☀️</span>
-            <span class="icon moon">🌙</span>
-        </button>
-        <div class="lang-switch">
-            <button data-lang="en" class="active">EN</button>
-            <button data-lang="fr">FR</button>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-brand" data-key="name">Alexandre S. Fedala</div>
+        <div class="nav-controls">
+            <button id="theme-toggle" aria-label="Toggle Theme">
+                <span class="icon">◑</span>
+            </button>
+            <div class="lang-switch">
+                <button data-lang="en" class="active">EN</button>
+                <button data-lang="fr">FR</button>
+            </div>
         </div>
-    </div>
+    </nav>
 
-    <main class="bento-grid">
+    <main>
         <!-- Hero Section -->
-        <article class="card hero" id="card-hero">
-            <div class="hero-content">
-                <img src="images/logo.png" alt="Profile" class="profile-img">
-                <div>
-                    <h1 data-key="name">Alexandre S. Fedala</h1>
-                    <h2 data-key="jobTitle">Undergraduate Civil Engineering Student</h2>
-                    <p data-key="heroIntro">Welcome to my portfolio.</p>
+        <section class="hero">
+            <div class="hero-inner">
+                <h1 class="hero-title" data-key="name">Alexandre S. Fedala</h1>
+                <p class="hero-subtitle" data-key="jobTitle">Undergraduate Civil Engineering Student</p>
+                <div class="hero-actions">
+                    <a href="pdfs/CV.pdf" target="_blank" class="btn-text" data-key="seeCV">See CV &rarr;</a>
                 </div>
             </div>
-            <div class="hero-actions">
-                <a href="pdfs/CV.pdf" target="_blank" class="btn" data-key="seeCV">See CV</a>
-                <a href="mailto:alexandrefedala.afedala@gmail.com" class="btn secondary" data-key="contactMe">Contact</a>
+            <div class="scroll-indicator">
+                <span data-key="scrollDown">Scroll Down</span>
+                <div class="line"></div>
             </div>
-        </article>
+        </section>
 
-        <!-- About Me -->
-        <article class="card about" id="card-about">
-            <h3 data-key="aboutMe">About Me</h3>
-            <div id="about-content" class="scrollable-content">
+        <!-- About Section -->
+        <section class="section about" id="about">
+            <div class="section-header">
+                <h2 data-key="aboutMe">About Me</h2>
+                <div class="header-line"></div>
+            </div>
+            <div class="about-content" id="about-content">
                 <!-- Dynamic Content -->
             </div>
-        </article>
+        </section>
 
-        <!-- Skills -->
-        <article class="card skills" id="card-skills">
-            <h3 data-key="skills">Skills</h3>
-            <div id="skills-container" class="tags-container">
+        <!-- Projects Section -->
+        <section class="section projects" id="projects">
+            <div class="section-header">
+                <h2 data-key="projects">Projects</h2>
+                <div class="header-line"></div>
+            </div>
+            <div id="projects-list" class="projects-list">
+                <!-- Dynamic Content (Alternating Rows) -->
+            </div>
+            <div class="map-cta-container">
+                <button id="open-map-btn" class="btn-outline" data-key="seeOnMap">View Project Locations</button>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="section skills" id="skills">
+            <div class="section-header">
+                <h2 data-key="skills">Skills</h2>
+                <div class="header-line"></div>
+            </div>
+            <div id="skills-container" class="skills-grid">
                 <!-- Dynamic Content -->
             </div>
-        </article>
+        </section>
 
-        <!-- Map / Location -->
-        <article class="card map-card" id="card-map">
-            <h3 data-key="location">Location</h3>
-            <div class="map-preview">
-                <div class="map-overlay">
-                    <span data-key="seeOnMap">See Projects on Map</span>
-                </div>
+        <!-- Footer / Contact -->
+        <footer class="footer">
+            <h2 data-key="contactMe">Contact Me</h2>
+            <div class="footer-links">
+                <a href="mailto:alexandrefedala.afedala@gmail.com" class="footer-link">Email</a>
+                <a href="https://www.linkedin.com/in/afedala/" target="_blank" class="footer-link">LinkedIn</a>
+                <a href="https://wa.me/447927708325" target="_blank" class="footer-link">WhatsApp</a>
             </div>
-        </article>
-
-        <!-- Projects -->
-        <article class="card projects" id="card-projects">
-            <h3 data-key="projects">Projects</h3>
-            <div id="projects-list" class="projects-grid-mini">
-                <!-- Dynamic Content -->
+            <div class="copyright">
+                &copy; <span id="year"></span> Alexandre S. Fedala
             </div>
-        </article>
-
-        <!-- Socials -->
-        <article class="card social" id="card-social">
-            <a href="https://www.linkedin.com/in/afedala/" target="_blank" class="social-link linkedin">
-                <img src="images/linkedin-app-white-icon.png" alt="LinkedIn">
-            </a>
-            <a href="https://wa.me/447927708325" target="_blank" class="social-link whatsapp">
-                <img src="images/whatsapp-white-icon.png" alt="WhatsApp">
-            </a>
-            <a href="mailto:alexandrefedala.afedala@gmail.com" class="social-link email">
-                <img src="images/email-envelope-white-icon.png" alt="Email">
-            </a>
-        </article>
+        </footer>
     </main>
 
-    <!-- Modals -->
+    <!-- Project Modal -->
     <dialog id="project-modal" class="modal">
         <div class="modal-content">
             <button class="close-modal">&times;</button>
@@ -106,6 +109,7 @@
         </div>
     </dialog>
 
+    <!-- Map Modal -->
     <dialog id="map-modal" class="modal full-screen">
         <button class="close-modal">&times;</button>
         <div id="map-container"></div>
