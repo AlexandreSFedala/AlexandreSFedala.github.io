@@ -9,118 +9,141 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,300;9..144,600;9..144,700&display=swap" rel="stylesheet">
+    <!-- Blueprint Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Gallery Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
 
-    <!-- Main Styles -->
-    <link rel="stylesheet" href="css/style.css">
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/blueprint.css" id="view-stylesheet">
+    <!-- Gallery CSS is loaded dynamically or toggled via class,
+         but we'll link it here to ensure it's downloaded if we use body classes.
+         Actually, let's use body classes to switch styles, so we import both or put them in one file?
+         Better to keep separate files for organization, but load both.
+    -->
+    <link rel="stylesheet" href="css/gallery.css">
 </head>
-<body data-theme="light">
+<body data-theme="light" class="view-blueprint">
 
-    <div class="split-layout">
+    <!-- Global Controls (Fixed) -->
+    <div class="global-controls">
+        <div class="view-switcher-container">
+            <span class="label">View Mode:</span>
+            <button id="view-btn-blueprint" class="view-btn active">Blueprint</button>
+            <button id="view-btn-gallery" class="view-btn">Gallery</button>
+        </div>
 
-        <!-- Left Panel: Identity & Nav -->
-        <aside class="left-panel">
-            <div class="identity-container">
-                <div class="logo-area">
-                    <img src="images/logo.png" alt="Profile" class="profile-img">
+        <div class="settings-container">
+            <button id="theme-toggle" class="icon-btn" aria-label="Toggle Theme">
+                <span class="icon">◑</span>
+            </button>
+            <div class="lang-switch">
+                <button data-lang="en" class="active">EN</button>
+                <button data-lang="fr">FR</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div id="app-container">
+
+        <!-- Navigation (Varies by View) -->
+        <nav id="main-nav">
+            <div class="nav-logo">
+                <img src="images/logo.png" alt="ASF Logo">
+            </div>
+            <div class="nav-links">
+                <a href="#hero" data-key="name">Alexandre S. Fedala</a>
+                <a href="#about" data-key="aboutMe">About</a>
+                <a href="#projects" data-key="projects">Projects</a>
+                <a href="#skills" data-key="skills">Skills</a>
+                <a href="#contact" data-key="contactMe">Contact</a>
+            </div>
+        </nav>
+
+        <!-- Sections -->
+        <main>
+            <!-- Hero -->
+            <section id="hero" class="section">
+                <div class="content-wrapper">
+                    <h1 class="hero-title" data-key="name">Alexandre S. Fedala</h1>
+                    <h2 class="hero-subtitle" data-key="jobTitle">Undergraduate Civil Engineering Student</h2>
+                    <p class="hero-intro" data-key="heroIntro">Welcome to my portfolio.</p>
+                    <div class="hero-actions">
+                        <a href="pdfs/CV.pdf" target="_blank" class="cta-btn" data-key="seeCV">See CV</a>
+                    </div>
                 </div>
-                <h1 class="name" data-key="name">Alexandre S. Fedala</h1>
-                <h2 class="role" data-key="jobTitle">Undergraduate Civil Engineering Student</h2>
-                <p class="tagline" data-key="heroIntro">Welcome to my portfolio.</p>
+            </section>
 
-                <nav class="main-nav">
-                    <a href="#about" class="nav-item active" data-key="aboutMe">About Me</a>
-                    <a href="#timeline" class="nav-item" data-key="education">Education</a>
-                    <a href="#projects" class="nav-item" data-key="projects">Projects</a>
-                    <a href="#skills" class="nav-item" data-key="skills">Skills</a>
-                </nav>
+            <!-- About & Timeline -->
+            <section id="about" class="section">
+                <div class="content-wrapper">
+                    <h2 class="section-title" data-key="aboutMe">About Me</h2>
+                    <div id="about-content" class="about-grid">
+                        <!-- Dynamic Bio -->
+                    </div>
 
-                <div class="left-footer">
-                    <div class="social-row">
-                        <a href="mailto:alexandrefedala.afedala@gmail.com" aria-label="Email"><img src="images/email-envelope-white-icon.png" class="social-icon"></a>
+                    <h3 class="subsection-title" data-key="education">Education</h3>
+                    <div id="timeline-content" class="timeline-wrapper">
+                        <!-- Dynamic Timeline -->
+                    </div>
+
+                    <h3 class="subsection-title" data-key="certifications">Certifications</h3>
+                    <div id="certs-content" class="certs-wrapper">
+                        <!-- Dynamic Certs -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects -->
+            <section id="projects" class="section">
+                <div class="content-wrapper">
+                    <h2 class="section-title" data-key="projects">Projects</h2>
+                    <div id="projects-list" class="projects-container">
+                        <!-- Dynamic Projects -->
+                    </div>
+                    <div class="map-trigger">
+                        <button id="open-map-btn" class="map-btn" data-key="seeOnMap">Open Interactive Map</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills -->
+            <section id="skills" class="section">
+                <div class="content-wrapper">
+                    <h2 class="section-title" data-key="skills">Skills</h2>
+                    <div id="skills-container" class="skills-wrapper">
+                        <!-- Dynamic Skills -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact -->
+            <section id="contact" class="section">
+                <div class="content-wrapper">
+                    <h2 class="section-title" data-key="contactMe">Contact Me</h2>
+                    <div class="social-links">
+                         <a href="mailto:alexandrefedala.afedala@gmail.com" aria-label="Email"><img src="images/email-envelope-white-icon.png" class="social-icon"></a>
                         <a href="https://www.linkedin.com/in/afedala/" target="_blank" aria-label="LinkedIn"><img src="images/linkedin-app-white-icon.png" class="social-icon"></a>
                         <a href="https://wa.me/447927708325" target="_blank" aria-label="WhatsApp"><img src="images/whatsapp-white-icon.png" class="social-icon"></a>
                     </div>
-                    <div class="controls-row">
-                        <button id="theme-toggle" class="control-btn" aria-label="Toggle Theme">
-                            <span class="icon">◑</span>
-                        </button>
-                        <div class="lang-switch">
-                            <button data-lang="en" class="active">EN</button>
-                            <button data-lang="fr">FR</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Right Panel: Content Stream -->
-        <main class="right-panel">
-
-            <!-- About Section -->
-            <section id="about" class="content-section">
-                <h3 class="section-title" data-key="aboutMe">About Me</h3>
-                <div id="about-content" class="text-block">
-                    <!-- Dynamic Bio -->
-                </div>
-                <div class="cv-container">
-                    <a href="pdfs/CV.pdf" target="_blank" class="primary-btn" data-key="seeCV">Download CV</a>
+                    <p class="copyright">&copy; <span id="year"></span> Alexandre S. Fedala</p>
                 </div>
             </section>
-
-            <!-- Timeline / Education -->
-            <section id="timeline" class="content-section">
-                <h3 class="section-title" data-key="education">Education</h3>
-                <div id="timeline-content" class="timeline-container">
-                    <!-- Dynamic Education/Exp -->
-                </div>
-            </section>
-
-            <!-- Projects Section -->
-            <section id="projects" class="content-section">
-                <h3 class="section-title" data-key="projects">Projects</h3>
-                <div id="projects-list" class="projects-grid">
-                    <!-- Dynamic Projects -->
-                </div>
-                <div class="map-cta">
-                    <button id="open-map-btn" class="secondary-btn" data-key="seeOnMap">View Locations Map</button>
-                </div>
-            </section>
-
-            <!-- Skills Section -->
-            <section id="skills" class="content-section">
-                <h3 class="section-title" data-key="skills">Skills</h3>
-                <div id="skills-container" class="skills-wrapper">
-                    <!-- Dynamic Skills -->
-                </div>
-            </section>
-
-            <!-- Certifications (appended to bottom) -->
-             <section id="certs" class="content-section">
-                <h3 class="section-title" data-key="certifications">Certifications</h3>
-                <div id="certs-container" class="certs-grid">
-                    <!-- Dynamic Certs -->
-                </div>
-            </section>
-
-            <footer class="stream-footer">
-                <p>&copy; <span id="year"></span> Alexandre S. Fedala</p>
-            </footer>
-
         </main>
+
     </div>
 
     <!-- Modals -->
     <dialog id="project-modal" class="modal">
-        <div class="modal-content">
-            <button class="close-modal">&times;</button>
-            <div id="project-modal-body"></div>
-        </div>
+        <button class="close-modal">&times;</button>
+        <div class="modal-content" id="project-modal-body"></div>
     </dialog>
 
     <dialog id="map-modal" class="modal full-screen">
@@ -132,6 +155,7 @@
     <script src="texts.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
     <script type="module" src="js/app.js"></script>
 </body>
 </html>

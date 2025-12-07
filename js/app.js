@@ -2,12 +2,66 @@
 const state = {
     lang: 'en',
     theme: localStorage.getItem('theme') || 'light',
+    view: localStorage.getItem('view') || 'blueprint', // 'blueprint' or 'gallery'
     data: {
         projects: {}, // { en: [], fr: [] }
         skills: {},   // { en: {}, fr: {} }
         about: {}     // { en: [], fr: [] }
     }
 };
+
+// --- View Switcher Logic ---
+function initView() {
+    const body = document.body;
+    const blueprintBtn = document.getElementById('view-btn-blueprint');
+    const galleryBtn = document.getElementById('view-btn-gallery');
+
+    // Set initial class
+    setView(state.view);
+
+    blueprintBtn.onclick = () => setView('blueprint');
+    galleryBtn.onclick = () => setView('gallery');
+}
+
+function setView(viewName) {
+    state.view = viewName;
+    localStorage.setItem('view', viewName);
+
+    document.body.className = `view-${viewName}`;
+
+    // Update buttons
+    document.getElementById('view-btn-blueprint').classList.toggle('active', viewName === 'blueprint');
+    document.getElementById('view-btn-gallery').classList.toggle('active', viewName === 'gallery');
+
+    // Handle specific logic (like horizontal scroll for gallery)
+    if (viewName === 'gallery') {
+        enableHorizontalScroll();
+    } else {
+        disableHorizontalScroll();
+    }
+}
+
+// Horizontal Scroll Hijack for Gallery Mode
+function enableHorizontalScroll() {
+    const container = document.getElementById('app-container');
+    container.addEventListener('wheel', handleHorizontalWheel, { passive: false });
+}
+
+function disableHorizontalScroll() {
+    const container = document.getElementById('app-container');
+    container.removeEventListener('wheel', handleHorizontalWheel);
+}
+
+function handleHorizontalWheel(e) {
+    // Only hijack if we are in gallery mode
+    if (document.body.classList.contains('view-gallery')) {
+        if (e.deltaY !== 0) {
+            e.preventDefault();
+            document.getElementById('app-container').scrollLeft += e.deltaY;
+        }
+    }
+}
+
 
 // --- Localization ---
 function t(key) {
@@ -67,7 +121,7 @@ async function loadData() {
 function renderAll() {
     renderProjects();
     renderSkills();
-    renderAboutAndTimeline(); // Combined Logic
+    renderAboutAndTimeline();
 
     document.getElementById('year').textContent = new Date().getFullYear();
 }
@@ -82,16 +136,17 @@ function renderProjects() {
         const div = document.createElement('div');
         div.className = 'project-card';
 
+        // Same content structure for both views, CSS handles layout
         const description = Array.isArray(project.description) ? project.description[0] : project.description;
-        const shortDesc = description.length > 120 ? description.substring(0, 120) + '...' : description;
+        const shortDesc = description.length > 100 ? description.substring(0, 100) + '...' : description;
 
         div.innerHTML = `
-            <img src="${project.image || 'images/placeholder.jpg'}" alt="${project.title}" class="project-thumb" loading="lazy">
+            <img src="${project.image || 'images/placeholder.jpg'}" alt="${project.title}" loading="lazy">
             <div class="project-info">
                 <h4>${project.title}</h4>
-                <p style="color:var(--text-secondary); margin-bottom:16px">${shortDesc}</p>
-                <div class="tech-stack" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px">
-                    ${(project.skills || []).slice(0,3).map(s => `<span style="font-size:0.8rem; background:var(--bg-left); padding:2px 8px; border-radius:4px">${s}</span>`).join('')}
+                <p class="project-desc">${shortDesc}</p>
+                <div class="tech-stack">
+                    ${(project.skills || []).slice(0,3).map(s => `<span class="tag">${s}</span>`).join(' ')}
                 </div>
             </div>
         `;
@@ -107,38 +162,25 @@ function renderSkills() {
     const skillsData = state.data.skills[state.lang];
     if (!skillsData) return;
 
-    const categories = [
-        { key: 'technical', title: skillsData.technicalTitle || 'Technical' },
-        { key: 'soft', title: skillsData.softTitle || 'Soft Skills' }
-    ];
+    // Flatten for simple list in Blueprint / Gallery
+    // Or render groups if preferred. Let's do a simple tag cloud for now.
+    const technical = skillsData.technical || [];
+    const soft = skillsData.soft || [];
+    const all = [...technical, ...soft];
 
-    categories.forEach(cat => {
-        const items = skillsData[cat.key];
-        if (items && items.length > 0) {
-            const group = document.createElement('div');
-            group.className = 'skill-group';
-            group.innerHTML = `<h4>${cat.title}</h4>`;
-
-            const tags = document.createElement('div');
-            tags.className = 'skill-tags';
-
-            items.forEach(item => {
-                const span = document.createElement('span');
-                span.className = 'skill-pill';
-                span.textContent = item.name;
-                tags.appendChild(span);
-            });
-
-            group.appendChild(tags);
-            container.appendChild(group);
-        }
+    all.forEach(item => {
+        const span = document.createElement('span');
+        span.className = 'skill-tag';
+        span.textContent = item.name;
+        // Styles are in CSS
+        container.appendChild(span);
     });
 }
 
 function renderAboutAndTimeline() {
     const aboutContainer = document.getElementById('about-content');
     const timelineContainer = document.getElementById('timeline-content');
-    const certsContainer = document.getElementById('certs-container');
+    const certsContainer = document.getElementById('certs-content');
 
     aboutContainer.innerHTML = '';
     timelineContainer.innerHTML = '';
@@ -147,15 +189,8 @@ function renderAboutAndTimeline() {
     const aboutData = state.data.about[state.lang] || [];
 
     aboutData.forEach(slide => {
-        // Bio Text
-        if (slide.type === 'text' && slide.title.includes('Bio')) {
-             const content = Array.isArray(slide.content) ? slide.content : [slide.content];
-             content.forEach(p => {
-                 aboutContainer.innerHTML += `<p>${p}</p>`;
-             });
-        }
-        // Fallback for bio if title check fails (take first text)
-        else if (slide.type === 'text' && aboutContainer.innerHTML === '') {
+        // Bio
+        if (slide.type === 'text') {
              const content = Array.isArray(slide.content) ? slide.content : [slide.content];
              content.forEach(p => {
                  aboutContainer.innerHTML += `<p>${p}</p>`;
@@ -172,22 +207,18 @@ function renderAboutAndTimeline() {
                         <span class="timeline-date">${edu.years}</span>
                         <div class="timeline-role">${edu.degree}</div>
                         <div class="timeline-place">${edu.school}</div>
-                        <div style="font-size:0.9rem; margin-top:4px">${edu.grade}</div>
                     `;
                     timelineContainer.appendChild(div);
                 });
             }
         }
 
-        // Certifications
+        // Certs
         else if (slide.type === 'certifications') {
             slide.content.forEach(cert => {
                 const div = document.createElement('div');
                 div.className = 'cert-item';
-                div.innerHTML = `
-                    <img src="${cert.img}" alt="${cert.title}">
-                    <p style="font-size:0.9rem; font-weight:600">${cert.title}</p>
-                `;
+                div.textContent = cert.title;
                 certsContainer.appendChild(div);
             });
         }
@@ -208,25 +239,24 @@ function openProjectModal(project) {
 
     let linksHtml = '';
     if (project.pdf) {
-        linksHtml += `<a href="${project.pdf}" target="_blank" class="primary-btn" style="margin-right:10px">${project.pdfButtonText || 'View PDF'}</a> `;
+        linksHtml += `<a href="${project.pdf}" target="_blank" style="text-decoration:underline; font-weight:bold; margin-right:10px">${project.pdfButtonText || 'View PDF'}</a> `;
     }
     if (project.downloadFile) {
-        linksHtml += `<a href="${project.downloadFile}" class="secondary-btn">${project.downloadText || 'Download'}</a>`;
+        linksHtml += `<a href="${project.downloadFile}" style="text-decoration:underline; font-weight:bold;">${project.downloadText || 'Download'}</a>`;
     }
 
     body.innerHTML = `
-        <h2 style="font-family:var(--font-heading); margin-bottom:10px">${project.title}</h2>
-        <div class="tech-stack" style="margin-bottom:20px; color:var(--text-secondary)">
+        <h2>${project.title}</h2>
+        <div style="margin-bottom:10px; font-style:italic; color:#666">
             ${(project.skills || []).join(' • ')}
         </div>
-        ${project.image ? `<img src="${project.image}" style="width:100%; margin-bottom:20px; border-radius:12px" alt="${project.alt}">` : ''}
-        <div class="project-description" style="line-height:1.8; margin-bottom:30px">
+        ${project.image ? `<img src="${project.image}" style="width:100%; margin-bottom:20px;" alt="${project.alt}">` : ''}
+        <div style="margin-bottom:20px">
             ${descriptionHtml}
         </div>
-        <div class="modal-actions">
+        <div>
             ${linksHtml}
         </div>
-        ${project.detailImage ? `<br><img src="${project.detailImage}" style="width:100%; margin-top:20px" alt="${project.detailImageAlt}">` : ''}
     `;
 
     modal.showModal();
@@ -279,6 +309,9 @@ function openMap() {
 
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
+    // View Init
+    initView();
+
     // Theme Init
     document.documentElement.setAttribute('data-theme', state.theme);
     document.getElementById('theme-toggle').onclick = toggleTheme;

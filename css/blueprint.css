@@ -1,0 +1,208 @@
+/* Blueprint View Styles */
+body.view-blueprint {
+    font-family: 'Courier Prime', monospace;
+    background-color: #f4f4f4; /* Paper */
+    background-image:
+        linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    color: #333;
+}
+
+body.view-blueprint[data-theme="dark"] {
+    background-color: #003366; /* Blueprint Blue */
+    background-image:
+        linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+    color: #e0e0e0;
+}
+
+/* Nav */
+.view-blueprint #main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 250px;
+    border-right: 2px solid currentColor;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: inherit;
+    z-index: 100;
+}
+
+.view-blueprint .nav-logo {
+    margin-bottom: 40px;
+    border: 2px solid currentColor;
+    padding: 10px;
+}
+
+.view-blueprint .nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.view-blueprint .nav-links a {
+    text-decoration: none;
+    color: inherit;
+    font-family: 'Architects Daughter', cursive;
+    font-size: 1.2rem;
+    position: relative;
+}
+
+.view-blueprint .nav-links a::before {
+    content: '[';
+    margin-right: 5px;
+    opacity: 0;
+}
+.view-blueprint .nav-links a::after {
+    content: ']';
+    margin-left: 5px;
+    opacity: 0;
+}
+.view-blueprint .nav-links a:hover::before,
+.view-blueprint .nav-links a:hover::after {
+    opacity: 1;
+}
+
+/* Content Layout */
+.view-blueprint main {
+    margin-left: 250px;
+    padding: 80px;
+    max-width: 1200px;
+}
+
+/* Sections */
+.view-blueprint .section {
+    margin-bottom: 120px;
+    position: relative;
+    border: 2px solid currentColor;
+    padding: 40px;
+}
+
+/* Dimension Lines Decoration */
+.view-blueprint .section::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    border-left: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+}
+.view-blueprint .section::after {
+    content: attr(id);
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: inherit; /* Masks line */
+    padding: 0 10px;
+    font-family: 'Architects Daughter', cursive;
+    text-transform: uppercase;
+}
+
+/* Typography */
+.view-blueprint h1,
+.view-blueprint h2,
+.view-blueprint h3 {
+    font-family: 'Architects Daughter', cursive;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.view-blueprint h1 { font-size: 3rem; border-bottom: 4px double currentColor; display: inline-block; }
+.view-blueprint h2 { font-size: 2rem; text-decoration: underline; }
+
+/* Projects Grid (Blueprint style) */
+.view-blueprint .projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.view-blueprint .project-card {
+    border: 1px dashed currentColor;
+    padding: 20px;
+    position: relative;
+}
+
+.view-blueprint .project-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border: 1px solid currentColor;
+    margin-bottom: 15px;
+    filter: grayscale(100%);
+    transition: filter 0.3s;
+}
+
+.view-blueprint .project-card:hover img {
+    filter: grayscale(0%);
+}
+
+.view-blueprint .project-info h4 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+/* Timeline */
+.view-blueprint .timeline-item {
+    border-left: 2px solid currentColor;
+    padding-left: 20px;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.view-blueprint .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 5px;
+    width: 10px;
+    height: 10px;
+    background: currentColor;
+    border-radius: 50%;
+}
+
+/* Icons */
+.view-blueprint[data-theme="light"] .social-icon {
+    filter: invert(1); /* Turn white icons to black for light paper */
+}
+.view-blueprint[data-theme="dark"] .social-icon {
+    filter: invert(0); /* Keep icons white for dark blue */
+}
+
+/* Certifications */
+.view-blueprint .certs-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.view-blueprint .cert-item {
+    border: 1px solid currentColor;
+    padding: 15px;
+    text-align: center;
+    font-family: 'Architects Daughter', cursive;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+    .view-blueprint #main-nav {
+        position: relative;
+        width: 100%;
+        border-right: none;
+        border-bottom: 2px solid currentColor;
+    }
+    .view-blueprint main {
+        margin-left: 0;
+        padding: 20px;
+    }
+}
