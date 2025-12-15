@@ -23,18 +23,17 @@ function renderAboutMe(lang, aboutMeCarouselData, certificationsData) {
             contentHtml += slideData.content.map(p => `<p>${p}</p>`).join('');
         } else if (slideData.type === 'education_languages') {
             contentHtml += '<div class="education-container">';
-            contentHtml += '<h4>Education</h4>';
+            contentHtml += '<div><h4>Education</h4>';
             contentHtml += slideData.content.education.map(edu => `
                 <div class="education-item">
-                    <p class="education-school"><b>${edu.school}</b> - <i>${edu.years}</i></p>
+                    <span class="education-school">${edu.school}</span>
                     <p class="education-degree">${edu.degree}</p>
-                    <p class="education-grade">${edu.grade}</p>
+                    <p class="education-grade"><i>${edu.years}</i> | ${edu.grade}</p>
                 </div>
             `).join('');
             contentHtml += '</div>';
 
-            contentHtml += '<div class="languages-container">';
-            contentHtml += '<h4>Languages</h4>';
+            contentHtml += '<div><h4>Languages</h4>';
             contentHtml += '<ul class="languages-list">';
             contentHtml += slideData.content.languages.map(lang => `
                 <li class="language-item">
@@ -43,7 +42,7 @@ function renderAboutMe(lang, aboutMeCarouselData, certificationsData) {
                     <span class="language-level">${lang.level}</span>
                 </li>
             `).join('');
-            contentHtml += '</ul>';
+            contentHtml += '</ul></div>';
             contentHtml += '</div>';
         } else if (slideData.type === 'certifications') {
             contentHtml += '<div class="carousel-certifications-list">';
@@ -71,10 +70,10 @@ function setupCarousel() {
     let prevButton = carouselContainer.querySelector('.carousel-arrow.prev');
     let nextButton = carouselContainer.querySelector('.carousel-arrow.next');
     const slides = carouselContainer.querySelectorAll('.carousel-slide');
+    const pagination = carouselContainer.querySelector('.carousel-pagination');
     let currentSlide = 0;
 
     // By cloning and replacing the buttons, we remove any previously attached event listeners.
-    // This prevents multiple event handlers from being attached if renderAboutMe is called more than once.
     const newPrev = prevButton.cloneNode(true);
     prevButton.parentNode.replaceChild(newPrev, prevButton);
     prevButton = newPrev;
@@ -83,19 +82,22 @@ function setupCarousel() {
     nextButton.parentNode.replaceChild(newNext, nextButton);
     nextButton = newNext;
 
-    function setContainerHeight() {
-        let maxHeight = 0;
-        // The slides are rendered, but inactive ones have opacity: 0.
-        // Their scrollHeight should still be measurable.
-        slides.forEach(slide => {
-            if (slide.scrollHeight > maxHeight) {
-                maxHeight = slide.scrollHeight;
-            }
-        });
+    // Setup Pagination dots
+    if (pagination) {
+        pagination.innerHTML = '';
+        slides.forEach((_, i) => {
+            const dot = document.createElement('span');
+            dot.className = 'carousel-dot';
+            if (i === 0) dot.classList.add('active');
+            dot.style.cssText = 'display:inline-block; width:10px; height:10px; border-radius:50%; background:var(--text-color); opacity:0.3; margin:0 5px; cursor:pointer; transition:opacity 0.3s;';
+            if(i === 0) dot.style.opacity = '1';
 
-        if (maxHeight > 0) {
-            slidesContainer.style.minHeight = `${maxHeight}px`;
-        }
+            dot.addEventListener('click', () => {
+                currentSlide = i;
+                showSlide(currentSlide);
+            });
+            pagination.appendChild(dot);
+        });
     }
 
     function showSlide(index) {
@@ -105,6 +107,14 @@ function setupCarousel() {
                 slide.classList.add('active');
             }
         });
+
+        // Update pagination
+        if (pagination) {
+            const dots = pagination.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, i) => {
+                dot.style.opacity = (i === index) ? '1' : '0.3';
+            });
+        }
     }
 
     prevButton.addEventListener('click', (e) => {
@@ -119,68 +129,58 @@ function setupCarousel() {
         showSlide(currentSlide);
     });
 
-    // Set height on initial load and recalculate on resize
-    setContainerHeight();
-    window.addEventListener('resize', setContainerHeight);
-
     // Initialize the first slide
     showSlide(currentSlide);
 }
 
 function renderProjects(lang, projectsData) {
-    const projectsContainer = document.querySelector('.column.projects');
-    if (!projectsContainer) return;
+    const projectsGrid = document.querySelector('.projects-grid');
+    const projectDetailsContainer = document.getElementById('project-details-container');
 
-    const subpagesContainer = projectsContainer.querySelector('.subpages');
+    if (!projectsGrid || !projectDetailsContainer) return;
 
-    // Clear existing project details to prevent duplication
-    const existingDetails = projectsContainer.querySelectorAll('.project-detail');
-    existingDetails.forEach(detail => detail.remove());
-
-    if (subpagesContainer) {
-        subpagesContainer.innerHTML = '';
-    }
+    projectsGrid.innerHTML = '';
+    projectDetailsContainer.innerHTML = '';
 
     projectsData[lang].forEach(project => {
-        // Create subpage entry
+        // Create grid item
         const subpage = document.createElement('div');
         subpage.className = 'subpage';
         subpage.dataset.target = project.id;
         subpage.innerHTML = `
-            <div class="subpage-title">${project.title}</div>
             <img src="${project.image}" alt="${project.alt}" loading="lazy">
+            <div class="subpage-title">${project.title}</div>
         `;
-        if (subpagesContainer) {
-            subpagesContainer.appendChild(subpage);
-        }
 
-        // Create project detail view
+        // Event listener to open details
+        subpage.addEventListener('click', () => {
+             showProjectDetails(project.id);
+        });
+
+        projectsGrid.appendChild(subpage);
+
+        // Create detail view (hidden by default)
         const detail = document.createElement('div');
-        detail.className = 'project-detail';
+        detail.className = 'project-detail hidden';
         detail.id = project.id;
 
         let descriptionHtml = project.description.map(p => `<p>${p}</p>`).join('');
 
         let buttonsHtml = '';
-        if (project.pdf && project.downloadFile) {
-            buttonsHtml = `
-                <div class="pdf-buttons-container">
-                    <a href="pdf-viewer/pdf-viewer.html?file=../${project.pdf}" class="download-button" target="_blank">${project.pdfButtonText}</a>
-                    <a href="${project.downloadFile}" class="download-button" download>${project.downloadText}</a>
-                </div>`;
-        } else if (project.pdf) {
-             buttonsHtml = `
-                <div class="pdf-buttons-container">
-                    <a href="pdf-viewer/pdf-viewer.html?file=../${project.pdf}" class="download-button" target="_blank">${project.pdfButtonText}</a>
-                    <a href="${project.pdf}" class="download-button" download>${project.downloadText}</a>
-                </div>`;
-        } else if (project.downloadFile) {
-            buttonsHtml = `<a href="${project.downloadFile}" class="download-button" download>${project.downloadText}</a>`;
+        if (project.pdf || project.downloadFile) {
+            buttonsHtml = `<div class="pdf-buttons-container">`;
+            if (project.pdf) {
+                buttonsHtml += `<a href="pdf-viewer/pdf-viewer.html?file=../${project.pdf}" class="download-button" target="_blank">${project.pdfButtonText}</a>`;
+                buttonsHtml += `<a href="${project.pdf}" class="download-button" download>${project.downloadText}</a>`;
+            } else if (project.downloadFile) {
+                 buttonsHtml += `<a href="${project.downloadFile}" class="download-button" download>${project.downloadText}</a>`;
+            }
+            buttonsHtml += `</div>`;
         }
 
         let detailImageHtml = '';
         if (project.detailImage) {
-            detailImageHtml = `<img src="${project.detailImage}" alt="${project.detailImageAlt}">`;
+            detailImageHtml = `<img src="${project.detailImage}" alt="${project.detailImageAlt}" style="width:100%; height:auto; margin-top:2rem; border:1px solid var(--border-color);">`;
         }
 
         let skillsHtml = '';
@@ -195,31 +195,50 @@ function renderProjects(lang, projectsData) {
             `;
         }
 
+        // Back Button
+        const backButton = `<div class="back-to-projects" onclick="hideProjectDetails()">← Back to Projects</div>`;
+
         detail.innerHTML = `
             <div class="project-description">
+                ${backButton}
+                <h2>${project.title}</h2>
                 <div class="project-text-content">${descriptionHtml}</div>
                 ${buttonsHtml}
                 ${detailImageHtml}
             </div>
             ${skillsHtml}
         `;
-        projectsContainer.appendChild(detail);
+        projectDetailsContainer.appendChild(detail);
     });
-
-    // Re-initialize any dynamic elements like back arrows or 3D effects
-    if (window.createBackArrows) window.createBackArrows();
-    if (window.init3dCards) window.init3dCards();
-    if (window.applyInteractiveEffects) {
-        document.querySelectorAll('.download-button').forEach(button => window.applyInteractiveEffects(button));
-    }
 }
 
+// Global functions to handle project view toggling
+window.showProjectDetails = function(projectId) {
+    document.querySelector('.projects-grid').classList.add('hidden');
+    document.getElementById('project-details-container').classList.remove('hidden');
+
+    document.querySelectorAll('.project-detail').forEach(d => d.classList.add('hidden'));
+    const target = document.getElementById(projectId);
+    if(target) target.classList.remove('hidden');
+
+    // Scroll to top of projects section
+    const projectsSection = document.getElementById('projects');
+    const navbarHeight = document.getElementById('navbar').offsetHeight;
+    window.scrollTo({ top: projectsSection.offsetTop - navbarHeight, behavior: 'smooth' });
+};
+
+window.hideProjectDetails = function() {
+    document.getElementById('project-details-container').classList.add('hidden');
+    document.querySelector('.projects-grid').classList.remove('hidden');
+};
+
+
 function renderSkills(lang, skillsData) {
-    const skillsContent = document.querySelector('.column.skills .column-content');
+    const skillsContent = document.querySelector('#skills .section-content');
     if (!skillsContent) return;
 
     const data = skillsData[lang];
-    const skillLevelMap = { 'Basic': '25%', 'Intermediate': '50%', 'Proficient': '75%' };
+    const skillLevelMap = { 'Basic': '25%', 'Intermediate': '50%', 'Proficient': '75%', 'Expert': '100%' };
 
     skillsContent.innerHTML = `
         <div class="skills-category">

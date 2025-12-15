@@ -26,13 +26,16 @@ const translations = {
 function setLanguage(lang) {
   if (!translations[lang]) return;
 
-  // This function now only updates static text content that is always present on the page.
-  // The dynamic content sections are rendered by functions in js/main.js.
-  document.querySelector('.column.aboutme h2').textContent = translations[lang].aboutMe;
-  document.querySelector('.column.skills h2').textContent = translations[lang].skills;
-  document.querySelector('.column.projects h2').textContent = translations[lang].projects;
-  document.querySelector('header h1').textContent = translations[lang].portfolioTitle;
-  document.querySelector('header p').textContent = translations[lang].portfolioSubtitle;
-  document.querySelector('.scroll-text').textContent = translations[lang].scrollDown;
-  document.querySelector('.cv-arrow').firstChild.textContent = translations[lang].seeCV + ' ';
+  // Update static text elements using data-lang-key attribute
+  document.querySelectorAll('[data-lang-key]').forEach(element => {
+      const key = element.getAttribute('data-lang-key');
+      if (translations[lang][key]) {
+          // Special handling for elements that might contain nested HTML (like the arrow in See CV)
+          if (key === 'seeCV') {
+               element.innerHTML = translations[lang][key] + ' <span>&rarr;</span>';
+          } else {
+              element.textContent = translations[lang][key];
+          }
+      }
+  });
 }
