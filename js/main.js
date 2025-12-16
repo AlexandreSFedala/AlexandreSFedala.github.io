@@ -67,11 +67,13 @@ function setupCarousel() {
     if (!carouselContainer) return;
 
     const slidesContainer = carouselContainer.querySelector('.carousel-slides');
-    let prevButton = carouselContainer.querySelector('.carousel-arrow.prev');
-    let nextButton = carouselContainer.querySelector('.carousel-arrow.next');
+    let prevButton = carouselContainer.querySelector('.carousel-btn.prev');
+    let nextButton = carouselContainer.querySelector('.carousel-btn.next');
     const slides = carouselContainer.querySelectorAll('.carousel-slide');
-    const pagination = carouselContainer.querySelector('.carousel-pagination');
+    const pagination = carouselContainer.querySelector('.carousel-dots');
     let currentSlide = 0;
+
+    if(!prevButton || !nextButton) return;
 
     // By cloning and replacing the buttons, we remove any previously attached event listeners.
     const newPrev = prevButton.cloneNode(true);
@@ -89,8 +91,6 @@ function setupCarousel() {
             const dot = document.createElement('span');
             dot.className = 'carousel-dot';
             if (i === 0) dot.classList.add('active');
-            dot.style.cssText = 'display:inline-block; width:10px; height:10px; border-radius:50%; background:var(--text-color); opacity:0.3; margin:0 5px; cursor:pointer; transition:opacity 0.3s;';
-            if(i === 0) dot.style.opacity = '1';
 
             dot.addEventListener('click', () => {
                 currentSlide = i;
@@ -112,7 +112,8 @@ function setupCarousel() {
         if (pagination) {
             const dots = pagination.querySelectorAll('.carousel-dot');
             dots.forEach((dot, i) => {
-                dot.style.opacity = (i === index) ? '1' : '0.3';
+                if (i === index) dot.classList.add('active');
+                else dot.classList.remove('active');
             });
         }
     }
@@ -186,10 +187,10 @@ function renderProjects(lang, projectsData) {
         let skillsHtml = '';
         if (project.skills && project.skills.length > 0) {
             skillsHtml = `
-                <div class="project-skills">
-                    <h4>${translations[lang].skillsUsedTitle}</h4>
-                    <ul>
-                        ${project.skills.map(skill => `<li>${skill}</li>`).join('')}
+                <div class="project-skills" style="margin-top:2rem;">
+                    <h4 style="margin-bottom:1rem; font-family:var(--font-heading);">${translations[lang].skillsUsedTitle}</h4>
+                    <ul style="list-style:disc; padding-left:1.5rem;">
+                        ${project.skills.map(skill => `<li style="margin-bottom:0.5rem;">${skill}</li>`).join('')}
                     </ul>
                 </div>
             `;
@@ -199,9 +200,9 @@ function renderProjects(lang, projectsData) {
         const backButton = `<div class="back-to-projects" onclick="hideProjectDetails()">← Back to Projects</div>`;
 
         detail.innerHTML = `
+            ${backButton}
+            <h2>${project.title}</h2>
             <div class="project-description">
-                ${backButton}
-                <h2>${project.title}</h2>
                 <div class="project-text-content">${descriptionHtml}</div>
                 ${buttonsHtml}
                 ${detailImageHtml}
@@ -230,19 +231,25 @@ window.showProjectDetails = function(projectId) {
 window.hideProjectDetails = function() {
     document.getElementById('project-details-container').classList.add('hidden');
     document.querySelector('.projects-grid').classList.remove('hidden');
+
+    // Scroll back to projects
+    const projectsSection = document.getElementById('projects');
+    const navbarHeight = document.getElementById('navbar').offsetHeight;
+    window.scrollTo({ top: projectsSection.offsetTop - navbarHeight, behavior: 'smooth' });
 };
 
 
 function renderSkills(lang, skillsData) {
-    const skillsContent = document.querySelector('#skills .section-content');
-    if (!skillsContent) return;
+    // Correct selector for the new index.html structure
+    const skillsGrid = document.querySelector('#skills .skills-grid');
+    if (!skillsGrid) return;
 
     const data = skillsData[lang];
     const skillLevelMap = { 'Basic': '25%', 'Intermediate': '50%', 'Proficient': '75%', 'Expert': '100%' };
 
-    skillsContent.innerHTML = `
+    skillsGrid.innerHTML = `
         <div class="skills-category">
-            <h3 class="skills-subtitle">${data.technicalTitle}</h3>
+            <h3>${data.technicalTitle}</h3>
             ${data.technical.map(skill => `
                 <div class="skill" data-level="${skill.level}">
                     <div class="skill-name">
@@ -254,7 +261,7 @@ function renderSkills(lang, skillsData) {
             `).join('')}
         </div>
         <div class="skills-category">
-            <h3 class="skills-subtitle">${data.softTitle}</h3>
+            <h3>${data.softTitle}</h3>
             ${data.soft.map(skill => `
                 <div class="skill" data-level="${skill.level}">
                     <div class="skill-name">
@@ -276,8 +283,30 @@ window.renderAllContent = async function(lang) {
     }
 
     // Then, render the dynamic sections
-    const { aboutMeCarouselData, projectsData, skillsData, certificationsData } = await getAllData();
-    renderAboutMe(lang, aboutMeCarouselData, certificationsData);
-    renderProjects(lang, projectsData);
-    renderSkills(lang, skillsData);
+    try {
+        const { aboutMeCarouselData, projectsData, skillsData, certificationsData } = await getAllData();
+        renderAboutMe(lang, aboutMeCarouselData, certificationsData);
+        renderProjects(lang, projectsData);
+        renderSkills(lang, skillsData);
+
+        // --- NEW: Trigger animations for dynamic content ---
+        // Since we are adding elements after DOMContentLoaded, we need to manually trigger their visibility
+        // or re-attach observers if we want scroll reveals.
+        // For simplicity, let's just make them visible immediately or with a small delay.
+
+        const dynamicElements = document.querySelectorAll('.subpage, .skills-category');
+        dynamicElements.forEach((el, index) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+            setTimeout(() => {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }, 100 + (index * 100)); // Staggered reveal
+        });
+
+    } catch (e) {
+        console.error("Error rendering content:", e);
+    }
 }
