@@ -61,13 +61,6 @@
                 <a href="#" class="logo"><img src="images/logo.png" alt="Alexandre S. Fedala Portfolio Logo" class="nav-logo"></a>
             </div>
             <div class="desktop-controls">
-                <div id="music-player-container">
-                    <button id="play-pause-btn" aria-label="Play Music">
-                        <svg id="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        <svg id="pause-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                    </button>
-                    <canvas id="audio-visualizer"></canvas>
-                </div>
                 <div id="theme-switcher" role="button" aria-label="Toggle theme" tabindex="0">
                     <svg class="sun-icon theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="5"></circle>
@@ -101,7 +94,6 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </button>
             <div id="mobile-dropdown" class="hidden">
-                <div id="music-player-container-mobile"></div>
                 <div id="theme-switcher-mobile"></div>
                 <div class="social-links-mobile"></div>
             </div>
@@ -156,14 +148,11 @@
     </main>
 </div>
 
-<audio id="background-audio" src="sounds/background-music.mp3" loop></audio>
-
 <script src="js/data-loader.js" defer></script>
 <script src="texts.js" defer></script>
 <script src="js/main.js" defer></script>
 <script src="loader/loader.js" defer></script>
 <script src="script.js" defer></script>
-<script src="visualizer.js" defer></script>
 <script src="js/theme-switcher.js" defer></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>

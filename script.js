@@ -1,61 +1,3 @@
-// This function must be defined globally to be accessible from loader.js
-function initAudioSystem() {
-    const audio = document.getElementById('background-audio');
-    const playPauseBtn = document.getElementById('play-pause-btn');
-    const playIcon = document.getElementById('play-icon');
-    const pauseIcon = document.getElementById('pause-icon');
-    
-    if (!audio) return;
-    let isAudioInitialized = false;
-    if (isAudioInitialized) return;
-
-    audio.volume = 0;
-    const targetVolume = 0.05; // Music volume reduced to 5%
-    
-    const fadeAudioIn = setInterval(() => {
-        if (audio.paused) { clearInterval(fadeAudioIn); return; }
-        if (audio.volume < targetVolume) {
-            audio.volume = Math.min(targetVolume, audio.volume + 0.01);
-        } else {
-            audio.volume = targetVolume;
-            clearInterval(fadeAudioIn);
-        }
-    }, 80);
-
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const analyser = audioContext.createAnalyser();
-    const source = audioContext.createMediaElementSource(audio);
-    source.connect(analyser);
-    analyser.connect(audioContext.destination);
-    audio.muted = false;
-    const playPromise = audio.play();
-
-    if (playPromise !== undefined) {
-        playPromise.then(() => {
-            playIcon.classList.add('hidden');
-            pauseIcon.classList.remove('hidden');
-            startVisualizer(analyser);
-        }).catch(error => console.error("Audio playback failed:", error));
-    }
-    isAudioInitialized = true;
-
-    if (playPauseBtn) {
-        playPauseBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const isPlaying = !audio.paused;
-            if (isPlaying) {
-                audio.pause();
-                playIcon.classList.remove('hidden');
-                pauseIcon.classList.add('hidden');
-            } else {
-                audio.play();
-                playIcon.classList.add('hidden');
-                pauseIcon.classList.remove('hidden');
-            }
-        });
-    }
-}
-
 // OPTIMIZED: Removed performance-intensive JS animations. This will be replaced by CSS transitions.
 window.applyInteractiveEffects = function(element) {
     if (!element) return;
@@ -215,11 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const mobileDropdown = document.getElementById('mobile-dropdown');
         const navbar = document.getElementById('navbar');
 
-        const musicPlayer = document.getElementById('music-player-container');
         const themeSwitcher = document.getElementById('theme-switcher');
         const socialLinks = document.querySelector('.nav-right .social-links');
 
-        const musicPlayerMobile = document.getElementById('music-player-container-mobile');
         const themeSwitcherMobile = document.getElementById('theme-switcher-mobile');
         const socialLinksMobile = document.querySelector('.social-links-mobile');
 
@@ -229,9 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const setupMenuLayout = () => {
             if (window.innerWidth <= 768) {
                 // Move controls to mobile dropdown
-                if (musicPlayer && musicPlayerMobile && !musicPlayerMobile.contains(musicPlayer)) {
-                    musicPlayerMobile.appendChild(musicPlayer);
-                }
                 if (themeSwitcher && themeSwitcherMobile && !themeSwitcherMobile.contains(themeSwitcher)) {
                     themeSwitcherMobile.appendChild(themeSwitcher);
                 }
@@ -240,9 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 // Move controls back to desktop view
-                if (musicPlayer && desktopControls && !desktopControls.contains(musicPlayer)) {
-                    desktopControls.insertBefore(musicPlayer, themeSwitcher);
-                }
                 if (themeSwitcher && desktopControls && !desktopControls.contains(themeSwitcher)) {
                     desktopControls.appendChild(themeSwitcher);
                 }

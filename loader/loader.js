@@ -203,10 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     loaderOverlay.appendChild(aureole);
                 }
 
-                if (typeof initAudioSystem === 'function') {
-                    initAudioSystem();
-                }
-
                 setTimeout(() => {
                     if (mainContent) {
                         mainContent.style.display = 'block';
