@@ -37,10 +37,6 @@
   --header-overlay: rgba(248, 249, 250, 0.7);
   --social-links-bg: rgba(0, 0, 0, 0.05);
   --social-links-bg-hover: rgba(0, 0, 0, 0.1);
-  --play-btn-border: rgba(0, 0, 0, 0.3);
-  --play-btn-border-hover: rgba(0, 0, 0, 0.5);
-  --play-btn-bg-hover: rgba(0, 0, 0, 0.1);
-  --play-btn-icon: #000;
   --cv-arrow-color: #000;
   --cv-arrow-border: #000;
   --cv-arrow-bg-hover: #000;
@@ -72,10 +68,6 @@
   --header-overlay: rgba(22, 36, 59, 0.75);
   --social-links-bg: rgba(255, 255, 255, 0.1);
   --social-links-bg-hover: rgba(255, 255, 255, 0.2);
-  --play-btn-border: rgba(255, 255, 255, 0.5);
-  --play-btn-border-hover: rgba(255, 255, 255, 0.8);
-  --play-btn-bg-hover: rgba(255, 255, 255, 0.2);
-  --play-btn-icon: #fff;
   --cv-arrow-color: #fff;
   --cv-arrow-border: #fff;
   --cv-arrow-bg-hover: #fff;
@@ -178,11 +170,6 @@ nav .social-links { display: flex; gap: 0.75rem; align-items: center; }
 nav .social-links a { display: flex; justify-content: center; align-items: center; width: 36px; height: 36px; border-radius: 50%; transition: transform 0.2s, box-shadow 0.2s, background 0.3s; background: var(--social-links-bg); }
 nav .social-links a:hover { transform: translateY(-3px); background: var(--social-links-bg-hover); }
 nav .social-links img { filter: var(--social-icon-filter); transition: filter 0.3s; }
-#music-player-container { display: flex; align-items: center; gap: 1rem; }
-#play-pause-btn { position: relative; background: none; border: 2px solid var(--play-btn-border); border-radius: 50%; width: 40px; height: 40px; cursor: pointer; display: flex; justify-content: center; align-items: center; padding: 0; transition: background 0.3s, border-color 0.3s; }
-#play-pause-btn:hover { background: var(--play-btn-bg-hover); border-color: var(--play-btn-border-hover); }
-#play-pause-btn svg { width: 20px; height: 20px; fill: var(--play-btn-icon); transition: fill 0.3s; }
-#audio-visualizer { width: 100px; height: 30px; }
 
 #mobile-menu { display: none; }
 
@@ -218,7 +205,7 @@ nav .social-links img { filter: var(--social-icon-filter); transition: filter 0.
 #theme-switcher .theme-icon {
     width: 22px;
     height: 22px;
-    stroke: var(--play-btn-icon);
+    stroke: var(--text-color);
     transition: transform 0.3s ease, opacity 0.3s ease, stroke 0.3s;
 }
 
@@ -526,9 +513,6 @@ h3, .certifications-title { font-family: var(--font-secondary); font-size: 2.2re
         justify-content: space-between;
         align-items: center;
         padding: 0.75rem 0;
-    }
-    #audio-visualizer {
-        display: block;
     }
     .social-links-mobile {
         display: flex;
