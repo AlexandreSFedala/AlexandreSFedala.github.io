@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Deep City Simulation V3</title>
+    <style>
+        body { margin: 0; overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        /* UI Overlay Container */
+        #ui-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Stats Panel */
+        #stats-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(10, 15, 20, 0.85);
+            color: #0f0;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Consolas', monospace;
+            pointer-events: auto;
+            border-left: 3px solid #0f0;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.2);
+            font-size: 14px;
+            min-width: 200px;
+        }
+
+        /* Info Panel */
+        #info-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            background: rgba(20, 25, 30, 0.95);
+            color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border: 1px solid #444;
+            pointer-events: auto;
+            font-size: 14px;
+        }
+
+        h2 { margin-top: 0; font-size: 1.1rem; border-bottom: 1px solid #555; padding-bottom: 8px; margin-bottom: 10px; letter-spacing: 1px; color: #4dc3ff; }
+        .data-row { display: flex; justify-content: space-between; margin-bottom: 6px; align-items: center; }
+        .label { color: #888; font-size: 0.9em; }
+        .value { font-weight: bold; color: #eee; }
+
+        /* Bars */
+        .bar-container { width: 100px; height: 6px; background: #333; border-radius: 3px; overflow: hidden; }
+        .bar-fill { height: 100%; transition: width 0.3s; }
+        .bar-green { background: #4caf50; }
+        .bar-red { background: #f44336; }
+        .bar-blue { background: #2196f3; }
+
+        button {
+            background: #333; color: #fff; border: 1px solid #555;
+            padding: 8px; width: 100%; cursor: pointer; border-radius: 4px;
+            margin-top: 15px; transition: background 0.2s;
+        }
+        button:hover { background: #444; }
+
+        #controls-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 12px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="ui-layer">
+    <div id="stats-panel">
+        <div style="font-size: 1.2em; margin-bottom: 10px; color: #fff;">CITY STATUS</div>
+        <div class="data-row"><span class="label">Day:</span> <span class="value" id="day-display">1</span></div>
+        <div class="data-row"><span class="label">Time:</span> <span class="value" id="time-display">06:00</span></div>
+        <div class="data-row"><span class="label">Population:</span> <span class="value" id="pop-display">0</span></div>
+        <div class="data-row"><span class="label">Avg Happiness:</span> <span class="value" id="happy-display">0%</span></div>
+        <div class="data-row"><span class="label">Businesses:</span> <span class="value" id="biz-display">0</span></div>
+        <div class="data-row"><span class="label">Unemployed:</span> <span class="value" id="unemployed-display">0</span></div>
+    </div>
+
+    <div id="info-panel">
+        <h2 id="info-title">SELECTION</h2>
+        <div id="info-content"></div>
+        <button onclick="document.getElementById('info-panel').style.display='none'">Close</button>
+    </div>
+
+    <div id="controls-hint">
+        Orbit: Left Click + Drag | Pan: Right Click + Drag | Zoom: Scroll
+    </div>
+</div>
+
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+</script>
+
+<script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // --- CONFIGURATION ---
+    const GRID_SIZE = 24;
+    const TILE_SIZE = 10;
+    const SIM_SPEED = 0.5; // Slower for realism
+
+    // --- STATE MANAGEMENT ---
+    const city = {
+        buildings: [],
+        agents: [],
+        streetLights: [],
+        time: 6.0,
+        day: 1,
+        economy: {
+            totalWealth: 0,
+            avgHappiness: 0
+        }
+    };
+
+    const firstNames = ["Alice", "Bob", "Charlie", "Diana", "Ethan", "Fiona", "George", "Hannah", "Ian", "Julia", "Kyle", "Liam", "Mia", "Noah", "Olivia"];
+    const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"];
+    const businessNames = ["TechCorp", "BreadCo", "SoftServe", "DataSystems", "CoffeeTime", "GadgetHub", "FreshMart", "BlueBank", "SkyNet", "PixelBar"];
+
+    // --- CLASSES ---
+
+    class Building {
+        constructor(x, z, type, group) {
+            this.id = Math.random().toString(36).substr(2, 9);
+            this.x = x;
+            this.z = z;
+            this.type = type;
+            this.group = group; // The Group containing meshes
+            this.group.userData = { type: 'building', parent: this };
+
+            // Apply userData to all children for raycasting
+            this.group.traverse((child) => {
+                if(child.isMesh) {
+                     child.userData = { type: 'building', parent: this };
+                }
+            });
+
+            this.occupants = [];
+            this.employees = [];
+
+            this.funds = 2000;
+            this.name = type === 'commercial' ?
+                businessNames[Math.floor(Math.random() * businessNames.length)] :
+                `Apt ${Math.floor(Math.random() * 900) + 100}`;
+        }
+
+        updateEconomy() {
+            if (this.type !== 'commercial') return;
+
+            this.funds -= 50;
+
+            this.employees.forEach(emp => {
+                if (this.funds >= 50) {
+                    this.funds -= 50;
+                    emp.receiveSalary(50);
+                } else {
+                    const pay = Math.max(0, this.funds);
+                    this.funds = 0;
+                    emp.receiveSalary(pay);
+                }
+            });
+
+            if (this.funds <= 0) {
+                this.goBankrupt();
+            }
+        }
+
+        receiveVisitor(agent) {
+            if (this.type === 'commercial') {
+                const spend = 20;
+                if (agent.money >= spend) {
+                    agent.money -= spend;
+                    this.funds += spend;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        goBankrupt() {
+            this.funds = 1000;
+            this.name = "New " + businessNames[Math.floor(Math.random() * businessNames.length)];
+            this.employees.forEach(e => e.fire());
+            this.employees = [];
+
+            // Visual feedback - Flash all meshes in group
+            this.group.traverse((child) => {
+                if (child.isMesh) {
+                     child.material.emissive.setHex(0xff0000);
+                }
+            });
+
+            setTimeout(() => {
+                this.group.traverse((child) => {
+                    if (child.isMesh && child.material.emissive.getHex() === 0xff0000) {
+                        child.material.emissive.setHex(0x000000);
+                    }
+                });
+            }, 500);
+        }
+    }
+
+    class Agent {
+        constructor(home, work, mesh) {
+            this.name = `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`;
+            this.age = Math.floor(Math.random() * 40) + 20;
+            this.home = home;
+            this.work = work;
+            if (this.work) this.work.employees.push(this);
+
+            this.mesh = mesh;
+            this.mesh.userData = { type: 'agent', parent: this };
+            // Ensure children (nose) have data
+             this.mesh.traverse((child) => {
+                if(child.isMesh) {
+                     child.userData = { type: 'agent', parent: this };
+                }
+            });
+
+            this.state = 'home';
+            this.path = [];
+            this.target = null;
+
+            this.money = Math.floor(Math.random() * 100) + 50;
+            this.happiness = 80;
+            this.energy = 100;
+        }
+
+        fire() {
+            this.work = null;
+            this.happiness -= 30;
+        }
+
+        receiveSalary(amount) {
+            this.money += amount;
+            this.happiness = Math.min(100, this.happiness + 5);
+        }
+
+        update(time) {
+            // Schedule
+            if (time >= 8 && time < 9 && this.state === 'home') {
+                if (this.work) {
+                    this.startCommute(this.work, 'working');
+                } else {
+                    this.findJob();
+                }
+            }
+            else if (time >= 17 && time < 18 && this.state === 'working') {
+                if (this.money > 30 && this.happiness < 90 && Math.random() > 0.3) {
+                    const shops = city.buildings.filter(b => b.type === 'commercial');
+                    const shop = shops[Math.floor(Math.random() * shops.length)];
+                    this.startCommute(shop, 'leisure');
+                } else {
+                    this.startCommute(this.home, 'home');
+                }
+            }
+            else if (time >= 21 && this.state === 'leisure') {
+                this.startCommute(this.home, 'home');
+            }
+
+            this.move();
+        }
+
+        findJob() {
+            const jobs = city.buildings.filter(b => b.type === 'commercial' && b.employees.length < 5);
+            if (jobs.length > 0) {
+                this.work = jobs[Math.floor(Math.random() * jobs.length)];
+                this.work.employees.push(this);
+                this.happiness += 10;
+            }
+        }
+
+        startCommute(dest, finalState) {
+            this.state = 'commuting';
+            this.finalState = finalState;
+            this.mesh.visible = true;
+            this.destBuilding = dest;
+
+            const startPos = this.mesh.position.clone();
+            const endPos = new THREE.Vector3(dest.x * TILE_SIZE, 2.0, dest.z * TILE_SIZE);
+
+            this.path = [];
+
+            const currentGridZ = Math.round(startPos.z / TILE_SIZE);
+            const nearestRoadGridZ = Math.round(currentGridZ / 4) * 4;
+            const roadZ = nearestRoadGridZ * TILE_SIZE;
+
+            this.path.push(new THREE.Vector3(startPos.x, 2.0, roadZ));
+
+            const targetGridX = dest.x;
+            const targetX = targetGridX * TILE_SIZE;
+
+            this.path.push(new THREE.Vector3(targetX, 2.0, roadZ));
+            this.path.push(endPos);
+
+            this.target = this.path.shift();
+        }
+
+        move() {
+            if (!this.target) return;
+
+            let speed = (0.5 + (this.happiness / 200)) * SIM_SPEED;
+            if (this.state === 'commuting' && this.work === null) speed *= 0.5;
+
+            const dist = this.mesh.position.distanceTo(this.target);
+
+            if (dist < speed) {
+                this.mesh.position.copy(this.target);
+                if (this.path.length > 0) {
+                    this.target = this.path.shift();
+                    this.mesh.lookAt(this.target);
+                } else {
+                    this.target = null;
+                    this.state = this.finalState;
+                    this.mesh.visible = false;
+
+                    if (this.state === 'leisure') {
+                        const success = this.destBuilding.receiveVisitor(this);
+                        if (success) {
+                            this.happiness = Math.min(100, this.happiness + 15);
+                        } else {
+                            this.happiness -= 5;
+                        }
+                    }
+                }
+            } else {
+                const dir = new THREE.Vector3().subVectors(this.target, this.mesh.position).normalize();
+                this.mesh.position.add(dir.multiplyScalar(speed));
+            }
+        }
+    }
+
+    // --- SETUP SCENE ---
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x87CEEB);
+    scene.fog = new THREE.Fog(0x87CEEB, 40, 400);
+
+    const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 180, 220);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    document.body.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.maxPolarAngle = Math.PI / 2 - 0.1;
+
+    const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+    scene.add(ambientLight);
+
+    const sunLight = new THREE.DirectionalLight(0xfffaed, 2);
+    sunLight.position.set(100, 200, 50);
+    sunLight.castShadow = true;
+    sunLight.shadow.mapSize.width = 2048;
+    sunLight.shadow.mapSize.height = 2048;
+    sunLight.shadow.camera.left = -150;
+    sunLight.shadow.camera.right = 150;
+    sunLight.shadow.camera.top = 150;
+    sunLight.shadow.camera.bottom = -150;
+    scene.add(sunLight);
+
+    const ground = new THREE.Mesh(
+        new THREE.PlaneGeometry(500, 500),
+        new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 1, metalness: 0 })
+    );
+    ground.rotation.x = -Math.PI / 2;
+    ground.receiveShadow = true;
+    scene.add(ground);
+
+    const roadGeo = new THREE.PlaneGeometry(TILE_SIZE, TILE_SIZE);
+    const roadMat = new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 0.8 });
+
+    // Geometries
+    const boxGeo = new THREE.BoxGeometry(TILE_SIZE * 0.8, 1, TILE_SIZE * 0.8);
+    const cylGeo = new THREE.CylinderGeometry(TILE_SIZE * 0.4, TILE_SIZE * 0.4, 1, 16);
+    const roofGeo = new THREE.ConeGeometry(TILE_SIZE * 0.6, 5, 4);
+
+    const postGeo = new THREE.CylinderGeometry(0.5, 0.5, 8);
+    const bulbGeo = new THREE.SphereGeometry(1.5);
+    const postMat = new THREE.MeshLambertMaterial({ color: 0x111111 });
+    const bulbMat = new THREE.MeshBasicMaterial({ color: 0xffffaa });
+
+    function createStreetLight(x, z) {
+        const group = new THREE.Group();
+        group.position.set(x, 0, z);
+
+        const post = new THREE.Mesh(postGeo, postMat);
+        post.position.y = 4;
+        post.castShadow = true;
+
+        const bulb = new THREE.Mesh(bulbGeo, bulbMat);
+        bulb.position.y = 8;
+
+        const light = new THREE.PointLight(0xffaa00, 0, 30);
+        light.position.y = 8;
+
+        group.add(post, bulb, light);
+        scene.add(group);
+        city.streetLights.push(light);
+    }
+
+    // Grid Loop
+    for (let x = -GRID_SIZE/2; x < GRID_SIZE/2; x++) {
+        for (let z = -GRID_SIZE/2; z < GRID_SIZE/2; z++) {
+            const px = x * TILE_SIZE;
+            const pz = z * TILE_SIZE;
+
+            const isRoadX = (x % 4 === 0);
+            const isRoadZ = (z % 4 === 0);
+
+            if (isRoadX || isRoadZ) {
+                const road = new THREE.Mesh(roadGeo, roadMat);
+                road.rotation.x = -Math.PI / 2;
+                road.position.set(px, 0.05, pz);
+                road.receiveShadow = true;
+                scene.add(road);
+
+                if (isRoadX && isRoadZ) {
+                    createStreetLight(px, pz);
+                }
+            } else {
+                // Building
+                const isCom = Math.random() > 0.65;
+                const height = isCom ? Math.random() * 40 + 15 : Math.random() * 15 + 8;
+
+                // Create Group for correct transform
+                const group = new THREE.Group();
+                group.position.set(px, 0, pz);
+
+                // Body
+                let body;
+                if (isCom) {
+                    const isCyl = Math.random() > 0.5;
+                    const geo = isCyl ? cylGeo : boxGeo;
+                    const mat = new THREE.MeshStandardMaterial({
+                        color: new THREE.Color().setHSL(Math.random(), 0.6, 0.5),
+                        roughness: 0.2,
+                        metalness: 0.3
+                    });
+                    body = new THREE.Mesh(geo, mat);
+                } else {
+                    const mat = new THREE.MeshStandardMaterial({
+                        color: new THREE.Color().setHSL(0.05 + Math.random()*0.1, 0.5, 0.6),
+                        roughness: 0.9
+                    });
+                    body = new THREE.Mesh(boxGeo, mat);
+                }
+
+                // Scale body height
+                body.scale.y = height;
+                body.position.y = height / 2;
+                body.castShadow = true;
+                body.receiveShadow = true;
+                group.add(body);
+
+                // Roof (Optional, only for residential mainly)
+                if (!isCom && Math.random() > 0.3) {
+                    const roof = new THREE.Mesh(roofGeo, new THREE.MeshStandardMaterial({ color: 0x8b4513 }));
+                    // Position: Top of body (height) + half height of roof (2.5)
+                    roof.position.y = height + 2.5;
+                    roof.rotation.y = Math.PI / 4;
+                    group.add(roof);
+                }
+
+                scene.add(group);
+                city.buildings.push(new Building(x, z, isCom ? 'commercial' : 'residential', group));
+            }
+        }
+    }
+
+    // Spawn Agents
+    const agentGeo = new THREE.CapsuleGeometry(1, 2, 4, 8);
+    const agentMat = new THREE.MeshStandardMaterial({ color: 0xffdd00 });
+    const noseGeo = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+    const noseMat = new THREE.MeshStandardMaterial({ color: 0x333333 });
+
+    const homes = city.buildings.filter(b => b.type === 'residential');
+    const jobs = city.buildings.filter(b => b.type === 'commercial');
+
+    for (let i = 0; i < 150; i++) {
+        if(homes.length && jobs.length) {
+            const h = homes[Math.floor(Math.random()*homes.length)];
+            const w = jobs[Math.floor(Math.random()*jobs.length)];
+
+            const mesh = new THREE.Mesh(agentGeo, agentMat.clone());
+            mesh.material.color.setHex(Math.random() * 0xffffff);
+
+            const nose = new THREE.Mesh(noseGeo, noseMat);
+            nose.position.set(0, 1.0, 0.8);
+            mesh.add(nose);
+
+            mesh.position.set(h.x * TILE_SIZE, 2.0, h.z * TILE_SIZE);
+            mesh.visible = false;
+            scene.add(mesh);
+
+            city.agents.push(new Agent(h, w, mesh));
+        }
+    }
+
+    // --- INTERACTION ---
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let highlightedObj = null;
+
+    window.addEventListener('mousedown', (event) => {
+        if (event.button !== 0) return;
+
+        mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+
+        const intersects = raycaster.intersectObjects(scene.children, true); // Recursive
+
+        const hit = intersects.find(i => i.object.userData && (i.object.userData.type === 'building' || i.object.userData.type === 'agent'));
+
+        if (hit) {
+            const obj = hit.object;
+            const data = obj.userData.parent;
+            showInfo(data);
+
+            // Unhighlight previous
+            if(highlightedObj && highlightedObj.material && highlightedObj.material.emissive) {
+                highlightedObj.material.emissive.setHex(0x000000);
+            }
+
+            // Highlight new
+            highlightedObj = obj;
+            if(obj.material && obj.material.emissive) {
+                obj.material.emissive.setHex(0x333333);
+            }
+        } else {
+            document.getElementById('info-panel').style.display = 'none';
+             if(highlightedObj && highlightedObj.material && highlightedObj.material.emissive) {
+                highlightedObj.material.emissive.setHex(0x000000);
+            }
+        }
+    });
+
+    function showInfo(data) {
+        const panel = document.getElementById('info-panel');
+        const title = document.getElementById('info-title');
+        const content = document.getElementById('info-content');
+
+        panel.style.display = 'block';
+
+        if (data instanceof Building) {
+            title.innerText = data.type.toUpperCase();
+            let extra = '';
+            if (data.type === 'commercial') {
+                extra = `
+                <div class="data-row"><span class="label">Balance:</span> <span class="value">$${data.funds.toFixed(0)}</span></div>
+                <div class="data-row"><span class="label">Employees:</span> <span class="value">${data.employees.length}</span></div>
+                `;
+            } else {
+                extra = `<div class="data-row"><span class="label">Residents:</span> <span class="value">1</span></div>`;
+            }
+
+            content.innerHTML = `
+                <div class="data-row"><span class="label">Name:</span> <span class="value" style="color:#4dc3ff">${data.name}</span></div>
+                ${extra}
+                <div class="data-row" style="margin-top:10px; font-size:0.8em; color:#666">ID: ${data.id}</div>
+            `;
+        } else if (data instanceof Agent) {
+            title.innerText = "CITIZEN";
+            content.innerHTML = `
+                <div class="data-row"><span class="label">Name:</span> <span class="value">${data.name}</span></div>
+                <div class="data-row"><span class="label">State:</span> <span class="value">${data.state}</span></div>
+                <div class="data-row"><span class="label">Work:</span> <span class="value">${data.work ? data.work.name : 'Unemployed'}</span></div>
+                <div class="data-row"><span class="label">Cash:</span> <span class="value">$${data.money.toFixed(0)}</span></div>
+
+                <div class="data-row" style="margin-top:10px"><span class="label">Happiness</span> <span class="value">${data.happiness}%</span></div>
+                <div class="bar-container"><div class="bar-fill bar-green" style="width: ${data.happiness}%"></div></div>
+            `;
+        }
+    }
+
+    // --- MAIN LOOP ---
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Time
+        city.time += 0.05 * SIM_SPEED;
+        if (city.time >= 24) {
+            city.time = 0;
+            city.day++;
+            city.buildings.forEach(b => b.updateEconomy());
+        }
+
+        const h = Math.floor(city.time);
+        const m = Math.floor((city.time - h) * 60);
+
+        if (city.time % 1 < 0.1) {
+             const totalHappy = city.agents.reduce((a,b) => a + b.happiness, 0);
+             const unemployed = city.agents.filter(a => !a.work).length;
+
+             document.getElementById('day-display').innerText = city.day;
+             document.getElementById('time-display').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}`;
+             document.getElementById('pop-display').innerText = city.agents.length;
+             document.getElementById('happy-display').innerText = city.agents.length ? Math.floor(totalHappy / city.agents.length) + "%" : "0%";
+             document.getElementById('biz-display').innerText = jobs.filter(b => b.funds > 0).length;
+             document.getElementById('unemployed-display').innerText = unemployed;
+        }
+
+        let sunIntensity = 0;
+        let ambientIntensity = 0.1;
+        let skyColor = 0x050510;
+
+        if (city.time > 5 && city.time < 19) {
+            const t = (city.time - 5) / 14;
+            sunIntensity = Math.sin(t * Math.PI) * 1.5;
+            ambientIntensity = 0.2 + sunIntensity * 0.4;
+            skyColor = 0x87CEEB;
+
+            if (city.streetLights.length > 0 && city.streetLights[0].intensity > 0) {
+                 city.streetLights.forEach(l => l.intensity = 0);
+            }
+        } else {
+             if (city.streetLights.length > 0 && city.streetLights[0].intensity === 0) {
+                 city.streetLights.forEach(l => l.intensity = 1.5);
+            }
+        }
+
+        sunLight.intensity = sunIntensity;
+        ambientLight.intensity = ambientIntensity;
+        scene.background.setHex(skyColor);
+        scene.background.lerp(new THREE.Color(city.time > 5 && city.time < 19 ? 0x87CEEB : 0x050510), 0.05);
+        scene.fog.color.copy(scene.background);
+
+        city.agents.forEach(a => a.update(city.time));
+
+        controls.update();
+        renderer.render(scene, camera);
+    }
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    animate();
+
+</script>
+</body>
+</html>
