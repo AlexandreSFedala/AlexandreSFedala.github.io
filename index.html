@@ -568,84 +568,98 @@
     
     <div class="editor-container">
         <div class="editor-form">
-    <h2 class="heavy uppercase" style="margin-bottom:30px">Create New Entry</h2>
-    
-    <div class="form-group">
-        <label>PROJECT TITLE</label>
-        <input type="text" class="form-control" id="in_title" placeholder="e.g. Hydro-Structural Analysis" oninput="updatePreview()">
-    </div>
-
-    <div class="form-group">
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
-            <div>
-                <label>LOCATION</label>
-                <input type="text" class="form-control" id="in_loc" placeholder="e.g. UCL Here East" oninput="updatePreview()">
+            <h2 class="heavy uppercase" style="margin-bottom:30px">Create New Entry</h2>
+            
+            <div class="form-group">
+                <label>PROJECT TITLE</label>
+                <input type="text" class="form-control" id="in_title" placeholder="e.g. Hydro-Structural Analysis" oninput="updatePreview()">
             </div>
-            <div>
-                <label>YEAR</label>
-                <input type="text" class="form-control" id="in_year" placeholder="e.g. 2024" oninput="updatePreview()">
+
+            <div class="form-group">
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
+                    <div>
+                        <label>LOCATION</label>
+                        <input type="text" class="form-control" id="in_loc" placeholder="e.g. UCL Here East" oninput="updatePreview()">
+                    </div>
+                    <div>
+                        <label>YEAR</label>
+                        <input type="text" class="form-control" id="in_year" placeholder="e.g. 2024" oninput="updatePreview()">
+                    </div>
+                </div>
             </div>
+
+            <div class="form-group">
+                <label>DESCRIPTION (Abstract)</label>
+                <textarea class="form-control" id="in_desc" placeholder="Summary of the engineering challenge..." oninput="updatePreview()"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label>FULL NARRATIVE</label>
+                <textarea class="form-control" id="in_full" style="height: 150px" placeholder="Detailed methodology, structural logic, and analysis..." oninput="updatePreview()"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>SKILLS / SOFTWARE</label>
+                <input type="text" class="form-control" id="in_skills" placeholder="Python, GIS, Revit, ANSYS..." oninput="updatePreview()">
+            </div>
+
+            <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ccc;">
+
+            <div class="form-group">
+                <label>COVER IMAGE (< 10MB)</label>
+                <button type="button" class="form-control" style="background:#0a0a0a; color:white; cursor:pointer" onclick="openWidget('cover')">
+                    📷 UPLOAD COVER
+                </button>
+                <div id="preview_cover_container" style="margin-top:10px; display:none;">
+                    <img id="preview_cover_img" src="" style="height: 100px; object-fit:cover; border: 1px solid black;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>PROCESS IMAGES (< 10MB)</label>
+                <button type="button" class="form-control" style="background:#555; color:white; cursor:pointer" onclick="openWidget('process')">
+                    ⚙️ ADD PROCESS IMAGES
+                </button>
+                <div id="preview_process_container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
+            </div>
+
+            <div class="form-group">
+                <label>FINAL GALLERY (< 10MB)</label>
+                <button type="button" class="form-control" style="background:#ddd; cursor:pointer" onclick="openWidget('gallery')">
+                    🖼️ ADD GALLERY IMAGES
+                </button>
+                <div id="preview_gallery_container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
+            </div>
+
+            <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ccc;">
+
+            <div class="form-group">
+                <label>TECHNICAL FILES & DOWNLOADS</label>
+                
+                <button type="button" class="form-control" style="background:#ddd; cursor:pointer; margin-bottom:15px;" onclick="openWidget('files')">
+                    📂 UPLOAD SMALL FILE (< 10MB)
+                </button>
+
+                <div style="background:#e8e8e8; padding:15px; border:1px solid #ccc;">
+                    <label style="font-size:0.7rem; margin-bottom:5px;">OR PASTE EXTERNAL LINK (Google Drive / Dropbox)</label>
+                    <div style="display:flex; gap:10px; margin-bottom:10px;">
+                        <input type="text" class="form-control" id="in_man_name" placeholder="Name (e.g. MasterModel.rvt)" style="flex:1; font-size:0.8rem;">
+                        <input type="text" class="form-control" id="in_man_url" placeholder="https://drive.google.com/..." style="flex:2; font-size:0.8rem;">
+                    </div>
+                    <button type="button" class="form-control" style="background:#333; color:white; width:auto; font-size:0.8rem; padding:5px 10px;" onclick="addManualFile()">
+                        ➕ ADD EXTERNAL LINK
+                    </button>
+                </div>
+
+                <div id="preview_files_container" style="margin-top:10px;"></div>
+            </div>
+
+            <button class="btn-publish" style="margin-top: 30px;" onclick="publishProject()">Publish to Portfolio</button>
         </div>
-    </div>
-
-    <div class="form-group">
-        <label>DESCRIPTION (Abstract)</label>
-        <textarea class="form-control" id="in_desc" placeholder="Summary of the engineering challenge..." oninput="updatePreview()"></textarea>
-    </div>
-    
-    <div class="form-group">
-        <label>FULL NARRATIVE</label>
-        <textarea class="form-control" id="in_full" style="height: 150px" placeholder="Detailed methodology, structural logic, and analysis..." oninput="updatePreview()"></textarea>
-    </div>
-
-    <div class="form-group">
-        <label>SKILLS / SOFTWARE</label>
-        <input type="text" class="form-control" id="in_skills" placeholder="Python, GIS, Revit, ANSYS..." oninput="updatePreview()">
-    </div>
-
-    <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ccc;">
-
-    <div class="form-group">
-        <label>COVER IMAGE</label>
-        <button type="button" class="form-control" style="background:#0a0a0a; color:white; cursor:pointer" onclick="openWidget('cover')">
-            📷 UPLOAD COVER
-        </button>
-        <div id="preview_cover_container" style="margin-top:10px; display:none;">
-            <img id="preview_cover_img" src="" style="height: 100px; object-fit:cover; border: 1px solid black;">
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label>PROCESS & ANALYSIS (Sketches, Calcs, Scripts)</label>
-        <button type="button" class="form-control" style="background:#555; color:white; cursor:pointer" onclick="openWidget('process')">
-            ⚙️ ADD PROCESS IMAGES
-        </button>
-        <div id="preview_process_container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
-    </div>
-
-    <div class="form-group">
-        <label>FINAL VISUALS (Gallery)</label>
-        <button type="button" class="form-control" style="background:#ddd; cursor:pointer" onclick="openWidget('gallery')">
-            🖼️ ADD FINAL IMAGES
-        </button>
-        <div id="preview_gallery_container" style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;"></div>
-    </div>
-
-    <div class="form-group">
-        <label>TECHNICAL FILES</label>
-        <button type="button" class="form-control" style="background:#ddd; cursor:pointer" onclick="openWidget('files')">
-            📂 UPLOAD DATA/DOCS
-        </button>
-        <div id="preview_files_container" style="margin-top:10px;"></div>
-    </div>
-
-    <button class="btn-publish" style="margin-top: 30px;" onclick="publishProject()">Publish to Portfolio</button>
-</div>
 
         <div class="editor-preview">
             <div class="preview-label">LIVE PREVIEW: DETAIL PAGE</div>
-            <div id="livePreviewBody" class="modal-container" style="padding-top: 20px;">
-                </div>
+            <div id="livePreviewBody" class="modal-container" style="padding-top: 20px;"></div>
         </div>
     </div>
 </div>
@@ -798,23 +812,74 @@ const firebaseConfig = {
         container.appendChild(div);
     }
 
-    // --- CLOUDINARY LOGIC ---
+// --- UPDATED CLOUDINARY LOGIC ---
     window.openWidget = function(type) {
         let options = {
             cloudName: CLOUDINARY_CLOUD_NAME,
             uploadPreset: CLOUDINARY_PRESET,
             sources: ['local', 'url'], 
+            // 1. PREVENT ERRORS: Stop files >10MB before they upload
+            maxFileSize: 10000000, 
+            // 2. ONLY ALLOW IMAGES FOR GALLERIES (Stops accidental huge PDF uploads here)
+            clientAllowedFormats: (type === 'files') ? null : ["png","jpg","jpeg","webp"], 
         };
 
-        if (type === 'cover') { options.multiple = false; options.resourceType = 'image'; }
-        else if (type === 'process' || type === 'gallery') { options.multiple = true; options.resourceType = 'image'; }
-        else if (type === 'files') { options.multiple = true; options.resourceType = 'auto'; }
+        if (type === 'cover') { 
+            options.multiple = false; 
+            options.resourceType = 'image'; 
+        } else if (type === 'process' || type === 'gallery') { 
+            options.multiple = true; 
+            options.resourceType = 'image'; 
+        } else if (type === 'files') { 
+            options.multiple = true; 
+            options.resourceType = 'auto'; 
+        }
 
         cloudinary.openUploadWidget(options, (error, result) => {
             if (!error && result && result.event === "success") {
                 handleUploadSuccess(type, result.info);
+            } else if (error) {
+                // Helpful alert if file is too big
+                if(error.message && error.message.includes("File size")) {
+                    alert("File is too big (>10MB). Please use the 'Paste External Link' box for this file.");
+                }
             }
         });
+    }
+
+    // --- NEW: MANUAL FILE ADDER ---
+    window.addManualFile = function() {
+        const name = document.getElementById('in_man_name').value;
+        const url = document.getElementById('in_man_url').value;
+
+        if(!name || !url) {
+            alert("Please enter both a filename and a URL.");
+            return;
+        }
+
+        // Create a file object just like Cloudinary does
+        const fileObj = { 
+            name: name, 
+            url: url, 
+            size: "External Link" 
+        };
+
+        // Add to state
+        tempState.files.push(fileObj);
+
+        // Update UI
+        const container = document.getElementById('preview_files_container');
+        container.insertAdjacentHTML('beforeend', 
+            `<div class="mono" style="font-size:0.7rem; padding:5px; border:1px solid #ddd; margin-bottom:5px; background:#fff;">
+                🔗 ${fileObj.name} (External Link)
+            </div>`
+        );
+
+        // Clear inputs
+        document.getElementById('in_man_name').value = "";
+        document.getElementById('in_man_url').value = "";
+        
+        updatePreview();
     }
 
     function handleUploadSuccess(type, info) {
@@ -951,6 +1016,7 @@ const firebaseConfig = {
 <div id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
 </body>
 </html>
+
 
 
 
