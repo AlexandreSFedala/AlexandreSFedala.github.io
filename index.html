@@ -112,6 +112,9 @@
             border-right: var(--border-heavy);
             padding-right: 40px;
             height: fit-content;
+            position: sticky; /* Stays in place */
+    top: 40px;        /* Distance from top of screen */
+    align-self: start;
         }
 
         .info-block { margin-bottom: 40px; }
@@ -1016,6 +1019,7 @@ const firebaseConfig = {
 <div id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
 </body>
 </html>
+
 
 
 
