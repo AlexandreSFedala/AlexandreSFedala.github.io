@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Portfolio of Alexandre S. Fedala - Civil Engineering Student at UCL.">
-<meta property="og:image" content="https://drive.google.com/file/d/1xYpt7dEHU4hXXTYQxZkW64VSU2hUrazF/view?usp=drive_link">
-<meta property="og:title" content="Alexandre Fedala - Portfolio">
+    <meta property="og:image" content="https://drive.google.com/file/d/1xYpt7dEHU4hXXTYQxZkW64VSU2hUrazF/view?usp=drive_link">
+    <meta property="og:title" content="Alexandre Fedala - Portfolio">
     <title>Alexandre Fedala - Portfolio</title>
     <style>
 
@@ -115,9 +115,16 @@
             border-right: var(--border-heavy);
             padding-right: 40px;
             height: fit-content;
-            position: sticky; /* Stays in place */
-    top: 40px;        /* Distance from top of screen */
-    align-self: start;
+            align-self: start;
+            background: var(--bg-light);
+        }
+
+        /* Desktop Sticky Logic */
+        @media (min-width: 901px) {
+            .sidebar {
+                position: sticky;
+                top: 20px;
+            }
         }
 
         .info-block { margin-bottom: 40px; }
@@ -154,6 +161,7 @@
             border: 1px solid #ddd;
             background: white;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
         }
 
         .project-entry:hover {
@@ -258,18 +266,20 @@
             letter-spacing: 1px;
         }
 
-        .footer-link {
-            font-size: 1.2rem;
-            font-weight: 700;
-            display: block;
-            margin-bottom: 10px;
-        }
+.footer-link {
+    font-size: 1.2rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 10px;
+    word-wrap: break-word; /* Prevents spilling */
+    overflow-wrap: break-word; /* Modern equivalent */
+}
 
         /* --- 8. PROJECT MODAL (Detail View) --- */
         .modal {
             display: none;
             position: fixed;
-            z-index: 200;
+            z-index: 4000; /* High Z to be above mobile tabs */
             left: 0;
             top: 0;
             width: 100%;
@@ -295,7 +305,7 @@
             font-size: 3rem;
             cursor: pointer;
             color: black;
-            z-index: 205;
+            z-index: 4050;
             line-height: 0.5;
         }
 
@@ -360,7 +370,7 @@
         }
         .file-item:hover { background: #0a0a0a; color: white; }
 
-        /* --- 9. NEW: EDITOR STYLES --- */
+        /* --- 9. EDITOR STYLES --- */
         .editor-container {
             display: grid;
             grid-template-columns: 1fr 1fr; /* Split: Inputs | Live Preview */
@@ -394,9 +404,9 @@
         }
 
         .sidebar a:hover {
-        background-color: white !important;
-        color: #0a0a0a !important;
-    }
+            background-color: white !important;
+            color: #0a0a0a !important;
+        }
 
         /* Form Inputs */
         .form-group { margin-bottom: 25px; }
@@ -419,7 +429,7 @@
             outline: none;
             border-radius: 0;
         }
-        .form-control:focus { background: #fffde7; } /* Slight yellow focus */
+        .form-control:focus { background: #fffde7; }
         textarea.form-control { resize: vertical; min-height: 100px; }
 
         .btn-publish {
@@ -438,48 +448,103 @@
         .btn-publish:hover { background: #333; }
 
         /* --- NEW: BACK TO TOP --- */
-    #backToTop {
-        position: fixed;
-        bottom: 40px;
-        right: 40px; /* Same spot where the + used to be */
-        width: 50px;
-        height: 50px;
-        background: black;
-        color: white;
-        display: none; /* Hidden initially */
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        cursor: pointer;
-        z-index: 90;
-        border: 1px solid white;
-        transition: opacity 0.3s;
-    }
-    #backToTop:hover { opacity: 0.8; }
-
-    /* --- HIDE THE FAB (The + Button) --- */
-    /* We keep the class but hide it so you can't click it accidentally */
-    .fab {
-        display: none !important; 
-    }
-
-        /* Responsive */
-        @media(max-width: 900px) {
-            .container { grid-template-columns: 1fr; }
-            .sidebar { border-right: none; border-bottom: var(--border-heavy); padding-bottom: 40px; padding-right: 0; }
-            .project-entry, .project-entry:nth-child(even) { flex-direction: column; }
-            .p-image { height: 300px; }
-            .detail-split { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; }
-            
-            /* Editor Responsive */
-            .editor-container { grid-template-columns: 1fr; }
-            .editor-preview { display: none; } /* Hide preview on mobile for simplicity */
+        #backToTop {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            background: black;
+            color: white;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 90;
+            border: 1px solid white;
+            transition: opacity 0.3s;
         }
+        #backToTop:hover { opacity: 0.8; }
+
+        /* --- HIDE THE FAB (The + Button) --- */
+        .fab {
+            display: none !important; 
+        }
+
+        /* --- 10. RESPONSIVE & BOOKMARK TABS --- */
+        @media(max-width: 900px) {
+            .container { grid-template-columns: 1fr; padding: 20px; }
+            .hero-section { padding: 40px 20px; }
+            
+            .sidebar { 
+                position: fixed; 
+                top: 0; 
+                left: -100%; 
+                width: 85%; 
+                height: 100%; 
+                z-index: 3000; 
+                transition: left 0.4s ease; 
+                padding: 60px 20px; 
+                background: var(--bg-light); 
+                border-right: var(--border-heavy); 
+                box-shadow: 10px 0 30px rgba(0,0,0,0.2); 
+                overflow-y: auto; /* Allow internal scrolling */
+            }
+            .sidebar.active { left: 0; }
+
+            /* Bookmark Stacking Style */
+            .mobile-tab, .mobile-cv-tab {
+                display: flex; 
+                align-items: center; 
+                justify-content: center;
+                position: fixed; 
+                left: 0; 
+                width: 40px; 
+                height: 100px;
+                background: black; 
+                color: white; 
+                font-family: var(--font-mono);
+                font-size: 0.7rem; 
+                writing-mode: vertical-rl; 
+                text-orientation: mixed;
+                transform: rotate(180deg); 
+                z-index: 3001; 
+                cursor: pointer;
+                border: 1px solid white; 
+                border-left: none; 
+                transition: left 0.4s ease;
+            }
+            
+            .mobile-tab { top: 15%; }
+            .mobile-cv-tab { 
+                top: calc(15% + 100px); 
+                background: #333; /* Distinct color for CV tab */
+            }
+
+            .project-entry, .project-entry:nth-child(even) { flex-direction: column; }
+            .p-image { min-height: 250px; }
+            .detail-split { grid-template-columns: 1fr; }
+.footer-grid {
+        grid-template-columns: 1fr; /* Stacks the columns */
+        gap: 20px;
+    }
+    .footer-link {
+        font-size: 1rem; /* Smaller font for mobile to fit better */
+    }
+            
+            .editor-container { grid-template-columns: 1fr; }
+            .editor-preview { display: none; }
+        }
+
+        @media (min-width: 901px) { .mobile-tab, .mobile-cv-tab { display: none; } }
     </style>
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 </head>
 <body>
+    <div class="mobile-tab" id="tabToggle">ABOUT</div>
+    <a href="https://drive.google.com/file/d/12r8ZcH97Z80S8akQkJPD99MB0nSjXK_i/view?usp=drive_link" 
+       target="_blank" class="mobile-cv-tab" id="cvTabToggle">CV ⇩</a>
 
     <div class="hero-section">
         <div class="top-bar">
@@ -513,7 +578,7 @@
             <div class="info-block">
                 <h3>Certifications</h3>
                 <ul>
-                    <li>Certified A1-A3 Drone License, Civil Aviation Authority </li>
+                    <li>Certified A1-A3 Drone License, Civil Aviation Authority</li>
                 </ul>
             </div>
 
@@ -690,21 +755,13 @@
 
     // 2. CONFIGURATION
 const firebaseConfig = {
-
   apiKey: "AIzaSyCbjVUVJqrktEj6QizrxhTatdjymb5FNps",
-
   authDomain: "portfolio-6d273.firebaseapp.com",
-
   projectId: "portfolio-6d273",
-
   storageBucket: "portfolio-6d273.firebasestorage.app",
-
   messagingSenderId: "83221039349",
-
   appId: "1:83221039349:web:94bed4c77363ab1e02ddbc",
-
   measurementId: "G-4TH0WCM7X6"
-
 };
 
 
@@ -717,20 +774,31 @@ const firebaseConfig = {
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    // Make db available for the console if you ever need to debug
     window.db = db; 
 
     // --- STATE MANAGEMENT ---
-    let currentUser = null; // Tracks if you are logged in
+    let currentUser = null; 
     let tempState = { cover: "", process: [], gallery: [], files: [] };
 
+    // --- SIDEBAR & TAB SYNC LOGIC ---
+    const tab = document.getElementById('tabToggle');
+    const cvTab = document.getElementById('cvTabToggle');
+    const sidebar = document.querySelector('.sidebar');
+
+    if(tab) {
+        tab.addEventListener('click', () => {
+            const isActive = sidebar.classList.toggle('active');
+            tab.innerText = isActive ? 'CLOSE' : 'ABOUT';
+            const pos = isActive ? '85%' : '0';
+            tab.style.left = pos;
+            if(cvTab) cvTab.style.left = pos;
+        });
+    }
+
     // --- AUTH LISTENER ---
-    // This runs automatically when the page loads to check if you're already logged in
     onAuthStateChanged(auth, (user) => {
         if (user) {
             currentUser = user;
-            console.log("Logged in as:", user.email);
-            // Optional: Show a tiny indicator that you have Admin powers
             document.body.insertAdjacentHTML('beforeend', 
                 `<div style="position:fixed; bottom:10px; left:10px; font-size:10px; color:#ccc; font-family:monospace; pointer-events:none;">ADMIN ACTIVE</div>`
             );
@@ -739,26 +807,22 @@ const firebaseConfig = {
         }
     });
 
-    // --- SECRET KEY LISTENER (Magic "edit" command) ---
+    // --- SECRET KEY LISTENER ---
     let keyBuffer = "";
     window.addEventListener("keydown", async (e) => {
         keyBuffer += e.key.toLowerCase();
         if (keyBuffer.length > 10) keyBuffer = keyBuffer.slice(-10);
         
         if (keyBuffer.endsWith("edit")) {
-            keyBuffer = ""; // Reset buffer
-            
+            keyBuffer = ""; 
             if (currentUser) {
-                // Already logged in? Open Editor.
                 openEditor();
             } else {
-                // Not logged in? Trigger Popup.
                 try {
                     const result = await signInWithPopup(auth, provider);
                     alert(`Welcome back, ${result.user.displayName}`);
                     openEditor();
                 } catch (error) {
-                    console.error(error);
                     alert("Login failed");
                 }
             }
@@ -775,25 +839,18 @@ const firebaseConfig = {
     async function loadProjects() {
         const list = document.getElementById('project-list');
         list.innerHTML = "";
-
         try {
             const q = query(collection(db, "projects"), orderBy("timestamp", "desc"));
             const querySnapshot = await getDocs(q);
-            
             if (querySnapshot.empty) {
                 list.innerHTML = `<div class="empty-state" style="border:none">// ARCHIVE LOADING... //</div>`;
                 return;
             }
-
             let projects = [];
             querySnapshot.forEach((doc) => projects.push(doc.data()));
-            
-            // Sort by Year
             projects.sort((a, b) => (parseInt(b.year)||0) - (parseInt(a.year)||0));
-
             let lastYear = null;
             let count = 0;
-
             projects.forEach((data) => {
                 const currentYear = data.year ? data.year.toString().trim() : "Unknown";
                 if (currentYear !== lastYear) {
@@ -806,14 +863,11 @@ const firebaseConfig = {
                 renderProjectCard(data, list);
                 count++;
             });
-            document.getElementById('proj-count').innerText = count < 10 ? `0${count}` : count;
-        } catch (e) {
-            console.error("Error: ", e);
-        }
+            document.getElementById('proj-count').innerText = count.toString().padStart(2, '0');
+        } catch (e) { console.error(e); }
     }
     window.onload = loadProjects;
 
-    // --- RENDER FUNCTIONS ---
     function renderProjectCard(data, container) {
         const div = document.createElement('div');
         div.className = 'project-entry';
@@ -830,73 +884,34 @@ const firebaseConfig = {
         container.appendChild(div);
     }
 
-// --- UPDATED CLOUDINARY LOGIC ---
     window.openWidget = function(type) {
         let options = {
             cloudName: CLOUDINARY_CLOUD_NAME,
             uploadPreset: CLOUDINARY_PRESET,
             sources: ['local', 'url'], 
-            // 1. PREVENT ERRORS: Stop files >10MB before they upload
             maxFileSize: 10000000, 
-            // 2. ONLY ALLOW IMAGES FOR GALLERIES (Stops accidental huge PDF uploads here)
             clientAllowedFormats: (type === 'files') ? null : ["png","jpg","jpeg","webp"], 
         };
-
-        if (type === 'cover') { 
-            options.multiple = false; 
-            options.resourceType = 'image'; 
-        } else if (type === 'process' || type === 'gallery') { 
-            options.multiple = true; 
-            options.resourceType = 'image'; 
-        } else if (type === 'files') { 
-            options.multiple = true; 
-            options.resourceType = 'auto'; 
-        }
+        if (type === 'cover') { options.multiple = false; options.resourceType = 'image'; } 
+        else if (type === 'process' || type === 'gallery') { options.multiple = true; options.resourceType = 'image'; } 
+        else if (type === 'files') { options.multiple = true; options.resourceType = 'auto'; }
 
         cloudinary.openUploadWidget(options, (error, result) => {
             if (!error && result && result.event === "success") {
                 handleUploadSuccess(type, result.info);
-            } else if (error) {
-                // Helpful alert if file is too big
-                if(error.message && error.message.includes("File size")) {
-                    alert("File is too big (>10MB). Please use the 'Paste External Link' box for this file.");
-                }
+            } else if (error && error.message.includes("Size")) {
+                alert("File too big (>10MB).");
             }
         });
     }
 
-    // --- NEW: MANUAL FILE ADDER ---
     window.addManualFile = function() {
         const name = document.getElementById('in_man_name').value;
         const url = document.getElementById('in_man_url').value;
-
-        if(!name || !url) {
-            alert("Please enter both a filename and a URL.");
-            return;
-        }
-
-        // Create a file object just like Cloudinary does
-        const fileObj = { 
-            name: name, 
-            url: url, 
-            size: "External Link" 
-        };
-
-        // Add to state
+        if(!name || !url) return;
+        const fileObj = { name: name, url: url, size: "External Link" };
         tempState.files.push(fileObj);
-
-        // Update UI
-        const container = document.getElementById('preview_files_container');
-        container.insertAdjacentHTML('beforeend', 
-            `<div class="mono" style="font-size:0.7rem; padding:5px; border:1px solid #ddd; margin-bottom:5px; background:#fff;">
-                🔗 ${fileObj.name} (External Link)
-            </div>`
-        );
-
-        // Clear inputs
-        document.getElementById('in_man_name').value = "";
-        document.getElementById('in_man_url').value = "";
-        
+        document.getElementById('preview_files_container').insertAdjacentHTML('beforeend', `<div class="mono" style="font-size:0.7rem; padding:5px; border:1px solid #ddd; margin-bottom:5px;">🔗 ${fileObj.name}</div>`);
         updatePreview();
     }
 
@@ -912,28 +927,23 @@ const firebaseConfig = {
             tempState.gallery.push(info.secure_url);
             addThumbnail('preview_gallery_container', info.secure_url);
         } else if (type === 'files') {
-            const fileObj = { name: info.original_filename + '.' + info.format, url: info.secure_url, size: (info.bytes/1024/1024).toFixed(2)+' MB' };
+            // FIXED UNDEFINED BUG
+            const extension = info.format ? '.' + info.format : '';
+            const fileObj = { name: info.original_filename + extension, url: info.secure_url, size: (info.bytes/1024/1024).toFixed(2)+' MB' };
             tempState.files.push(fileObj);
-            const container = document.getElementById('preview_files_container');
-            container.insertAdjacentHTML('beforeend', `<div class="mono" style="font-size:0.7rem; padding:5px; border:1px solid #ddd; margin-bottom:5px;">📄 ${fileObj.name} (${fileObj.size})</div>`);
+            document.getElementById('preview_files_container').insertAdjacentHTML('beforeend', `<div class="mono" style="font-size:0.7rem; padding:5px; border:1px solid #ddd; margin-bottom:5px;">📄 ${fileObj.name}</div>`);
         }
         updatePreview();
     }
 
     function addThumbnail(id, url) {
-        document.getElementById(id).insertAdjacentHTML('beforeend', `<img src="${url}" style="width:60px; height:60px; object-fit:cover; border:1px solid #ccc;">`);
+        document.getElementById(id).insertAdjacentHTML('beforeend', `<img src="${url}" style="width:60px; height:60px; object-fit:cover;">`);
     }
 
-    // --- EDITOR LOGIC ---
     window.openEditor = function() {
         document.getElementById('editorModal').style.display = 'block';
         document.body.style.overflow = 'hidden';
         tempState = { cover: "", process: [], gallery: [], files: [] };
-        // Clear UI
-        document.getElementById('preview_cover_container').style.display = 'none';
-        document.getElementById('preview_process_container').innerHTML = '';
-        document.getElementById('preview_gallery_container').innerHTML = '';
-        document.getElementById('preview_files_container').innerHTML = '';
         document.querySelectorAll('input, textarea').forEach(i => i.value = '');
         updatePreview();
     }
@@ -956,7 +966,7 @@ const firebaseConfig = {
             desc: document.getElementById('in_desc').value || "Short description...",
             fullDesc: document.getElementById('in_full').value || "Full narrative...",
             skills: document.getElementById('in_skills').value.split(',').filter(s=>s.trim()),
-            cover: tempState.cover || "https://via.placeholder.com/1000x500/ccc/333?text=Cover+Image",
+            cover: tempState.cover || "https://via.placeholder.com/1000x500",
             process: tempState.process,
             gallery: tempState.gallery,
             files: tempState.files,
@@ -965,33 +975,16 @@ const firebaseConfig = {
     }
 
     window.publishProject = async function() {
-        // SECURITY CHECK: Do not allow publish if no user is logged in
-        if (!currentUser) {
-            alert("You must be logged in to publish.");
-            return;
-        }
-
-        const btn = document.querySelector('.btn-publish');
-        btn.innerText = "PUBLISHING...";
-        btn.disabled = true;
+        if (!currentUser) return alert("Login required.");
         const data = getFormData();
-        
-        // Add the User ID to the data so we know who wrote it
         data.authorId = currentUser.uid; 
-
         try {
             await addDoc(collection(db, "projects"), data);
-            alert("Project Published!");
+            alert("Published!");
             location.reload(); 
-        } catch (e) {
-            console.error(e);
-            alert("Error publishing: " + e.message);
-            btn.innerText = "PUBLISH TO PORTFOLIO";
-            btn.disabled = false;
-        }
+        } catch (e) { alert(e.message); }
     }
 
-    // --- MODAL VIEWER LOGIC ---
     window.openModal = function(data) {
         document.getElementById('modalBody').innerHTML = generateDetailHTML(data);
         document.getElementById('projectModal').style.display = "block";
@@ -1004,41 +997,18 @@ const firebaseConfig = {
     }
 
     function generateDetailHTML(data) {
-        const pills = data.skills && data.skills.length > 0 ? data.skills.map(s => `<span class="pill">${s}</span>`).join('') : '';
-        const narrative = data.fullDesc || data.desc;
+        const pills = data.skills ? data.skills.map(s => `<span class="pill">${s}</span>`).join('') : '';
+        let processHTML = data.process && data.process.length > 0 ? `<div style="margin-bottom:60px;"><h3 class="uppercase heavy">Process</h3><div class="gallery-grid">${data.process.map(img => `<img src="${img}" class="gallery-img">`).join('')}</div></div>` : '';
+        let galleryHTML = data.gallery && data.gallery.length > 0 ? `<h3 class="uppercase heavy">Final Visuals</h3><div class="gallery-section gallery-grid">${data.gallery.map(img => `<img src="${img}" class="gallery-img">`).join('')}</div>` : '';
+        let filesHTML = data.files && data.files.length > 0 ? `<div class="downloads-area"><h3 class="uppercase heavy">Technical Documentation</h3>${data.files.map(f => `<a href="${f.url}" target="_blank" class="file-item"><span class="heavy">${f.name}</span><span class="mono">DOWNLOAD ⇩</span></a>`).join('')}</div>` : '';
 
-        let processHTML = '';
-        if (data.process && data.process.length > 0) {
-            processHTML = `<div style="margin-bottom: 60px;"><h3 class="uppercase heavy" style="margin-bottom:20px; border-bottom:3px solid black; display:inline-block">Process & Analysis</h3><div class="gallery-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">${data.process.map(img => `<img src="${img}" class="gallery-img">`).join('')}</div></div>`;
-        }
-
-        let galleryHTML = '';
-        if (data.gallery && data.gallery.length > 0) {
-            galleryHTML = `<h3 class="uppercase heavy" style="margin-bottom:20px; border-bottom:3px solid black; display:inline-block">Final Visuals</h3><div class="gallery-section gallery-grid">${data.gallery.map(img => `<img src="${img}" class="gallery-img">`).join('')}</div>`;
-        }
-
-        let filesHTML = '';
-        if (data.files && data.files.length > 0) {
-            filesHTML = `<div class="downloads-area"><h3 class="uppercase heavy" style="margin-bottom:20px">Technical Documentation</h3>${data.files.map(f => `<a href="${f.url}" target="_blank" class="file-item"><span class="heavy">${f.name || "Download File"}</span><span class="mono">DOWNLOAD ⇩</span></a>`).join('')}</div>`;
-        }
-
-        return `<img src="${data.cover}" class="detail-hero"><div class="detail-split"><div class="detail-left"><h1 class="uppercase heavy">${data.title}</h1><p class="mono" style="margin-bottom:20px">${data.loc} — ${data.year}</p><div class="pills">${pills}</div></div><div class="detail-right"><p style="font-size: 1.1rem; white-space: pre-wrap;">${narrative}</p></div></div>${processHTML}${galleryHTML}${filesHTML}<div style="height:100px"></div>`;
+        return `<img src="${data.cover}" class="detail-hero"><div class="detail-split"><div class="detail-left"><h1 class="uppercase heavy">${data.title}</h1><p class="mono">${data.loc} — ${data.year}</p><div class="pills">${pills}</div></div><div class="detail-right"><p style="white-space: pre-wrap;">${data.fullDesc || data.desc}</p></div></div>${processHTML}${galleryHTML}${filesHTML}<div style="height:100px"></div>`;
     }
 
-    // Close on click outside
     window.onclick = function(event) {
-        const modal = document.getElementById('projectModal');
-        if (event.target == modal) closeModal();
+        if (event.target == document.getElementById('projectModal')) closeModal();
     }
 </script>
 <div id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">↑</div>
 </body>
 </html>
-
-
-
-
-
-
-
-
