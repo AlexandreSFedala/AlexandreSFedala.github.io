@@ -983,32 +983,32 @@
                 <label>UN SUSTAINABLE DEVELOPMENT GOALS</label>
                 <div id="sdg-selector" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin-top: 10px;">
 <script>
-    // Official UN SDG Image URLs
+    // Robust URLs from Wikimedia Commons and Design Systems
     const sdgIcons = [
         "", // Index 0 empty
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-01.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-02.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-03.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-04.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-05.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-06.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-07.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-08.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-09.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-10.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-11.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-12.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-13.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-14.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-15.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-16.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-17.png"
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Sustainable_Development_Goal_01.png/240px-Sustainable_Development_Goal_01.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Sustainable_Development_Goal_02.png/240px-Sustainable_Development_Goal_02.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Sustainable_Development_Goal_03.png/240px-Sustainable_Development_Goal_03.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Sustainable_Development_Goal_04.png/240px-Sustainable_Development_Goal_04.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Sustainable_Development_Goal_05.png/240px-Sustainable_Development_Goal_05.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Sustainable_Development_Goal_06.png/240px-Sustainable_Development_Goal_06.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Sustainable_Development_Goal_07.png/240px-Sustainable_Development_Goal_07.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sustainable_Development_Goal_08.png/240px-Sustainable_Development_Goal_08.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Sustainable_Development_Goal_09.png/240px-Sustainable_Development_Goal_09.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Sustainable_Development_Goal_10.png/240px-Sustainable_Development_Goal_10.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Sustainable_Development_Goal_11.png/240px-Sustainable_Development_Goal_11.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Sustainable_Development_Goal_12.png/240px-Sustainable_Development_Goal_12.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Sustainable_Development_Goal_13.png/240px-Sustainable_Development_Goal_13.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Sustainable_Development_Goal_14.png/240px-Sustainable_Development_Goal_14.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Sustainable_Development_Goal_15.png/240px-Sustainable_Development_Goal_15.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Sustainable_Development_Goal_16.png/240px-Sustainable_Development_Goal_16.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Sustainable_Development_Goal_17.png/240px-Sustainable_Development_Goal_17.png"
     ];
 
     for(let i=1; i<=17; i++) {
         document.write(`
             <div class="sdg-icon" data-id="${i}" onclick="toggleSDG(${i})" 
-                 style="background-image: url('${sdgIcons[i]}'); background-size: cover; opacity: 0.3; filter: grayscale(100%);" 
+                 style="background-image: url('${sdgIcons[i]}'); background-size: cover; opacity: 0.3; filter: grayscale(100%); width:100%;" 
                  title="Goal ${i}">
             </div>
         `);
@@ -1322,23 +1322,23 @@ window.toggleSDG = function(id) {
         div.style.transform = 'translateY(20px)'; // Start slightly down
 const sdgIcons = [
         "", // 0
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-01.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-02.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-03.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-04.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-05.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-06.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-07.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-08.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-09.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-10.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-11.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-12.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-13.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-14.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-15.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-16.png",
-        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-17.png"
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Sustainable_Development_Goal_01.png/240px-Sustainable_Development_Goal_01.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Sustainable_Development_Goal_02.png/240px-Sustainable_Development_Goal_02.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Sustainable_Development_Goal_03.png/240px-Sustainable_Development_Goal_03.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Sustainable_Development_Goal_04.png/240px-Sustainable_Development_Goal_04.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Sustainable_Development_Goal_05.png/240px-Sustainable_Development_Goal_05.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Sustainable_Development_Goal_06.png/240px-Sustainable_Development_Goal_06.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Sustainable_Development_Goal_07.png/240px-Sustainable_Development_Goal_07.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Sustainable_Development_Goal_08.png/240px-Sustainable_Development_Goal_08.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Sustainable_Development_Goal_09.png/240px-Sustainable_Development_Goal_09.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Sustainable_Development_Goal_10.png/240px-Sustainable_Development_Goal_10.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Sustainable_Development_Goal_11.png/240px-Sustainable_Development_Goal_11.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Sustainable_Development_Goal_12.png/240px-Sustainable_Development_Goal_12.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Sustainable_Development_Goal_13.png/240px-Sustainable_Development_Goal_13.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Sustainable_Development_Goal_14.png/240px-Sustainable_Development_Goal_14.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Sustainable_Development_Goal_15.png/240px-Sustainable_Development_Goal_15.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Sustainable_Development_Goal_16.png/240px-Sustainable_Development_Goal_16.png",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Sustainable_Development_Goal_17.png/240px-Sustainable_Development_Goal_17.png"
     ];
 
     const sdgHTML = data.sdgs && data.sdgs.length > 0 ? `
