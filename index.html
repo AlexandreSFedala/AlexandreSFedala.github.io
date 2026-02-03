@@ -809,6 +809,21 @@
     cursor: crosshair !important; 
 }
 
+/* SDG Selector Styles */
+.sdg-icon {
+    aspect-ratio: 1/1; 
+    background: #eee; 
+    border: 2px solid transparent; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    font-size: 0.7rem; 
+    font-family: var(--font-mono); 
+    font-weight: bold; 
+    transition: 0.2s;
+}
+
     </style>
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 </head>
@@ -964,6 +979,44 @@
                 <input type="text" class="form-control" id="in_skills" placeholder="Python, GIS, Revit, ANSYS..." oninput="updatePreview()">
             </div>
 
+            <div class="form-group">
+                <label>UN SUSTAINABLE DEVELOPMENT GOALS</label>
+                <div id="sdg-selector" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; margin-top: 10px;">
+<script>
+    // Official UN SDG Image URLs
+    const sdgIcons = [
+        "", // Index 0 empty
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-01.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-02.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-03.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-04.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-05.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-06.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-07.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-08.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-09.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-10.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-11.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-12.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-13.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-14.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-15.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-16.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-17.png"
+    ];
+
+    for(let i=1; i<=17; i++) {
+        document.write(`
+            <div class="sdg-icon" data-id="${i}" onclick="toggleSDG(${i})" 
+                 style="background-image: url('${sdgIcons[i]}'); background-size: cover; opacity: 0.3; filter: grayscale(100%);" 
+                 title="Goal ${i}">
+            </div>
+        `);
+    }
+</script>
+                </div>
+            </div>
+
             <hr style="margin: 30px 0; border: 0; border-top: 1px solid #ccc;">
 
             <div class="form-group">
@@ -1056,7 +1109,7 @@ const firebaseConfig = {
 
     // --- STATE MANAGEMENT ---
     let currentUser = null; 
-    let tempState = { cover: "", process: [], gallery: [], files: [] };
+    let tempState = { cover: "", process: [], gallery: [], files: [], sdgs: [] };
 
     // --- SIDEBAR & TAB SYNC LOGIC ---
     const tab = document.getElementById('tabToggle');
@@ -1237,8 +1290,26 @@ async function loadProjects() {
         }
     }
 
-    // UPDATE RENDER FUNCTION TO SUPPORT FADE-IN
-    // You need to update this function slightly to accept the 'index' for staggering
+    // SDG TOGGLE FUNCTION
+window.toggleSDG = function(id) {
+    const index = tempState.sdgs.indexOf(id);
+    const element = document.querySelector(`.sdg-icon[data-id="${id}"]`);
+
+    if (index > -1) {
+        tempState.sdgs.splice(index, 1);
+        element.style.opacity = "0.3";
+        element.style.filter = "grayscale(100%)";
+        element.style.borderColor = "transparent";
+    } else {
+        tempState.sdgs.push(id);
+        element.style.opacity = "1";
+        element.style.filter = "grayscale(0%)";
+        element.style.borderColor = "black";
+    }
+    updatePreview();
+}
+
+    // UPDATE RENDER FUNCTION TO SUPPORT FADE-IN AND SDGs
     function renderProjectCard(data, container, index = 0) {
         const div = document.createElement('div');
         div.className = 'project-entry';
@@ -1249,6 +1320,34 @@ async function loadProjects() {
         div.style.animationDelay = `${index * 0.1}s`; // Stagger: 0s, 0.1s, 0.2s...
         div.style.opacity = '0'; // Start hidden
         div.style.transform = 'translateY(20px)'; // Start slightly down
+const sdgIcons = [
+        "", // 0
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-01.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-02.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-03.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-04.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-05.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-06.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-07.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-08.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-09.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-10.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-11.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-12.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-13.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-14.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-15.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-16.png",
+        "https://www.un.org/sustainabledevelopment/wp-content/uploads/2019/08/E-In-Goal-17.png"
+    ];
+
+    const sdgHTML = data.sdgs && data.sdgs.length > 0 ? `
+        <div style="display: flex; gap: 8px; margin-top: 15px;">
+            ${data.sdgs.sort((a,b)=>a-b).map(id => `
+                <img src="${sdgIcons[id]}" style="width: 24px; height: 24px; border-radius: 2px;" title="Goal ${id}">
+            `).join('')}
+        </div>
+    ` : '';
 
         div.innerHTML = `
             <div class="p-image"><img src="${data.cover}" alt="cover"></div>
@@ -1256,6 +1355,7 @@ async function loadProjects() {
                 <h2>${DOMPurify.sanitize(data.title)}</h2>
                 <span class="subtitle mono">${DOMPurify.sanitize(data.loc)}</span>
                 <p>${DOMPurify.sanitize(data.desc)}</p>
+                ${sdgHTML}
                 <div class="view-btn">Inspect Project</div>
             </div>
         `;
@@ -1337,8 +1437,13 @@ async function loadProjects() {
     window.openEditor = function() {
         document.getElementById('editorModal').style.display = 'block';
         document.body.style.overflow = 'hidden';
-        tempState = { cover: "", process: [], gallery: [], files: [] };
+        tempState = { cover: "", process: [], gallery: [], files: [], sdgs: [] };
         document.querySelectorAll('input, textarea').forEach(i => i.value = '');
+        document.querySelectorAll('.sdg-icon').forEach(el => {
+            el.style.background = "#eee";
+            el.style.color = "black";
+            el.style.borderColor = "transparent";
+        });
         updatePreview();
     }
 
@@ -1364,6 +1469,7 @@ async function loadProjects() {
             process: tempState.process,
             gallery: tempState.gallery,
             files: tempState.files,
+            sdgs: tempState.sdgs,
             timestamp: Date.now()
         };
     }
